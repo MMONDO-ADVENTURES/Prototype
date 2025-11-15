@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
-from app.routes import router
+from app.routes import auth, tours, admin, booking, payment, newsletter, culture
 from app.database import engine, Base
 from dotenv import load_dotenv
 
@@ -18,9 +18,16 @@ templates = Jinja2Templates(directory="app/templates")
 app.add_middleware(SessionMiddleware, secret_key="your_secret_key", session_cookie="session_id")
 
 #app.add_middleware(HTTPSRedirectMiddleware)
+# include all routes
 
-# Include routes
-app.include_router(router)
+app.include_router(auth.router)
+app.include_router(tours.router)
+app.include_router(culture.router)
+app.include_router(admin.router)
+app.include_router(booking.router)
+app.include_router(payment.router)
+app.include_router(newsletter.router)
+
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
