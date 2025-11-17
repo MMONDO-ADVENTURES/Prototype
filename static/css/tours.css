@@ -41,96 +41,123 @@ body {
   color: #dbe9ff;
 }
 
+/* ===== FIXED CARD STYLES ===== */
 .custom-card {
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   margin-bottom: 25px;
-  overflow: hidden;
   position: relative;
   max-width: 300px;
   margin: 0 auto;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
+/* Card top section */
 .custom-card-top {
   position: relative;
-  height: 100px;
+  height: 180px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
+/* Image sizing */
 .carousel-image, .custom-card-top img {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
 }
 
-.custom-card-top-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 15px;
-}
-
-.custom-card-top-overlay h2 {
-  font-size: 30px;
-  font-weight: bold;
-}
-
-.descripition p {
+/* FIXED: Spelling correction */
+.description p {
   font-size: 10px;
 }
 
+/* Card bottom section */
 .custom-card-bottom {
-  padding: 8px 10px;
+  padding: 12px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 5px; /* ADDED: Create space for overlapping elements */
+}
+
+/* Content organization */
+.tour-title {
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--primary-blue);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 0; /* CHANGED: Remove top margin since we have padding */
+}
+
+.tour-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+  max-height: 4.2em;
+  flex-shrink: 0;
 }
 
 .info-row {
   margin-bottom: 6px;
-  font-size: 15px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
 }
 
 .info-row i {
   color: var(--label-color);
+  margin-top: 2px;
+  flex-shrink: 0;
+  margin-right: 8px;
 }
 
 .info-row strong {
   color: var(--label-color);
+  margin-right: 4px;
 }
 
 .info-row span {
   color: var(--value-color);
 }
 
-.price-btn-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-}
-
+/* FIXED: Price tag top right */
 .price-tag {
   position: absolute;
   top: 10px;
   right: 10px;
   background-color: var(--price-bg);
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 8px 20px;
+  border-radius: 30px;
   font-weight: 600;
   color: var(--primary-blue);
   min-width: 50px;
   text-align: center;
-  font-size: 10px;
+  font-size: 1rem;
+  border: 2px solid var(--primary-blue);
+  z-index: 10;
 }
 
+/* FIXED: Book button top left */
 .book-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   background-color: #007bff;
   color: white;
   font-weight: 600;
@@ -139,14 +166,21 @@ body {
   border: none;
   text-decoration: none;
   text-align: center;
-  font-size: 14px;
-  padding: 6px 14px;
-  transition: background 0.3s, transform 0.2s;
+  font-size: 0.9rem;
+  padding: 8px 20px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  z-index: 10;
+}
+
+/* Remove the container */
+.price-btn-row {
+  display: none;
 }
 
 .book-btn:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
 }
 
 footer.footer {
@@ -186,64 +220,103 @@ footer.footer {
   color: #ffffff;
 }
 
-.tour-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+/* Location */
+.location-row {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
-.tour-description {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 1rem;
+.location-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
 }
 
+/* ===== RESPONSIVE FIXES ===== */
 @media (max-width: 768px) {
+  .custom-card {
+    height: 420px;
+    margin-bottom: 20px;
+  }
+  
+  .custom-card-top {
+    height: 150px;
+  }
+  
   .custom-card-bottom {
-    text-align: center;
+    padding: 8px;
+    padding-top: 45px; /* ADDED: Maintain space for buttons on mobile */
   }
 
   .info-row {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    margin-bottom: 6px;
   }
 
   .info-row span {
     display: block;
     margin-top: 2px;
-    text-align: center;
   }
 
-  .price-btn-row {
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .price-tag,
-  .book-btn {
-    font-size: 13px;
+  .price-tag {
+    top: 8px;
+    right: 8px;
     padding: 6px 12px;
-    min-width: 100px;
+    font-size: 0.9rem;
+  }
+
+  .book-btn {
+    top: 8px;
+    left: 8px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+  }
+
+  .tour-title {
+    font-size: 1.1rem;
+    min-height: 2.4em;
+  }
+
+  .tour-description {
+    font-size: 0.85rem;
   }
 }
 
-@media (min-width: 992px) {
-  .col-lg-8 {
-    flex: 0 0 auto;
-    width: 100%;
+@media (min-width: 769px) and (max-width: 991px) {
+  .custom-card {
+    height: 440px;
+  }
+  
+  .custom-card-top {
+    height: 160px;
+  }
+  
+  .custom-card-bottom {
+    padding-top: 48px; /* ADDED: Consistent spacing */
   }
 }
 
-.tour-description {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 1rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.4;
-  max-height: 4.2em; /* 3 lines * 1.4 line-height */
+.card-main-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Ensure carousel controls are clickable and don't trigger the card link */
+.carousel-control-prev,
+.carousel-control-next {
+    z-index: 10;
+    pointer-events: auto;
 }

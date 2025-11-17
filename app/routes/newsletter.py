@@ -8,7 +8,7 @@ from app.database import get_db
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="app/templates", auto_reload=True)
 
 @router.get("/subscribe_newsletter", response_class=HTMLResponse)
 @router.post("/subscribe_newsletter", response_class=HTMLResponse)

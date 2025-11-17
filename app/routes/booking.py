@@ -10,7 +10,7 @@ from app.database import get_db
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="app/templates", auto_reload=True)
 
 @router.get("/book/{tour_id}", response_class=HTMLResponse)
 async def book_tour(

@@ -10,7 +10,7 @@ from app.database import get_db
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="app/templates", auto_reload = True)
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 # uncomment if you are running the app on local server
 # BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
