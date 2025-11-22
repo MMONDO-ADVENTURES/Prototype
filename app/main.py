@@ -33,9 +33,6 @@ app.include_router(newsletter.router)
 app.include_router(tour_details.router)
 app.include_router(create_admin.router)
 
-# Before creating tables
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
