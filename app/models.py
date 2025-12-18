@@ -122,6 +122,9 @@ class Country(Base):
     # Country name (Uganda, Kenya, Tanzania...)
     name = Column(String(100), nullable=False)
 
+    # Country description (NEW FIELD)
+    description = Column(String(1000), nullable=True)  # <-- ADD THIS LINE
+
     # Culture content
     food = Column(String(1000), nullable=True)
     dress = Column(String(1000), nullable=True)
@@ -145,9 +148,8 @@ class Country(Base):
         backref="country",            # access: image.country
         cascade="all, delete-orphan"  # delete images when country is deleted
     )
-
-
-# ===== Added by Bammez: CountryImage for culture gallery =====
+    # ===== CountryImage for culture gallery =====
+# ===== CountryImage for culture gallery =====
 class CountryImage(Base):
     """
     Image table for countries on the culture page.
@@ -167,6 +169,7 @@ class CountryImage(Base):
 
     # Mark the main/hero image if you want
     is_primary = Column(Boolean, default=False)
-
-
-
+    
+    # Optional: Store filename and filepath for easier file management
+    filename = Column(String(200), nullable=True)
+    filepath = Column(String(500), nullable=True)

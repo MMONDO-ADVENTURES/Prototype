@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Culture - SuperAdmin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- SuperAdmin Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/superadmin/dashboard">
+                <i class="bi bi-speedometer2"></i> SuperAdmin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/superadmin/dashboard">Dashboard</a>
+                <a class="nav-link" href="/superadmin/culture">Culture</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <!-- CHANGED: Updated back button URL -->
+                <a href="/superadmin/culture" class="btn btn-outline-secondary btn-sm mb-2">
+                    <i class="bi bi-arrow-left"></i> Back to Culture Dashboard
+                </a>
+                <h2><i class="bi bi-plus-circle"></i> Add New Culture</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- CHANGED: Updated form action for superadmin route -->
+                        <form method="post" action="/superadmin/culture/new">
+                            <div class="row">
+                                <!-- Basic Info -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Culture Name *</label>
+                                    <input type="text" name="name" class="form-control" 
+                                           placeholder="e.g., Maasai Culture" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">URL Slug *</label>
+                                    <input type="text" name="slug" class="form-control" 
+                                           placeholder="e.g., maasai" required>
+                                    <small class="text-muted">Used in URLs: /cultures/your-slug (no spaces, lowercase)</small>
+                                </div>
+                                
+                                <!-- Description -->
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Description *</label>
+                                    <textarea name="description" class="form-control" rows="3" 
+                                              placeholder="Brief description of this culture..." required></textarea>
+                                </div>
+                                
+                                <!-- Cultural Details -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Traditional Food</label>
+                                    <textarea name="food" class="form-control" rows="3" 
+                                              placeholder="e.g., Ugali, Nyama Choma, Sukuma Wiki"></textarea>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Traditional Dress</label>
+                                    <textarea name="dress" class="form-control" rows="3" 
+                                              placeholder="e.g., Shuka, Kanzu, Kitenge"></textarea>
+                                </div>
+                                
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Cultural Traditions</label>
+                                    <textarea name="traditions" class="form-control" rows="3" 
+                                              placeholder="Describe traditions, ceremonies, customs..."></textarea>
+                                </div>
+                                
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Tour Themes</label>
+                                    <textarea name="tour_themes" class="form-control" rows="2" 
+                                              placeholder="e.g., Cultural Immersion, Wildlife Safaris, Community Visits"></textarea>
+                                </div>
+                                
+                                <!-- Media -->
+                                <div class="col-md-8 mb-3">
+                                    <label class="form-label">YouTube Video URL</label>
+                                    <input type="url" name="video_url" class="form-control" 
+                                           placeholder="https://youtube.com/watch?v=...">
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Video Credit</label>
+                                    <input type="text" name="video_credit" class="form-control" 
+                                           placeholder="Credit source (optional)">
+                                </div>
+                                
+                                <!-- Badge Section (Removed lat/lng as they're not in your Country model) -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Badge Label</label>
+                                    <input type="text" name="badge_label" class="form-control" 
+                                           placeholder="e.g., Popular, Featured, New (optional)">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Badge Color</label>
+                                    <select name="badge_color" class="form-select">
+                                        <option value="">No badge color</option>
+                                        <option value="primary">Blue</option>
+                                        <option value="success">Green</option>
+                                        <option value="warning">Yellow</option>
+                                        <option value="danger">Red</option>
+                                        <option value="info">Light Blue</option>
+                                        <option value="secondary">Gray</option>
+                                        <option value="dark">Black</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Testimonial -->
+                                <div class="col-12 mb-4">
+                                    <label class="form-label">Traveler Testimonial</label>
+                                    <textarea name="testimonial" class="form-control" rows="2" 
+                                              placeholder='"Amazing cultural experience!" - Traveler Name'></textarea>
+                                </div>
+                                
+                                <!-- Buttons -->
+                                <div class="col-12">
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-plus-circle"></i> Create Culture
+                                        </button>
+                                        <a href="/superadmin/culture" class="btn btn-outline-secondary">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <i class="bi bi-info-circle"></i> 
+                    <strong>Tip:</strong> After creating the culture, you can add images from the edit page.
+                    Images are required for the culture to display properly on the public page.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

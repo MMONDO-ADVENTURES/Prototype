@@ -2,20 +2,19 @@
 from fastapi import APIRouter, Request, Depends, HTTPException, status, Form, Query
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from sqlalchemy.orm import Session
-from sqlalchemy import or_
-from datetime import datetime
+from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import or_, extract, func
+from datetime import datetime, timedelta
 import json
 
 from app.database import get_db
-from app.models import User, Booking, Tour
-from app.utils import get_current_superadmin, get_dashboard_stats, get_recent_bookings,get_top_tours
-from datetime import datetime, timedelta
-
-
+from app.models import User, Booking, Tour, Country, CountryImage
+from app.utils import get_current_superadmin, get_dashboard_stats, get_recent_bookings, get_top_tours
 
 router = APIRouter(prefix="/superadmin", tags=["superadmin"])
 templates = Jinja2Templates(directory="app/templates")
+
+# ============ SUPERADMIN CORE ROUTES ============
 
 # SuperAdmin Dashboard
 @router.get("/dashboard", response_class=HTMLResponse)
@@ -193,12 +192,7 @@ async def revenue_analytics(
     db: Session = Depends(get_db),
     superadmin: User = Depends(get_current_superadmin)
 ):
-    # This would be more complex with actual analytics
-    # For now, we'll return basic data
-    
     # Get revenue by month for the last 6 months
-    from sqlalchemy import extract, func
-    
     revenue_by_month = db.query(
         extract('month', Booking.created_at).label('month'),
         extract('year', Booking.created_at).label('year'),
@@ -230,3 +224,141 @@ async def revenue_analytics(
             "superadmin": superadmin
         }
     )
+
+# ============ CULTURE MANAGEMENT ROUTES ============
+
+@router.get("/culture", response_class=HTMLResponse)
+async def superadmin_culture_dashboard(
+    request: Request,
+    db: Session = Depends(get_db),
+    superadmin: User = Depends(get_current_superadmin)
+):
+    """Super admin culture management dashboard"""
+    # Get all countries with images
+    countries = db.query(Country).options(
+        joinedload(Country.images)
+    ).order_by(Country.name).all()
+    
+    return templates.TemplateResponse(
+        "superadmin/culture_dashboard.html",
+        {
+            "request": request, 
+            "countries": countries,
+            "superadmin": superadmin
+        }
+    )
+
+@router.get("/culture/new", response_class=HTMLResponse)
+async def new_culture_page(
+    request: Request,
+    superadmin: User = Depends(get_current_superadmin)
+):
+    """Create new culture page"""
+    return templates.TemplateResponse(
+        "superadmin/new_culture.html",
+        {
+            "request": request,
+            "superadmin": superadmin
+        }
+    )
+
+@router.post("/culture/new")
+async def create_culture(
+    request: Request,
+    slug: str = Form(...),
+    name: str = Form(...),
+    description: str = Form(...),
+    food: str = Form(...),
+    dress: str = Form(...),
+    traditions: str = Form(...),
+    tour_themes: str = Form(...),
+    db: Session = Depends(get_db),
+    superadmin: User = Depends(get_current_superadmin)
+):
+    """Create new culture entry"""
+    # Check if slug exists
+    existing = db.query(Country).filter(Country.slug == slug).first()
+    if existing:
+        return RedirectResponse(
+            url="/superadmin/culture/new?error=Slug+already+exists",
+            status_code=303
+        )
+    
+    # Create new country
+    new_country = Country(
+        slug=slug,
+        name=name,
+        description=description,
+        food=food,
+        dress=dress,
+        traditions=traditions,
+        tour_themes=tour_themes
+    )
+    
+    db.add(new_country)
+    db.commit()
+    
+    return RedirectResponse(url="/superadmin/culture", status_code=303)
+
+@router.get("/culture/edit/{country_id}", response_class=HTMLResponse)
+async def edit_culture_page(
+    request: Request,
+    country_id: int,
+    db: Session = Depends(get_db),
+    superadmin: User = Depends(get_current_superadmin)
+):
+    """Edit culture page"""
+    country = db.query(Country).filter(Country.id == country_id).first()
+    if not country:
+        raise HTTPException(status_code=404, detail="Country not found")
+    
+    return templates.TemplateResponse(
+        "superadmin/edit_culture.html",
+        {
+            "request": request,
+            "country": country,
+            "superadmin": superadmin
+        }
+    )
+
+@router.post("/culture/edit/{country_id}")
+async def update_culture(
+    request: Request,
+    country_id: int,
+    name: str = Form(...),
+    slug: str = Form(...),
+    description: str = Form(...),
+    food: str = Form(...),
+    dress: str = Form(...),
+    traditions: str = Form(...),
+    tour_themes: str = Form(...),
+    video_url: str = Form(None),
+    video_credit: str = Form(None),
+    testimonial: str = Form(None),
+    badge_label: str = Form(None),
+    badge_color: str = Form(None),
+    db: Session = Depends(get_db),
+    superadmin: User = Depends(get_current_superadmin)
+):
+    """Update culture entry"""
+    country = db.query(Country).filter(Country.id == country_id).first()
+    if not country:
+        raise HTTPException(status_code=404, detail="Country not found")
+    
+    # Update country fields
+    country.name = name
+    country.slug = slug
+    country.description = description
+    country.food = food
+    country.dress = dress
+    country.traditions = traditions
+    country.tour_themes = tour_themes
+    country.video_url = video_url
+    country.video_credit = video_credit
+    country.testimonial = testimonial
+    country.badge_label = badge_label
+    country.badge_color = badge_color
+    
+    db.commit()
+    
+    return RedirectResponse(url="/superadmin/culture", status_code=303)

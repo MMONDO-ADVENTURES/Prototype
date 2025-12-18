@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page_title or "East Africa Cultures | Mmondo Adventures" }}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/css/culture.css" />
+
+  <style>
+    /* You can move these into culture.css later */
+    #map {
+      height: 450px;
+      width: 100%;
+    }
+
+    .region .slider img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;
+      z-index: 999;
+    }
+
+    .back-to-top.show {
+      display: inline-flex;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand text-white" href="/">
+        <i class="bi bi-globe2 me-2"></i> Mmondo Adventures
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/"><i class="bi bi-house-door"></i> Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#map-section"><i class="bi bi-map"></i> Map</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#regions"><i class="bi bi-geo-alt"></i> Cultures</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#festivals"><i class="bi bi-calendar-event"></i> Festivals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#stories"><i class="bi bi-book"></i> Stories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#locals"><i class="bi bi-people"></i> Locals</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-primary text-white text-center py-5">
+    <div class="container">
+      <h1 class="display-4">
+        {{ header_title or "East Africa Cultural Tour Bank" }}
+      </h1>
+      <p class="lead">
+        {{ header_subtitle or "Discover food, dance, dress and traditions across East Africa – curated by Mmondo Adventures." }}
+      </p>
+    </div>
+  </header>
+
+  <main class="container my-5">
+
+    <!-- FILTERS (all options come from backend) -->
+    <section class="filter-container mb-5 text-center">
+      <div class="row g-3 justify-content-center">
+
+        <!-- Country filter -->
+        <div class="col-md-3">
+          <label for="countryFilter" class="form-label">
+            <i class="bi bi-geo-alt"></i> Country:
+          </label>
+          <select id="countryFilter" class="form-select" onchange="filterRegions()">
+            <option value="all">All Countries</option>
+            {# if backend passes 'country_options': list of {slug, name} #}
+            {% if country_options %}
+              {% for c in country_options %}
+                <option value="{{ c.slug }}">{{ c.name }}</option>
+              {% endfor %}
+            {% else %}
+              {# fallback: build from regions list dynamically #}
+              {% set seen = [] %}
+              {% for r in regions %}
+                {% if r.country_slug not in seen %}
+                  <option value="{{ r.country_slug }}">{{ r.country_name or r.name }}</option>
+                  {% set _ = seen.append(r.country_slug) %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+
+        <!-- Interest filter -->
+        <div class="col-md-3">
+          <label for="interestFilter" class="form-label">
+            <i class="bi bi-star"></i> Interest:
+          </label>
+          <select id="interestFilter" class="form-select" onchange="filterRegions()">
+            <option value="all">All Interests</option>
+            {% if interests %}
+              {% for i in interests %}
+                <option value="{{ i.slug }}">{{ i.label }}</option>
+              {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+
+        <!-- Keyword search -->
+        <div class="col-md-4">
+          <label for="keywordSearch" class="form-label">
+            <i class="bi bi-search"></i> Search:
+          </label>
+          <input
+            type="text"
+            id="keywordSearch"
+            class="form-control"
+            placeholder="Search by food, tribe, dress..."
+            onkeyup="filterRegions()"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP SECTION (destinations come from backend) -->
+    <section id="map-section" class="mb-5">
+      <h2 class="mb-3">Interactive Map</h2>
+      <p class="text-muted">Click a marker to jump to cultural highlights or explore tours for that destination.</p>
+      <div id="map" class="rounded shadow"></div>
+    </section>
+
+    <!-- CULTURE REGIONS / COUNTRIES -->
+    <section id="regions" class="mb-5">
+      <h2 class="text-center mb-4">Cultural Highlights</h2>
+
+      {% if regions and regions|length > 0 %}
+        {% for region in regions %}
+        <div
+          class="region card shadow mb-5 border-0 rounded-4 overflow-hidden"
+          id="{{ region.slug }}"
+          data-country="{{ region.country_slug }}"
+          data-interests="{{ region.interests|join(',') if region.interests }}"
+        >
+          <div class="row g-0">
+
+            <!-- IMAGE SLIDER -->
+            <div class="col-md-5">
+              <div class="slider position-relative">
+                {% if region.images and region.images|length > 0 %}
+                  <div class="slider-container">
+                    {% for image in region.images %}
+                      <img
+                        src="{{ image.url }}"
+                        alt="{{ image.alt or region.name }}"
+                        class="img-fluid"
+                        loading="lazy"
+                      />
+                    {% endfor %}
+                  </div>
+                  {% if region.images|length > 1 %}
+                  <div class="slider-nav">
+                    {% for _ in region.images %}
+                      <span class="slider-dot {% if loop.first %}active{% endif %}"></span>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                {% else %}
+                  {# Fallback image if no images set yet #}
+                  <img
+                    src="/static/img/default-culture.jpg"
+                    alt="{{ region.name }}"
+                    class="img-fluid"
+                    loading="lazy"
+                  />
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- TEXT CONTENT -->
+            <div class="col-md-7">
+              <div class="card-body p-4">
+                <h3 class="card-title d-flex align-items-center">
+                  {% if region.badge_label %}
+                    <span
+                      class="badge me-2"
+                      style="background-color: {{ region.badge_color or '#0d6efd' }};"
+                    >
+                      {{ region.badge_label }}
+                    </span>
+                  {% endif %}
+                  {{ region.name }}
+                </h3>
+
+                {% if region.food %}
+                <p>
+                  <strong>Food:</strong>
+                  {# support both list and string #}
+                  {% if region.food is iterable and region.food is not string %}
+                    {{ region.food|join(', ') }}
+                  {% else %}
+                    {{ region.food }}
+                  {% endif %}
+                </p>
+                {% endif %}
+
+                {% if region.dress %}
+                <p><strong>Dress:</strong> {{ region.dress }}</p>
+                {% endif %}
+
+                {% if region.traditions %}
+                <p><strong>Traditions:</strong> {{ region.traditions }}</p>
+                {% endif %}
+
+                {% if region.tour_themes %}
+                <p><strong>Top tour themes:</strong> {{ region.tour_themes }}</p>
+                {% endif %}
+
+                <!-- DYNAMIC YOUTUBE VIDEO -->
+                {% if region.video_url %}
+                  {% if "youtube.com" in region.video_url or "youtu.be" in region.video_url %}
+                    {% set embed_url = region.video_url
+                        |replace("watch?v=", "embed/")
+                        |replace("youtu.be/", "youtube.com/embed/") %}
+                  {% else %}
+                    {% set embed_url = region.video_url %}
+                  {% endif %}
+                  <div class="video-preview mt-3">
+                    <iframe
+                      class="region-video"
+                      src="{{ embed_url }}"
+                      allowfullscreen
+                      loading="lazy"
+                    ></iframe>
+                    {% if region.video_credit %}
+                    <div class="video-credit text-end">
+                      <small class="text-muted">Video credit: {{ region.video_credit }}</small>
+                    </div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {% if region.testimonial %}
+                <blockquote class="blockquote mt-3">
+                  <i class="bi bi-quote text-primary"></i> {{ region.testimonial }}
+                </blockquote>
+                {% endif %}
+
+                <!-- ACTION BUTTONS (links come from backend) -->
+                <div class="mt-3 d-flex flex-wrap gap-2">
+                  {% if region.tours_url %}
+                  <a href="{{ region.tours_url }}" class="btn btn-primary btn-sm">
+                    View tours
+                  </a>
+                  {% endif %}
+                  {% if region.itinerary_url %}
+                  <a href="{{ region.itinerary_url }}" class="btn btn-outline-primary btn-sm">
+                    Build custom itinerary
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="text-center text-muted py-5">
+          <h5>No cultural content available yet. Please check back soon.</h5>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- FESTIVALS -->
+    <section id="festivals" class="mb-5">
+      <h2 class="mb-4">Festival Calendar</h2>
+      <div class="row">
+        {% if festivals and festivals|length > 0 %}
+          {% for f in festivals %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h4 class="card-title">{{ f.name }}</h4>
+                <p class="card-text">
+                  {% if f.date_label %}
+                    <i class="bi bi-calendar"></i> {{ f.date_label }}
+                  {% endif %}
+                  {% if f.location_label %}
+                    | <i class="bi bi-geo-alt"></i> {{ f.location_label }}
+                  {% endif %}
+                </p>
+                <p class="card-text">{{ f.description }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted text-center">No festivals added yet.</p>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- STORIES -->
+    <section id="stories" class="mb-5">
+      <h2 class="mb-4">Traditional Stories</h2>
+      <div class="row">
+        {% if stories and stories|length > 0 %}
+          {% for s in stories %}
+          <div class="col-md-6 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h4 class="card-title">{{ s.title }}</h4>
+                <p class="card-text">
+                  {% if s.region_label %}
+                    <strong>{{ s.region_label }}</strong> –
+                  {% endif %}
+                  {{ s.summary }}
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted text-center">No stories added yet.</p>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- LOCALS -->
+    <section id="locals" class="mb-5">
+      <h2 class="mb-4">Meet the Locals</h2>
+      <div class="row">
+        {% if locals and locals|length > 0 %}
+          {% for l in locals %}
+          <div class="col-md-6 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex">
+                  <i class="bi bi-person-circle fs-1 me-3 text-primary"></i>
+                  <div>
+                    <h5 class="card-title">
+                      {{ l.name }}
+                      {% if l.location %} – {{ l.location }}{% endif %}
+                    </h5>
+                    <p class="card-text">"{{ l.quote }}"</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted text-center">No local hosts added yet.</p>
+        {% endif %}
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Back to top -->
+  <a href="#" class="back-to-top btn btn-primary rounded-circle" id="backToTop">
+    <i class="bi bi-arrow-up"></i>
+  </a>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+      <p class="mb-0">&copy; {{ current_year or 2025 }} MMONDO ADVENTURES</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Destinations (for map markers) come directly from backend
+    // Example of each item in `destinations`:
+    // {
+    //   "slug": "uganda",
+    //   "name": "Kampala & Central Region",
+    //   "country_name": "Uganda",
+    //   "lat": 0.34,
+    //   "lng": 32.58,
+    //   "tours_url": "/tours?country=uganda"
+    // }
+    const destinations = {{ destinations | default([]) | tojson | safe }};
+
+    const map = L.map('map').setView([0.5, 34], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    destinations.forEach(dest => {
+      const marker = L.marker([dest.lat, dest.lng]).addTo(map);
+
+      let popupHtml = `<strong>${dest.name}</strong><br/>`;
+      if (dest.country_name) {
+        popupHtml += `<span class="text-muted small">${dest.country_name}</span><br/>`;
+      }
+
+      popupHtml += `
+        <button class="btn btn-sm btn-primary mt-2" onclick="scrollToRegion('${dest.slug}')">
+          View culture
+        </button>
+      `;
+
+      if (dest.tours_url) {
+        popupHtml += `
+          <a href="${dest.tours_url}" class="btn btn-sm btn-outline-primary mt-2 ms-1">
+            View tours
+          </a>
+        `;
+      }
+
+      marker.bindPopup(popupHtml);
+    });
+
+    // Scroll page to region card
+    window.scrollToRegion = function (slug) {
+      const el = document.getElementById(slug);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    // Filter logic: country + interest + keyword
+    window.filterRegions = function () {
+      const countryValue = document.getElementById('countryFilter').value;
+      const interestValue = document.getElementById('interestFilter').value;
+      const keyword = document.getElementById('keywordSearch').value.toLowerCase();
+
+      document.querySelectorAll('.region').forEach(region => {
+        const regionCountry = region.getAttribute('data-country');
+        const regionInterests = (region.getAttribute('data-interests') || '').split(',');
+        const textContent = region.innerText.toLowerCase();
+
+        let visible = true;
+
+        if (countryValue !== 'all' && regionCountry !== countryValue) {
+          visible = false;
+        }
+
+        if (interestValue !== 'all' && !regionInterests.includes(interestValue)) {
+          visible = false;
+        }
+
+        if (keyword && !textContent.includes(keyword)) {
+          visible = false;
+        }
+
+        region.style.display = visible ? 'block' : 'none';
+      });
+    };
+
+    // Back-to-top button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) backToTop.classList.add('show');
+      else backToTop.classList.remove('show');
+    });
+  </script>
+</body>
+
+</html>
+

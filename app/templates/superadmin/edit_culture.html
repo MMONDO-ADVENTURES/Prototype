@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit {{ country.name }} - SuperAdmin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- SuperAdmin Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/superadmin/dashboard">
+                <i class="bi bi-speedometer2"></i> SuperAdmin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/superadmin/dashboard">Dashboard</a>
+                <a class="nav-link" href="/superadmin/culture">Culture</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a href="/superadmin/culture" class="btn btn-outline-secondary btn-sm mb-2">
+                    <i class="bi bi-arrow-left"></i> Back to Culture Dashboard
+                </a>
+                <h2>
+                    <i class="bi bi-pencil"></i> Edit: {{ country.name }}
+                    {% if country.badge_label %}
+                        <span class="badge ms-2" style="background-color: {{ country.badge_color or '#0d6efd' }};">
+                            {{ country.badge_label }}
+                        </span>
+                    {% endif %}
+                </h2>
+            </div>
+            <div class="btn-group">
+                <a href="/cultures#{{ country.slug }}" target="_blank" 
+                   class="btn btn-outline-primary">
+                    <i class="bi bi-eye"></i> View Public Page
+                </a>
+                <button type="button" class="btn btn-outline-danger dropdown-toggle" 
+                        data-bs-toggle="dropdown">
+                    <i class="bi bi-gear"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <form method="post" action="/superadmin/culture/delete/{{ country.id }}"
+                              onsubmit="return confirm('Delete {{ country.name }}? All images will be deleted too.')">
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="bi bi-trash"></i> Delete Culture
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Left Column: Edit Form -->
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Culture Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- CHANGED: Updated form action for superadmin route -->
+                        <form method="post" action="/superadmin/culture/edit/{{ country.id }}">
+                            <div class="mb-3">
+                                <label class="form-label">Name *</label>
+                                <input type="text" name="name" class="form-control" 
+                                       value="{{ country.name }}" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Slug *</label>
+                                <input type="text" name="slug" class="form-control" 
+                                       value="{{ country.slug }}" required>
+                                <small class="text-muted">URL-friendly version (e.g., uganda, kenya, tanzania)</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Description *</label>
+                                <textarea name="description" class="form-control" rows="3" required>{{ country.description or '' }}</textarea>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Traditional Food</label>
+                                    <textarea name="food" class="form-control" rows="3">{{ country.food or '' }}</textarea>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Traditional Dress</label>
+                                    <textarea name="dress" class="form-control" rows="3">{{ country.dress or '' }}</textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Cultural Traditions</label>
+                                <textarea name="traditions" class="form-control" rows="4">{{ country.traditions or '' }}</textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tour Themes</label>
+                                <textarea name="tour_themes" class="form-control" rows="3">{{ country.tour_themes or '' }}</textarea>
+                                <small class="text-muted">Separate themes with commas</small>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    <label class="form-label">YouTube Video URL</label>
+                                    <input type="url" name="video_url" class="form-control" 
+                                           value="{{ country.video_url or '' }}"
+                                           placeholder="https://www.youtube.com/watch?v=...">
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Video Credit</label>
+                                    <input type="text" name="video_credit" class="form-control" 
+                                           value="{{ country.video_credit or '' }}"
+                                           placeholder="Channel name">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Traveler Testimonial</label>
+                                <textarea name="testimonial" class="form-control" rows="3">{{ country.testimonial or '' }}</textarea>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Badge Label</label>
+                                    <input type="text" name="badge_label" class="form-control" 
+                                           value="{{ country.badge_label or '' }}"
+                                           placeholder="e.g., Popular, Featured, New">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Badge Color</label>
+                                    <select name="badge_color" class="form-select">
+                                        <option value="">No badge color</option>
+                                        <option value="primary" {% if country.badge_color == 'primary' %}selected{% endif %}>Blue</option>
+                                        <option value="success" {% if country.badge_color == 'success' %}selected{% endif %}>Green</option>
+                                        <option value="warning" {% if country.badge_color == 'warning' %}selected{% endif %}>Yellow</option>
+                                        <option value="danger" {% if country.badge_color == 'danger' %}selected{% endif %}>Red</option>
+                                        <option value="info" {% if country.badge_color == 'info' %}selected{% endif %}>Light Blue</option>
+                                        <option value="secondary" {% if country.badge_color == 'secondary' %}selected{% endif %}>Gray</option>
+                                        <option value="dark" {% if country.badge_color == 'dark' %}selected{% endif %}>Black</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save Changes
+                            </button>
+                            <a href="/superadmin/culture" class="btn btn-outline-secondary ms-2">
+                                Cancel
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Images -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Images ({{ country.images|length }})</h5>
+                        <span class="badge bg-info">
+                            <i class="bi bi-info-circle"></i> Images appear in slider on public page
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Upload Form -->
+                        <div class="mb-4 p-3 bg-light rounded">
+                            <h6><i class="bi bi-cloud-upload"></i> Upload New Image</h6>
+                            <form method="post" action="/superadmin/culture/{{ country.id }}/upload-image"
+                                  enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label class="form-label">Image File *</label>
+                                    <input type="file" name="image" class="form-control" 
+                                           accept="image/*" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Alt Text / Description</label>
+                                    <input type="text" name="alt" class="form-control" 
+                                           placeholder="Describe this image...">
+                                </div>
+                                
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" 
+                                           name="is_primary" id="isPrimary" value="true">
+                                    <label class="form-check-label" for="isPrimary">
+                                        Set as primary image
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-upload"></i> Upload Image
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Images Grid -->
+                        {% if country.images %}
+                            <h6>Current Images</h6>
+                            <div class="row">
+                                {% for img in country.images %}
+                                    <div class="col-6 col-md-4 mb-3">
+                                        <div class="border rounded p-2 h-100">
+                                            <!-- FIXED: Changed img.url to img.image_url -->
+                                            <img src="{{ img.image_url }}" class="img-fluid rounded mb-2" 
+                                                 alt="{{ img.alt_text or country.name }}"
+                                                 style="height: 120px; width: 100%; object-fit: cover;">
+                                            
+                                            <div class="text-center">
+                                                {% if img.is_primary %}
+                                                    <span class="badge bg-success mb-2">Primary</span>
+                                                {% else %}
+                                                    <form method="post" 
+                                                          action="/superadmin/culture/images/{{ img.id }}/set-primary"
+                                                          class="d-inline">
+                                                        <button type="submit" class="btn btn-sm btn-outline-success mb-2">
+                                                            Set Primary
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                                
+                                                <form method="post" 
+                                                      action="/superadmin/culture/images/{{ img.id }}/delete"
+                                                      onsubmit="return confirm('Delete this image?')"
+                                                      class="d-inline">
+                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            
+                                            {% if img.alt_text %}
+                                                <p class="small text-muted mb-0 mt-2 text-center">
+                                                    {{ img.alt_text|truncate(50) }}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning text-center py-4">
+                                <i class="bi bi-exclamation-triangle display-6 text-warning mb-3"></i>
+                                <h5>No Images Yet</h5>
+                                <p class="mb-0">Add images to make this culture visible on the public page.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
