@@ -1,6 +1,6 @@
-# Pearl Tours Web Application
+# MMONDO Web Application
 
-**Pearl Tours** is a web application designed to showcase and manage tour packages for exploring Uganda, the Pearl of Africa. It allows users to browse tours, view details, and administrators to manage tour listings.
+**MMONDO** is a web application designed to showcase and manage tour packages for exploring Uganda, the Pearl of Africa. It allows users to browse tours, view details, and administrators to manage tour listings.
 
 ---
 
