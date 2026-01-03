@@ -24,11 +24,13 @@ from app.routes import (
 from app.database import engine, Base
 from dotenv import load_dotenv
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
 # Mount static files and templates
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
+templates.env.auto_reload = True
+
 
 # Middleware
 app.add_middleware(

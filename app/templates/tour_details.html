@@ -7,25 +7,25 @@
     <title>{{ tour.title }} - MMONDO</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/tour_details.css">
 
     <style>
         body {
             background-color: #FFF5E6;
         }
 
-        .tour-card {
+        .tour-card,
+        .reviews-card {
             background: #fff;
             border-radius: 16px;
             padding: 20px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: 0;
         }
 
         .tour-price {
             font-size: 2rem;
             font-weight: bold;
-            color: #eb5a0c;
+            color: #ea580c;
         }
 
         .info-icon {
@@ -33,89 +33,324 @@
             color: #eb5a0c;
         }
 
-        .carousel-inner img {
-            height: 320px;
+        .tour-image {
+            position: relative;
+            margin-bottom: 30px; /* Space below image */
+        }
+
+        .tour-image img {
+            height: 450px;
             object-fit: cover;
-            max-width: 800px;
+            border-radius: 20px;
+        }
+
+        .tour-label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ea580c;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .booking-card,
+        .operator-card {
+            background: #fff;
             border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .booking-card .price {
+            font-size: 1.5rem;
+            color: #ea580c;
+            font-weight: bold;
+        }
+
+        .book-btn {
+            background-color: #ea580c;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .book-btn:hover {
+            background-color: #d14b0a;
+        }
+
+        .cancellation-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #ea580c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .empty-state {
+            min-height: 200px;
+        }
+
+        .operator-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .operator-icon {
+            font-size: 1.5rem;
+            color: #ea580c;
+        }
+
+        .list-item-spacing li {
+            margin-bottom: 8px;
+        }
+
+        /* For mobile responsiveness */
+        @media (max-width: 768px) {
+            .tour-image img {
+                height: 300px;
+            }
+            
+            .info-icon {
+                font-size: 1.5rem;
+            }
+            
+            .tour-price {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 
 <body class="p-2 mt-2">
-    <!-- Carousel -->
-    <div id="tourCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            {% for image in tour.images %}
-            <div class="carousel-item {% if loop.first %}active{% endif %}">
-                <img src="{{ image.image_url }}" class="d-block w-100">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content Column -->
+            <div class="col-lg-8">
+                <!-- Carousel -->
+                <div class="tour-image">
+                    <div id="tourCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for image in tour.images %}
+                            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                <img src="{{ image.image_url }}" class="d-block w-100">
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if tour.images|length > 1 %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="tour-label">safari</div>
+                </div>
+
+                <!-- Tour Card -->
+                <div class="tour-card">
+                    <!-- Tour Header -->
+                    <div class="row align-items-start">
+                        <div class="col-md-8">
+                            <h2 class="fw-bold">{{ tour.title }}</h2>
+                            <p class="text-muted mb-1">
+                                <i class="bi bi-geo-alt"></i> {{ tour.locations }}
+                            </p>
+                            <p class="text-warning fw-semibold">
+                                <i class="bi bi-star-fill"></i> 4.9 (0 reviews)
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <div class="tour-price">${{ tour.price }}</div>
+                            <small class="text-muted">per person</small>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Tour Icons -->
+                    <div class="row text-center">
+                        <div class="col">
+                            <div class="info-icon mb-2"><i class="bi bi-clock"></i></div>
+                            <h5 class="fw-bold">{{ tour.duration }}</h5>
+                            <p class="text-muted">Duration</p>
+                        </div>
+                        <div class="col">
+                            <div class="info-icon mb-2"><i class="bi bi-people"></i></div>
+                            <h5 class="fw-bold">Max {{ tour.max_participants }}</h5>
+                            <p class="text-muted">Participants</p>
+                        </div>
+                        <div class="col">
+                            <div class="info-icon mb-2"><i class="bi bi-shield-check"></i></div>
+                            <h5 class="fw-bold">{{ tour.difficulty or 'Easy' }}</h5>
+                            <p class="text-muted">Difficulty</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Tour Details -->
+                    <div class="tour-details">
+                        <!-- Description -->
+                        <h4 class="fw-bold mb-3">Description</h4>
+                        <p class="text-muted">{{ tour.description }}</p>
+
+                        <!-- Tour Highlights -->
+                        <section class="tour-section mt-5">
+                            <h4 class="fw-bold mb-4">Tour Highlights</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled list-item-spacing">
+                                        <li class="mb-2">✔ Great Migration spectacle</li>
+                                        <li class="mb-2">✔ Ngorongoro Crater</li>
+                                        <li class="mb-2">✔ Luxury lodge stays</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled list-item-spacing">
+                                        <li class="mb-2">✔ Big cat encounters</li>
+                                        <li class="mb-2">✔ Scenic game drives</li>
+                                        <li class="mb-2">✔ Professional photography guides</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- What's Included -->
+                        <section class="tour-section mt-5">
+                            <h4 class="fw-bold mb-4">What's Included</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled list-item-spacing">
+                                        <li class="mb-2">✔ Luxury accommodation</li>
+                                        <li class="mb-2">✔ Park fees</li>
+                                        <li class="mb-2">✔ Professional guide</li>
+                                        <li class="mb-2">✔ All meals</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled list-item-spacing">
+                                        <li class="mb-2">✔ Game drives</li>
+                                        <li class="mb-2">✔ Flying doctor insurance</li>
+                                        <li class="mb-2">✔ Airport transfers</li>
+                                        <li class="mb-2">✔ Bottled water</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- What's Not Included - Separate Row -->
+                        <section class="tour-section mt-5">
+                            <h4 class="fw-bold mb-4">What's Not Included</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled list-item-spacing">
+                                        <li class="mb-2">✘ International flights</li>
+                                        <li class="mb-2">✘ Travel insurance</li>
+                                        <li class="mb-2">✘ Laundry services</li>
+                                        <li class="mb-2">✘ Visa fees</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled list-item-spacing">
+                                        <li class="mb-2">✘ Alcoholic drinks</li>
+                                        <li class="mb-2">✘ Personal shopping</li>
+                                        <li class="mb-2">✘ Tips & gratuities</li>
+                                        <li class="mb-2">✘ Optional activities</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Cancellation Policy -->
+                        <div class="cancellation-box mt-5">
+                            <strong>Cancellation Policy</strong>
+                            <p class="mb-0 mt-2">
+                                <strong>50% Refund</strong> if cancelled at least <strong>14 days</strong> before the tour date.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Card -->
+                <div class="reviews-card mt-4">
+                    <div class="reviews-section text-center">
+                        <h2 class="reviews-title mb-4">Reviews & Ratings</h2>
+                        <div class="empty-state">
+                            <div class="star-icon mb-3">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="12,2 15,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9,9" />
+                                </svg>
+                            </div>
+                            <p class="empty-message text-muted mb-0">No reviews yet. Be the first to review this tour!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {% endfor %}
+
+            <!-- Right Column: Booking & Operator -->
+            <div class="col-lg-4">
+                <!-- Sticky positioning for booking card on desktop -->
+                <div class="sticky-top" style="top: 20px;">
+                    <!-- Booking Card -->
+                    <div class="booking-card mb-3">
+                        <h5 class="fw-bold">Book This Tour</h5>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Price per person</span>
+                            <span class="price">${{ tour.price }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <strong>Total</strong>
+                            <strong class="price">${{ tour.price }}</strong>
+                        </div>
+                        <button class="book-btn">Book Now</button>
+                    </div>
+
+                    <!-- Tour Operator -->
+                    <div class="operator-card">
+                        <small class="text-muted">Tour Operator</small>
+                        <div class="operator-info mt-2">
+                            <i class="bi bi-building operator-icon"></i>
+                            <div>
+                                <h6 class="fw-bold mb-0">MMONDO TOUR OPERATOR</h6>
+                                <small class="text-muted">
+                                    <i class="bi bi-check-circle-fill text-success me-1"></i>
+                                    Verified Operator
+                                </small>
+                            </div>
+                        </div>
+                        <!-- Additional operator info -->
+                        <div class="mt-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-star-fill text-warning me-2"></i>
+                                <small>4.9 Operator Rating</small>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-award text-primary me-2"></i>
+                                <small>5+ Years Experience</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-shield-check text-success me-2"></i>
+                                <small>Licensed & Insured</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        {% if tour.images|length > 1 %}
-        <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-        {% endif %}
-    </div>
-
-    <div class="tour-card">
-
-        <!-- Tour Header -->
-        <div class="row align-items-start">
-
-            <!-- Left Column -->
-            <div class="col-md-8">
-                <h2 class="fw-bold">{{ tour.title }}</h2>
-                <p class="text-muted mb-1">
-                    <i class="bi bi-geo-alt"></i> {{ tour.locations }}
-                </p>
-                <p class="text-warning fw-semibold">
-                    <i class="bi bi-star-fill"></i> 4.9 (0 reviews)
-                </p>
-            </div>
-
-            <!-- Right Column -->
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <div class="tour-price">${{ tour.price }}</div>
-                <small class="text-muted">per person</small>
-            </div>
-
-        </div>
-
-
-        <hr>
-        <!-- Tour Icons -->
-        <div class="row text-center">
-            <div class="col">
-                <div class="info-icon mb-2"><i class="bi bi-clock"></i></div>
-                <h5 class="fw-bold">{{ tour.duration }}</h5>
-                <p class="text-muted">Duration</p>
-            </div>
-            <div class="col">
-                <div class="info-icon mb-2"><i class="bi bi-people"></i></div>
-                <h5 class="fw-bold">Max {{ tour.max_participants }}</h5>
-                <p class="text-muted">Participants</p>
-            </div>
-            <div class="col">
-                <div class="info-icon mb-2"><i class="bi bi-shield-check"></i></div>
-                <!-- <h5 class="fw-bold">{{ tour.difficulty }}</h5> -->
-                <h5 class="fw-bold">Easy</h5>
-                <p class="text-muted">Difficulty</p>
-            </div>
-        </div>
-        <hr>
-        <!-- Description -->
-        <h4 class="fw-bold">Description</h4>
-        <p class="text-muted">{{ tour.description }}</p>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
