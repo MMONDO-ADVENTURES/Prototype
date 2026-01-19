@@ -10,10 +10,207 @@
     <link rel="stylesheet" href="/static/css/tour_details.css">
 
     <style>
-        body {
-            background-color: #FFF5E6;
+        :root {
+            --primary-color: #EA580C;
+            --primary-light: #FDBA74;
+            --primary-dark: #C2410C;
+            --navbar-bg: #1a1a1a;
+            --footer-bg: #1a1a1a;
         }
 
+        /* Fix for navbar covering content */
+        body {
+            padding-top: 76px;
+            background-color: #FFF5E6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Navbar with Dark Color (matching footer) */
+        .navbar-custom {
+            background-color: var(--navbar-bg) !important;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .navbar-custom .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-custom .navbar-nav .nav-link:hover,
+        .navbar-custom .navbar-nav .nav-link.active {
+            color: white !important;
+            background-color: rgba(234, 88, 12, 0.2);
+            border-radius: 5px;
+        }
+
+        .navbar-custom .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .navbar-custom .navbar-brand:hover {
+            color: var(--primary-light) !important;
+        }
+
+        .navbar-custom .btn-outline-light {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .navbar-custom .btn-outline-light:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white !important;
+        }
+
+        .navbar-custom .btn-light {
+            background-color: var(--primary-color);
+            color: white !important;
+            border: 1px solid var(--primary-color);
+        }
+
+        .navbar-custom .btn-light:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(234, 88, 12, 0.5);
+        }
+
+        /* Dropdown menu styling */
+        .navbar-custom .dropdown-menu {
+            background-color: #2c2c2c;
+            border: 1px solid rgba(234, 88, 12, 0.2);
+        }
+
+        .navbar-custom .dropdown-item {
+            color: #ddd;
+        }
+
+        .navbar-custom .dropdown-item:hover {
+            background-color: rgba(234, 88, 12, 0.2);
+            color: white;
+        }
+
+        /* Hidden booking form styling */
+        .hidden-booking-form {
+            display: none !important;
+        }
+
+        /* Tour type options styling */
+        .tour-type-option {
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+            box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.1);
+        }
+
+        .tour-type-option:hover {
+            border-color: var(--primary-color);
+            background-color: #f0f8ff;
+            transform: translateY(-2px);
+        }
+
+        .tour-type-option.active {
+            border-color: var(--primary-color);
+            background-color: #e7f1ff;
+        }
+
+        .premium-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .donation-option {
+            background-color: #f8f9fa;
+            border: 2px dashed var(--primary-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .donation-badge {
+            background-color: #198754;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.4rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Footer Styles */
+        .footer-custom {
+            background-color: var(--footer-bg);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            border-top: 4px solid var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 3rem 0 1.5rem;
+            margin-top: auto;
+        }
+
+        .footer-custom h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-custom a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-custom a:hover {
+            color: var(--primary-light);
+        }
+
+        .social-icon {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 10px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Existing Tour Styles */
         .tour-card,
         .reviews-card {
             background: #fff;
@@ -25,17 +222,17 @@
         .tour-price {
             font-size: 2rem;
             font-weight: bold;
-            color: #ea580c;
+            color: var(--primary-color);
         }
 
         .info-icon {
             font-size: 1.8rem;
-            color: #eb5a0c;
+            color: var(--primary-color);
         }
 
         .tour-image {
             position: relative;
-            margin-bottom: 30px; /* Space below image */
+            margin-bottom: 30px;
         }
 
         .tour-image img {
@@ -48,7 +245,7 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #ea580c;
+            background-color: var(--primary-color);
             color: #fff;
             padding: 8px 16px;
             border-radius: 20px;
@@ -67,12 +264,12 @@
 
         .booking-card .price {
             font-size: 1.5rem;
-            color: #ea580c;
+            color: var(--primary-color);
             font-weight: bold;
         }
 
         .book-btn {
-            background-color: #ea580c;
+            background-color: var(--primary-color);
             color: white;
             width: 100%;
             padding: 12px;
@@ -82,12 +279,12 @@
         }
 
         .book-btn:hover {
-            background-color: #d14b0a;
+            background-color: var(--primary-dark);
         }
 
         .cancellation-box {
             background-color: #f8f9fa;
-            border-left: 4px solid #ea580c;
+            border-left: 4px solid var(--primary-color);
             padding: 15px;
             border-radius: 8px;
             margin-top: 20px;
@@ -105,7 +302,7 @@
 
         .operator-icon {
             font-size: 1.5rem;
-            color: #ea580c;
+            color: var(--primary-color);
         }
 
         .list-item-spacing li {
@@ -117,232 +314,444 @@
             .tour-image img {
                 height: 300px;
             }
-            
+
             .info-icon {
                 font-size: 1.5rem;
             }
-            
+
             .tour-price {
                 font-size: 1.5rem;
+            }
+
+            .navbar-custom {
+                padding: 0.5rem 0;
+            }
+
+            .footer-custom {
+                padding: 2rem 0 1rem;
             }
         }
     </style>
 </head>
 
-<body class="p-2 mt-2">
-    <div class="container">
-        <div class="row">
-            <!-- Main Content Column -->
-            <div class="col-lg-8">
-                <!-- Carousel -->
-                <div class="tour-image">
-                    <div id="tourCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            {% for image in tour.images %}
-                            <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                <img src="{{ image.image_url }}" class="d-block w-100">
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                        {% if tour.images|length > 1 %}
-                        <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </button>
-                        {% endif %}
-                    </div>
-                    <div class="tour-label">safari</div>
-                </div>
-
-                <!-- Tour Card -->
-                <div class="tour-card">
-                    <!-- Tour Header -->
-                    <div class="row align-items-start">
-                        <div class="col-md-8">
-                            <h2 class="fw-bold">{{ tour.title }}</h2>
-                            <p class="text-muted mb-1">
-                                <i class="bi bi-geo-alt"></i> {{ tour.locations }}
-                            </p>
-                            <p class="text-warning fw-semibold">
-                                <i class="bi bi-star-fill"></i> 4.9 (0 reviews)
-                            </p>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <div class="tour-price">${{ tour.price }}</div>
-                            <small class="text-muted">per person</small>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- Tour Icons -->
-                    <div class="row text-center">
-                        <div class="col">
-                            <div class="info-icon mb-2"><i class="bi bi-clock"></i></div>
-                            <h5 class="fw-bold">{{ tour.duration }}</h5>
-                            <p class="text-muted">Duration</p>
-                        </div>
-                        <div class="col">
-                            <div class="info-icon mb-2"><i class="bi bi-people"></i></div>
-                            <h5 class="fw-bold">Max {{ tour.max_participants }}</h5>
-                            <p class="text-muted">Participants</p>
-                        </div>
-                        <div class="col">
-                            <div class="info-icon mb-2"><i class="bi bi-shield-check"></i></div>
-                            <h5 class="fw-bold">{{ tour.difficulty or 'Easy' }}</h5>
-                            <p class="text-muted">Difficulty</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- Tour Details -->
-                    <div class="tour-details">
-                        <!-- Description -->
-                        <h4 class="fw-bold mb-3">Description</h4>
-                        <p class="text-muted">{{ tour.description }}</p>
-
-                        <!-- Tour Highlights -->
-                        <section class="tour-section mt-5">
-                            <h4 class="fw-bold mb-4">Tour Highlights</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled list-item-spacing">
-                                        <li class="mb-2">✔ Great Migration spectacle</li>
-                                        <li class="mb-2">✔ Ngorongoro Crater</li>
-                                        <li class="mb-2">✔ Luxury lodge stays</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled list-item-spacing">
-                                        <li class="mb-2">✔ Big cat encounters</li>
-                                        <li class="mb-2">✔ Scenic game drives</li>
-                                        <li class="mb-2">✔ Professional photography guides</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- What's Included -->
-                        <section class="tour-section mt-5">
-                            <h4 class="fw-bold mb-4">What's Included</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled list-item-spacing">
-                                        <li class="mb-2">✔ Luxury accommodation</li>
-                                        <li class="mb-2">✔ Park fees</li>
-                                        <li class="mb-2">✔ Professional guide</li>
-                                        <li class="mb-2">✔ All meals</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled list-item-spacing">
-                                        <li class="mb-2">✔ Game drives</li>
-                                        <li class="mb-2">✔ Flying doctor insurance</li>
-                                        <li class="mb-2">✔ Airport transfers</li>
-                                        <li class="mb-2">✔ Bottled water</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- What's Not Included - Separate Row -->
-                        <section class="tour-section mt-5">
-                            <h4 class="fw-bold mb-4">What's Not Included</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled list-item-spacing">
-                                        <li class="mb-2">✘ International flights</li>
-                                        <li class="mb-2">✘ Travel insurance</li>
-                                        <li class="mb-2">✘ Laundry services</li>
-                                        <li class="mb-2">✘ Visa fees</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled list-item-spacing">
-                                        <li class="mb-2">✘ Alcoholic drinks</li>
-                                        <li class="mb-2">✘ Personal shopping</li>
-                                        <li class="mb-2">✘ Tips & gratuities</li>
-                                        <li class="mb-2">✘ Optional activities</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Cancellation Policy -->
-                        <div class="cancellation-box mt-5">
-                            <strong>Cancellation Policy</strong>
-                            <p class="mb-0 mt-2">
-                                <strong>50% Refund</strong> if cancelled at least <strong>14 days</strong> before the tour date.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Reviews Card -->
-                <div class="reviews-card mt-4">
-                    <div class="reviews-section text-center">
-                        <h2 class="reviews-title mb-4">Reviews & Ratings</h2>
-                        <div class="empty-state">
-                            <div class="star-icon mb-3">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="12,2 15,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9,9" />
-                                </svg>
-                            </div>
-                            <p class="empty-message text-muted mb-0">No reviews yet. Be the first to review this tour!</p>
-                        </div>
-                    </div>
-                </div>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="bi bi-gem me-2"
+                    style="color: var(--primary-light);"></i>MMONDO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="bi bi-house-door-fill me-1"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cultures"><i class="bi bi-people-fill me-1"></i>Cultures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/tours"><i class="bi bi-map me-1"></i>Tours</a>
+                    </li>
+                    {% if user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/my-bookings"><i class="bi bi-journal-check me-1"></i>My Bookings</a>
+                    </li>
+                    {% endif %}
+                    {% if user and user.is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboard"><i class="bi bi-speedometer2 me-1"></i>Admin</a>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
 
-            <!-- Right Column: Booking & Operator -->
-            <div class="col-lg-4">
-                <!-- Sticky positioning for booking card on desktop -->
-                <div class="sticky-top" style="top: 20px;">
-                    <!-- Booking Card -->
-                    <div class="booking-card mb-3">
-                        <h5 class="fw-bold">Book This Tour</h5>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span>Price per person</span>
-                            <span class="price">${{ tour.price }}</span>
+            <div class="d-flex align-items-center gap-2">
+                {% if user %}
+                <!-- Enhanced User Dropdown -->
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.picture %}
+                        <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
+                        {% else %}
+                        <i class="bi bi-person-circle me-2" style="color: var(--primary-light);"></i>
+                        {% endif %}
+                        {{ user.full_name }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/profile">
+                                <i class="bi bi-person me-2"></i>My Profile
+                            </a></li>
+                        <li><a class="dropdown-item" href="/my-bookings">
+                                <i class="bi bi-calendar-check me-2"></i>My Bookings
+                            </a></li>
+                        <li>
+                            <hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);">
+                        </li>
+                        {% if user.newsletter_subscribed %}
+                        <li>
+                            <form action="/user/unsubscribe_newsletter" method="post" class="m-0">
+                                <button type="submit" class="dropdown-item text-warning">
+                                    <i class="bi bi-bell-slash me-2"></i>Unsubscribe
+                                </button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li>
+                            <form action="/subscribe_newsletter" method="post" class="m-0">
+                                <button type="submit" class="dropdown-item text-info">
+                                    <i class="bi bi-bell me-2"></i>Subscribe
+                                </button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        <li><a class="dropdown-item text-danger" href="/logout">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                            </a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                <a class="btn btn-light btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container p-2 mt-2">
+            <div class="row">
+                <!-- Main Content Column -->
+                <div class="col-lg-8">
+                    <!-- Carousel -->
+                    <div class="tour-image">
+                        <div id="tourCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in tour.images %}
+                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                    <img src="{{ image.image_url }}" class="d-block w-100">
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            {% if tour.images|length > 1 %}
+                            <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                            {% endif %}
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <strong>Total</strong>
-                            <strong class="price">${{ tour.price }}</strong>
-                        </div>
-                        <button class="book-btn">Book Now</button>
+                        <div class="tour-label">safari</div>
                     </div>
 
-                    <!-- Tour Operator -->
-                    <div class="operator-card">
-                        <small class="text-muted">Tour Operator</small>
-                        <div class="operator-info mt-2">
-                            <i class="bi bi-building operator-icon"></i>
-                            <div>
-                                <h6 class="fw-bold mb-0">MMONDO TOUR OPERATOR</h6>
-                                <small class="text-muted">
-                                    <i class="bi bi-check-circle-fill text-success me-1"></i>
-                                    Verified Operator
-                                </small>
+                    <!-- Tour Card -->
+                    <div class="tour-card">
+                        <!-- Tour Header -->
+                        <div class="row align-items-start">
+                            <div class="col-md-8">
+                                <h2 class="fw-bold">{{ tour.title }}</h2>
+                                <p class="text-muted mb-1">
+                                    <i class="bi bi-geo-alt"></i> {{ tour.locations }}
+                                </p>
+                                <p class="text-warning fw-semibold">
+                                    <i class="bi bi-star-fill"></i> 4.9 (0 reviews)
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <div class="tour-price">${{ tour.price }}</div>
+                                <small class="text-muted">per person</small>
                             </div>
                         </div>
-                        <!-- Additional operator info -->
-                        <div class="mt-3">
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="bi bi-star-fill text-warning me-2"></i>
-                                <small>4.9 Operator Rating</small>
+
+                        <hr>
+
+                        <!-- Tour Icons -->
+                        <div class="row text-center">
+                            <div class="col">
+                                <div class="info-icon mb-2"><i class="bi bi-clock"></i></div>
+                                <h5 class="fw-bold">{{ tour.duration }}</h5>
+                                <p class="text-muted">Duration</p>
                             </div>
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="bi bi-award text-primary me-2"></i>
-                                <small>5+ Years Experience</small>
+                            <div class="col">
+                                <div class="info-icon mb-2"><i class="bi bi-people"></i></div>
+                                <h5 class="fw-bold">Max {{ tour.max_participants }}</h5>
+                                <p class="text-muted">Participants</p>
                             </div>
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-shield-check text-success me-2"></i>
-                                <small>Licensed & Insured</small>
+                            <div class="col">
+                                <div class="info-icon mb-2"><i class="bi bi-shield-check"></i></div>
+                                <h5 class="fw-bold">{{ tour.difficulty or 'Easy' }}</h5>
+                                <p class="text-muted">Difficulty</p>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Tour Details -->
+                        <div class="tour-details">
+                            <!-- Description -->
+                            <h4 class="fw-bold mb-3">Description</h4>
+                            <p class="text-muted">{{ tour.description }}</p>
+
+                            <!-- Tour Highlights -->
+                            <section class="tour-section mt-5">
+                                <h4 class="fw-bold mb-4">Tour Highlights</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled list-item-spacing">
+                                            <li class="mb-2">✔ Great Migration spectacle</li>
+                                            <li class="mb-2">✔ Ngorongoro Crater</li>
+                                            <li class="mb-2">✔ Luxury lodge stays</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled list-item-spacing">
+                                            <li class="mb-2">✔ Big cat encounters</li>
+                                            <li class="mb-2">✔ Scenic game drives</li>
+                                            <li class="mb-2">✔ Professional photography guides</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- What's Included -->
+                            <section class="tour-section mt-5">
+                                <h4 class="fw-bold mb-4">What's Included</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled list-item-spacing">
+                                            <li class="mb-2">✔ Luxury accommodation</li>
+                                            <li class="mb-2">✔ Park fees</li>
+                                            <li class="mb-2">✔ Professional guide</li>
+                                            <li class="mb-2">✔ All meals</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled list-item-spacing">
+                                            <li class="mb-2">✔ Game drives</li>
+                                            <li class="mb-2">✔ Flying doctor insurance</li>
+                                            <li class="mb-2">✔ Airport transfers</li>
+                                            <li class="mb-2">✔ Bottled water</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- What's Not Included - Separate Row -->
+                            <section class="tour-section mt-5">
+                                <h4 class="fw-bold mb-4">What's Not Included</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled list-item-spacing">
+                                            <li class="mb-2">✘ International flights</li>
+                                            <li class="mb-2">✘ Travel insurance</li>
+                                            <li class="mb-2">✘ Laundry services</li>
+                                            <li class="mb-2">✘ Visa fees</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled list-item-spacing">
+                                            <li class="mb-2">✘ Alcoholic drinks</li>
+                                            <li class="mb-2">✘ Personal shopping</li>
+                                            <li class="mb-2">✘ Tips & gratuities</li>
+                                            <li class="mb-2">✘ Optional activities</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Cancellation Policy -->
+                            <div class="cancellation-box mt-5">
+                                <strong>Cancellation Policy</strong>
+                                <p class="mb-0 mt-2">
+                                    <strong>50% Refund</strong> if cancelled at least <strong>14 days</strong> before
+                                    the
+                                    tour date.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Card -->
+                    <div class="reviews-card mt-4">
+                        <div class="reviews-section text-center">
+                            <h2 class="reviews-title mb-4">Reviews & Ratings</h2>
+                            <div class="empty-state">
+                                <div class="star-icon mb-3">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="12,2 15,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9,9" />
+                                    </svg>
+                                </div>
+                                <p class="empty-message text-muted mb-0">No reviews yet. Be the first to review this
+                                    tour!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Booking & Operator -->
+                <div class="col-lg-4">
+                    <!-- Sticky positioning for booking card on desktop -->
+                    <div class="sticky-top" style="top: 20px;">
+                        <!-- Hidden Booking Form with all data fields from template -->
+                        <form id="hiddenBookingForm" method="post" action="/process_booking"
+                            class="hidden-booking-form">
+                            <input type="hidden" name="tour_id" value="{{ tour.id }}" />
+                            <input type="hidden" name="tour_title" value="{{ tour.title }}" />
+
+                            <!-- These will be populated from the visible form -->
+                            <input type="hidden" name="tour_type" id="hiddenTourType" value="normal" />
+                            <input type="hidden" name="adults" id="hiddenAdults" value="1" />
+                            <input type="hidden" name="kids" id="hiddenKids" value="0" />
+                            <input type="hidden" name="tour_date" id="hiddenTourDate" />
+                            <input type="hidden" name="donate" id="hiddenDonate" value="" />
+                            <input type="hidden" name="total_price" id="hiddenTotalPrice" value="{{ tour.price }}" />
+                            <input type="hidden" name="contact_phone" id="hiddenContactPhone" />
+                            <input type="hidden" name="special_requests" id="hiddenSpecialRequests" />
+                        </form>
+
+                        <!-- Booking Card -->
+                        <div class="booking-card mb-3">
+                            <h5 class="fw-bold">Book This Tour</h5>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span>Price per person</span>
+                                <span class="price">${{ tour.price }}</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <strong>Total</strong>
+                                <strong class="price" id="displayTotalPrice">${{ tour.price }}</strong>
+                            </div>
+                            <!-- Book Button -->
+                            {% if user %}
+                            <!-- User is logged in - show Book Now button -->
+                            <button id="bookNowBtn" class="book-btn">
+                                Book Now
+                            </button>
+                            {% else %}
+                            <!-- User is NOT logged in - show Login/Signup prompt -->
+                            <div class="alert alert-warning text-center py-3">
+                                <p class="mb-2">You need to log in to book this tour</p>
+                                <div class="d-flex gap-2 mt-2">
+                                    <a href="/login?next=/tour/{{ tour.id }}" class="btn btn-primary btn-sm flex-fill">
+                                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                                    </a>
+                                    <a href="/signup?next=/tour/{{ tour.id }}"
+                                        class="btn btn-outline-primary btn-sm flex-fill">
+                                        <i class="bi bi-person-plus me-1"></i>Sign Up
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <!-- Booking Form (visible when Book Now is clicked) -->
+                            <div id="bookingForm" class="mt-4 d-none">
+                                <form id="tourBookingForm">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Tour Date</label>
+                                        <input type="date" id="tourDate" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Adults</label>
+                                        <input type="number" id="adultsInput" class="form-control" value="1" min="1"
+                                            required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Kids</label>
+                                        <input type="number" id="kidsInput" class="form-control" value="0" min="0"
+                                            required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Tour Type</label>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" id="normalTourBtn"
+                                                class="btn btn-outline-primary flex-fill active"
+                                                onclick="setTourType('normal')">
+                                                Normal Tour
+                                            </button>
+                                            <button type="button" id="privateTourBtn"
+                                                class="btn btn-outline-primary flex-fill"
+                                                onclick="setTourType('private')">
+                                                Private Tour (+35%)
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Contact Phone</label>
+                                        <input type="tel" id="contactPhone" class="form-control"
+                                            placeholder="+1 234 567 8900" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="donationCheckbox">
+                                            <label class="form-check-label" for="donationCheckbox">
+                                                <span class="donation-badge me-2">Optional</span>
+                                                Add $10 conservation donation
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Special Requests <span
+                                                class="text-muted">(Optional)</span></label>
+                                        <textarea id="specialRequests" class="form-control" rows="2"></textarea>
+                                    </div>
+
+                                    <div class="border-top pt-3 mb-3 d-flex justify-content-between">
+                                        <strong>Total</strong>
+                                        <strong class="price" id="totalPrice">${{ tour.price }}</strong>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="book-btn flex-fill">Confirm Booking</button>
+                                        <button type="button" id="cancelBtn"
+                                            class="btn btn-secondary flex-fill">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Tour Operator -->
+                        <div class="operator-card">
+                            <small class="text-muted">Tour Operator</small>
+                            <div class="operator-info mt-2">
+                                <i class="bi bi-building operator-icon"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-0">MMONDO TOUR OPERATOR</h6>
+                                    <small class="text-muted">
+                                        <i class="bi bi-check-circle-fill text-success me-1"></i>
+                                        Verified Operator
+                                    </small>
+                                </div>
+                            </div>
+                            <!-- Additional operator info -->
+                            <div class="mt-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-star-fill text-warning me-2"></i>
+                                    <small>4.9 Operator Rating</small>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-award text-primary me-2"></i>
+                                    <small>5+ Years Experience</small>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-shield-check text-success me-2"></i>
+                                    <small>Licensed & Insured</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -351,6 +760,188 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</h5>
+                    <p>Discover unforgettable adventures with MMONDO. We specialize in creating memorable travel
+                        experiences across the globe.</p>
+                    <div>
+                        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/">Home</a></li>
+                        <li class="mb-2"><a href="/cultures">Cultures</a></li>
+                        <li class="mb-2"><a href="/tours">Tours</a></li>
+                        <li class="mb-2"><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">Safari Tours</a></li>
+                        <li class="mb-2"><a href="#">Adventure Travel</a></li>
+                        <li class="mb-2"><a href="#">Group Tours</a></li>
+                        <li class="mb-2"><a href="#">Custom Packages</a></li>
+                        <li><a href="#">Corporate Travel</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-geo-alt me-2"></i>
+                            123 Adventure St, Nairobi
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-telephone me-2"></i>
+                            +254 712 345 678
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-envelope me-2"></i>
+                            info@mmondo.com
+                        </li>
+                        <li>
+                            <i class="bi bi-clock me-2"></i>
+                            Mon-Fri: 8AM-6PM
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                <p class="mb-0">&copy; 2024 MMONDO Tours. All rights reserved. | <a href="/privacy">Privacy Policy</a> |
+                    <a href="/terms">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        let currentTourType = 'normal';
+        const basePrice = {{ tour.price }};
+
+        // Function to update price display
+        function updatePrice() {
+            const adults = parseInt(document.getElementById('adultsInput').value) || 1;
+            const kids = parseInt(document.getElementById('kidsInput').value) || 0;
+            const donationChecked = document.getElementById('donationCheckbox').checked;
+
+            // Calculate price
+            let priceMultiplier = currentTourType === 'private' ? 1.35 : 1;
+            let total = (adults + kids) * basePrice * priceMultiplier;
+
+            // Add donation if checked
+            if (donationChecked) {
+                total += 10;
+            }
+
+            // Update display
+            document.getElementById('totalPrice').textContent = '$' + total.toFixed(2);
+            document.getElementById('displayTotalPrice').textContent = '$' + total.toFixed(2);
+
+            // Update hidden form fields
+            document.getElementById('hiddenTotalPrice').value = total.toFixed(2);
+            document.getElementById('hiddenTourType').value = currentTourType;
+            document.getElementById('hiddenAdults').value = adults;
+            document.getElementById('hiddenKids').value = kids;
+            document.getElementById('hiddenDonate').value = donationChecked ? '10' : '';
+        }
+
+        // Function to set tour type
+        function setTourType(type) {
+            currentTourType = type;
+
+            // Update button styles
+            if (type === 'normal') {
+                document.getElementById('normalTourBtn').classList.add('active');
+                document.getElementById('privateTourBtn').classList.remove('active');
+            } else {
+                document.getElementById('privateTourBtn').classList.add('active');
+                document.getElementById('normalTourBtn').classList.remove('active');
+            }
+
+            updatePrice();
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tourDate').min = today;
+
+            // Initial price calculation
+            updatePrice();
+
+            // Book Now button click handler
+            document.getElementById('bookNowBtn').addEventListener('click', function () {
+                // Hide the Book Now button
+                this.style.display = 'none';
+                // Show the booking form
+                document.getElementById('bookingForm').classList.remove('d-none');
+            });
+
+            // Cancel button click handler
+            document.getElementById('cancelBtn').addEventListener('click', function () {
+                // Hide the booking form
+                document.getElementById('bookingForm').classList.add('d-none');
+                // Show the Book Now button
+                document.getElementById('bookNowBtn').style.display = 'block';
+            });
+
+            // Form submission handler
+            document.getElementById('tourBookingForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Validate required fields
+                const tourDate = document.getElementById('tourDate').value;
+                const contactPhone = document.getElementById('contactPhone').value;
+
+                if (!tourDate) {
+                    alert('Please select a tour date');
+                    return;
+                }
+
+                if (!contactPhone) {
+                    alert('Please enter your contact phone number');
+                    return;
+                }
+
+                // Populate hidden form fields
+                document.getElementById('hiddenTourDate').value = tourDate;
+                document.getElementById('hiddenContactPhone').value = contactPhone;
+                document.getElementById('hiddenSpecialRequests').value = document.getElementById('specialRequests').value;
+
+                // Make sure price is updated
+                updatePrice();
+
+                // Submit the hidden form
+                document.getElementById('hiddenBookingForm').submit();
+            });
+
+            // Add event listeners for real-time price updates
+            document.getElementById('adultsInput').addEventListener('input', updatePrice);
+            document.getElementById('kidsInput').addEventListener('input', updatePrice);
+            document.getElementById('donationCheckbox').addEventListener('change', updatePrice);
+
+            // Tour type button click handlers (already handled by setTourType function)
+        });
+    </script>
 </body>
+
 </html>

@@ -10,14 +10,405 @@
   <link href="/static/css/tours.css" rel="stylesheet" />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-
+  <style>
+    /* Primary Color Variables */
+    :root {
+      --primary-color: #EA580C;
+      --primary-light: #FDBA74;
+      --primary-dark: #C2410C;
+      --navbar-bg: #1a1a1a;
+      --footer-bg: #1a1a1a;
+    }
+    
+    /* Fix for navbar covering content */
+    body {
+      padding-top: 76px; /* Height of navbar */
+    }
+    
+    /* Navbar with Dark Color (matching footer) */
+    .navbar-custom {
+      background-color: var(--navbar-bg) !important;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+      border-bottom: 3px solid var(--primary-color);
+    }
+    
+    .navbar-custom .navbar-nav .nav-link {
+      color: rgba(255, 255, 255, 0.9) !important;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-custom .navbar-nav .nav-link:hover,
+    .navbar-custom .navbar-nav .nav-link.active {
+      color: white !important;
+      background-color: rgba(234, 88, 12, 0.2);
+      border-radius: 5px;
+    }
+    
+    .navbar-custom .navbar-brand {
+      color: white !important;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    
+    .navbar-custom .navbar-brand:hover {
+      color: var(--primary-light) !important;
+    }
+    
+    .navbar-custom .btn-outline-light {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .navbar-custom .btn-outline-light:hover {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white !important;
+    }
+    
+    .navbar-custom .btn-light {
+      background-color: var(--primary-color);
+      color: white !important;
+      border: 1px solid var(--primary-color);
+    }
+    
+    .navbar-custom .btn-light:hover {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+    
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(234, 88, 12, 0.5);
+    }
+    
+    /* Dropdown menu styling */
+    .navbar-custom .dropdown-menu {
+      background-color: #2c2c2c;
+      border: 1px solid rgba(234, 88, 12, 0.2);
+    }
+    
+    .navbar-custom .dropdown-item {
+      color: #ddd;
+    }
+    
+    .navbar-custom .dropdown-item:hover {
+      background-color: rgba(234, 88, 12, 0.2);
+      color: white;
+    }
+    
+    /* Footer with Dark Color */
+    .footer {
+      background-color: var(--footer-bg);
+      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+      border-top: 4px solid var(--primary-color);
+    }
+    
+    .footer-link {
+      color: #ddd !important;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: inline-block;
+      padding: 3px 0;
+    }
+    
+    .footer-link:hover {
+      color: var(--primary-light) !important;
+      padding-left: 5px;
+    }
+    
+    .social-icon {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 36px;
+      margin-right: 10px;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    .footer .btn-info {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+    
+    .footer .btn-info:hover {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+    
+    /* Tour Card Styles */
+    .tour-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    
+    .tour-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(234, 88, 12, 0.1);
+      border-color: var(--primary-light);
+      cursor: pointer;
+    }
+    
+    .tour-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: var(--primary-color);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .tour-price {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .tour-difficulty {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    .difficulty-moderate {
+      background-color: #ffc107;
+      color: #000;
+    }
+    
+    .difficulty-easy {
+      background-color: #28a745;
+      color: white;
+    }
+    
+    .difficulty-challenging {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .tour-location {
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+    
+    .tour-duration {
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+    
+    .tour-rating {
+      color: #ffc107;
+    }
+    
+    .tour-rating .bi-star {
+      color: #ddd;
+    }
+    
+    .cancellation-policy {
+      padding: 8px 12px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      margin-top: 15px;
+    }
+    
+    .refund-full {
+      color: #28a745;
+      font-weight: 600;
+    }
+    
+    .refund-high {
+      color: #20c997;
+      font-weight: 600;
+    }
+    
+    .refund-medium {
+      color: #ffc107;
+      font-weight: 600;
+    }
+    
+    .refund-low {
+      color: #dc3545;
+      font-weight: 600;
+    }
+    
+    .tour-image-placeholder {
+      height: 200px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #fd7238 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tour-image-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .tour-image-placeholder .placeholder-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    
+    /* Placeholder image styling */
+    .placeholder-image {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+    }
+    
+    .placeholder-image .bi-image {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+    
+    /* Primary color buttons */
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+    
+    .btn-outline-primary {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-outline-primary:hover {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+    
+    /* Filter section styles */
+    .filter-section {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 1.5rem;
+    }
+    
+    .search-box {
+      position: relative;
+    }
+    
+    .search-box .form-control {
+      padding-left: 40px;
+      border-radius: 25px;
+      border: 1px solid #ddd;
+    }
+    
+    .search-box .bi-search {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+    
+    .filter-dropdown {
+      position: relative;
+    }
+    
+    .filter-dropdown .form-select {
+      border-radius: 25px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+    
+    .clear-filters-btn {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .clear-filters-btn:hover {
+      text-decoration: underline;
+      color: var(--primary-dark);
+    }
+    
+    /* Header text styles */
+    .header-title {
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+    
+    .tour-count {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .tour-header {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    /* Fake data styling */
+    .fake-data-tag {
+      font-size: 0.8rem;
+      color: #6c757d;
+      font-style: italic;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-sm">
+  <!-- Navbar with Dark Color (matching footer) -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-lg">
     <div class="container">
-      <a class="navbar-brand" href="/"><i class="bi bi-gem me-2"></i>MMONDO</a>
+      <a class="navbar-brand" href="/"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,6 +420,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/cultures"><i class="bi bi-people-fill me-1"></i>Cultures</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/tours"><i class="bi bi-map me-1"></i>Tours</a>
           </li>
           {% if user %}
           <li class="nav-item">
@@ -42,7 +436,7 @@
         </ul>
       </div>
 
-           <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2">
         {% if user %}
           <!-- Enhanced User Dropdown -->
           <div class="dropdown">
@@ -51,7 +445,7 @@
               {% if user.picture %}
               <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
               {% else %}
-              <i class="bi bi-person-circle me-2"></i>
+              <i class="bi bi-person-circle me-2" style="color: var(--primary-light);"></i>
               {% endif %}
               {{ user.full_name }}
             </a>
@@ -62,7 +456,7 @@
               <li><a class="dropdown-item" href="/my-bookings">
                 <i class="bi bi-calendar-check me-2"></i>My Bookings
               </a></li>
-              <li><hr class="dropdown-divider"></li>
+              <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
               {% if user.newsletter_subscribed %}
               <li>
                 <form action="/user/unsubscribe_newsletter" method="post" class="m-0">
@@ -87,18 +481,89 @@
           </div>
         {% else %}
           <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-          <a class="btn btn-light text-primary btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
+          <a class="btn btn-light btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
         {% endif %}
       </div>
 
     </div>
   </nav>
 
-  <main class="pt-2 mt-5">
+  <main class="pt-2">
     <div class="container">
-      <h1 class="text-center my-2">Discover Our Tours</h1>
+      <!-- New Tour Header Section -->
+      <div class="tour-header mb-4">
+        <h1 class="header-title mb-3">Explore East Africa Tours</h1>
+        <p class="lead mb-4">Find your perfect adventure from <span class="tour-count">{{ tours|length if tours else 0 }}</span> available tours</p>
+        
+        <!-- Filters Section -->
+        <div class="filter-section">
+          <div class="row g-3 align-items-end">
+            <!-- Search Box -->
+            <div class="col-lg-4 col-md-6">
+              <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" class="form-control" placeholder="Search tours...">
+              </div>
+            </div>
+            
+            <!-- Country Filter -->
+            <div class="col-lg-2 col-md-6">
+              <div class="filter-dropdown">
+                <select class="form-select">
+                  <option selected>All Countries</option>
+                  <option value="uganda">Uganda</option>
+                  <option value="tanzania">Tanzania</option>
+                  <option value="kenya">Kenya</option>
+                  <option value="rwanda">Rwanda</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="col-lg-2 col-md-6">
+              <div class="filter-dropdown">
+                <select class="form-select">
+                  <option selected>All Categories</option>
+                  <option value="wildlife">Wildlife</option>
+                  <option value="culture">Culture</option>
+                  <option value="adventure">Adventure</option>
+                  <option value="luxury">Luxury</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Price Filter -->
+            <div class="col-lg-2 col-md-6">
+              <div class="filter-dropdown">
+                <select class="form-select">
+                  <option selected>All Prices</option>
+                  <option value="budget">Budget (Under $1000)</option>
+                  <option value="mid">Mid-Range ($1000-$3000)</option>
+                  <option value="luxury">Luxury ($3000+)</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Clear Filters Button -->
+            <div class="col-lg-2 col-md-6">
+              <a href="#" class="clear-filters-btn d-block text-end">
+                <i class="bi bi-x-circle me-1"></i>Clear Filters
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Results Count -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <h2 class="h5 mb-0">Showing <span class="tour-count">{{ tours|length if tours else 0 }}</span> tours</h2>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm">Filter <i class="bi bi-funnel"></i></button>
+            <button class="btn btn-outline-primary btn-sm">Sort <i class="bi bi-arrow-down-up"></i></button>
+          </div>
+        </div>
+      </div>
 
-       <!-- Enhanced Welcome Message -->
+      <!-- Enhanced Welcome Message -->
       {% if request and request.query_params.get('just_logged_in') and user %}
       <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
         <div class="d-flex align-items-center">
@@ -116,68 +581,205 @@
       </div>
       {% endif %}
 
-      <div class="row">
-        {% for tour in tours %}
-        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-          <a href="/tour/{{ tour.id }}" class="card-main-link">
-            <div class="custom-card">
-              <div class="custom-card-top">
-                <div id="carousel-{{ tour.id }}" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    {% for image in tour.images %}
-                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                      <img src="{{ image.image_url }}" alt="Tour image" />
+      <!-- Dynamic Tour Grid Layout -->
+      <div class="row g-4 mb-5">
+        {% if tours and tours|length > 0 %}
+          {% for tour in tours %}
+          <div class="col-lg-4 col-md-6">
+            <!-- Entire tour card is now clickable -->
+            <a href="/tour/{{ tour.id if tour.id else '#' }}" class="tour-card">
+              <div class="position-relative">
+                <div class="tour-image-placeholder">
+                  {% if tour.images and tour.images|length > 0 and tour.images[0].image_url %}
+                    <img src="{{ tour.images[0].image_url }}" alt="{{ tour.title }}">
+                  {% else %}
+                    <!-- Fake tour images based on category -->
+                    <div class="placeholder-image">
+                      {% if tour.category == 'Wildlife' %}
+                        <i class="bi bi-binoculars-fill"></i>
+                        <div class="placeholder-text">Wildlife Safari Preview</div>
+                      {% elif tour.category == 'Culture' %}
+                        <i class="bi bi-people-fill"></i>
+                        <div class="placeholder-text">Cultural Experience Preview</div>
+                      {% elif tour.category == 'Adventure' %}
+                        <i class="bi bi-compass-fill"></i>
+                        <div class="placeholder-text">Adventure Preview</div>
+                      {% elif tour.category == 'Luxury' %}
+                        <i class="bi bi-stars"></i>
+                        <div class="placeholder-text">Luxury Tour Preview</div>
+                      {% else %}
+                        <i class="bi bi-image"></i>
+                        <div class="placeholder-text">Tour Preview Image</div>
+                      {% endif %}
                     </div>
-                    {% endfor %}
-                  </div>
-                  {% if tour.images|length > 1 %}
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ tour.id }}"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ tour.id }}"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
                   {% endif %}
                 </div>
+                <span class="tour-badge">{{ tour.category if tour.category else 'Tour' }}</span>
+                <span class="tour-price">${{ tour.price if tour.price else (range(800, 3500)|random) }}</span>
               </div>
-              <div class="price-tag">
-                <i></i>${{ tour.price }}
+              <div class="p-4">
+                <span class="tour-difficulty 
+                  {% if tour.difficulty %}difficulty-{{ tour.difficulty|lower }}
+                  {% else %}
+                    {% set difficulties = ['easy', 'moderate', 'challenging'] %}
+                    difficulty-{{ difficulties|random }}
+                  {% endif %}">
+                  {{ tour.difficulty if tour.difficulty else (['Easy', 'Moderate', 'Challenging']|random) }}
+                </span>
+                <h3 class="h5 fw-bold mb-3">{{ tour.title if tour.title else 'Untitled Tour' }}</h3>
+                <p class="mb-3">
+                  {% if tour.description %}
+                    {{ tour.description[:150] }}...
+                  {% else %}
+                    <!-- Fake tour descriptions based on category -->
+                    {% if tour.category == 'Wildlife' %}
+                      Experience the breathtaking wildlife of East Africa. Spot the Big Five in their natural habitat...
+                    {% elif tour.category == 'Culture' %}
+                      Immerse yourself in the rich cultural heritage of East African communities. Traditional dances...
+                    {% elif tour.category == 'Adventure' %}
+                      Embark on an unforgettable adventure through East Africa's most stunning landscapes...
+                    {% elif tour.category == 'Luxury' %}
+                      Indulge in a luxurious East African experience with premium accommodations and exclusive access...
+                    {% else %}
+                      Discover the beauty and diversity of East Africa with our expertly curated tour experience...
+                    {% endif %}
+                  {% endif %}
+                </p>
+                
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-geo-alt text-primary me-2"></i>
+                  <span class="tour-location">
+                    {% if tour.location %}
+                      {{ tour.location }}
+                    {% else %}
+                      <!-- Fake locations in East Africa -->
+                      {% set locations = [
+                        'Bwindi Impenetrable Forest, Uganda',
+                        'Serengeti National Park, Tanzania', 
+                        'Masai Mara, Kenya',
+                        'Volcanoes National Park, Rwanda',
+                        'Ngorongoro Crater, Tanzania',
+                        'Queen Elizabeth NP, Uganda',
+                        'Amboseli National Park, Kenya'
+                      ] %}
+                      {{ locations|random }}
+                    {% endif %}
+                  </span>
+                </div>
+                
+                <div class="d-flex align-items-center mb-3">
+                  <i class="bi bi-clock text-primary me-2"></i>
+                  <span class="tour-duration">
+                    {% if tour.duration %}
+                      {{ tour.duration }}
+                    {% else %}
+                      <!-- Fake durations -->
+                      {% set durations = ['3 days', '5 days', '7 days', '10 days', '14 days'] %}
+                      {{ durations|random }}
+                    {% endif %}
+                  </span>
+                </div>
+                
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <div class="tour-rating">
+                    {% if tour.rating %}
+                      {% set rating = tour.rating|float %}
+                      {% set full_stars = rating|int %}
+                      {% set has_half_star = (rating - full_stars) >= 0.5 %}
+                    {% else %}
+                      <!-- Generate random rating between 3.5 and 5.0 -->
+                      {% set rating = (range(35, 50)|random) / 10 %}
+                      {% set full_stars = rating|int %}
+                      {% set has_half_star = (rating - full_stars) >= 0.5 %}
+                    {% endif %}
+                    
+                    {% for i in range(5) %}
+                      {% if i < full_stars %}
+                        <i class="bi bi-star-fill"></i>
+                      {% elif i == full_stars and has_half_star %}
+                        <i class="bi bi-star-half"></i>
+                      {% else %}
+                        <i class="bi bi-star"></i>
+                      {% endif %}
+                    {% endfor %}
+                    <span class="ms-1">
+                      {{ rating|round(1) }}
+                      {% if tour.review_count %}
+                        ({{ tour.review_count }} reviews)
+                      {% else %}
+                        <!-- Generate random review count -->
+                        ({{ range(5, 150)|random }} reviews)
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="cancellation-policy">
+                  <div class="d-flex justify-content-between">
+                    <span>Cancellation Policy</span>
+                    <span class="
+                      {% if tour.refund_policy %}
+                        {% if 'Full' in tour.refund_policy %}refund-full
+                        {% elif '50%' in tour.refund_policy %}refund-high
+                        {% elif '25%' in tour.refund_policy %}refund-medium
+                        {% else %}refund-low{% endif %}
+                      {% else %}
+                        {% set policies = ['refund-full', 'refund-high', 'refund-medium', 'refund-low'] %}
+                        {{ policies|random }}
+                      {% endif %}
+                    ">
+                      {% if tour.refund_policy %}
+                        {{ tour.refund_policy }}
+                      {% else %}
+                        <!-- Random cancellation policies -->
+                        {% set policy_text = ['Full Refund', '50% Refund', '25% Refund', 'No Refund']|random %}
+                        {{ policy_text }}
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+                
+                <!-- Fake hotel/accommodation info -->
+                <div class="mt-2">
+                  <small class="fake-data-tag">
+                    <i class="bi bi-building me-1"></i>
+                    {% set hotels = [
+                      'Luxury lodge accommodation',
+                      'Boutique hotel included',
+                      'Premium tented camp',
+                      '4-star hotel package',
+                      'Eco-friendly resort'
+                    ] %}
+                    {{ hotels|random }}
+                  </small>
+                </div>
               </div>
-              {% if user %}
-              <a href="/book/{{ tour.id }}" class="book-btn">Book Now</a>
-              {% else %}
-              <a href="/login?next=/book/{{ tour.id }}" class="book-btn">Book Now</a>
-              {% endif %}
-
-              <div class="custom-card-bottom">
-                <div class="tour-title">{{ tour.title }}</div>
-                <div class="tour-description">{{ tour.description }}</div>
-                <div class="info-row location-row">
-                  <i class="bi bi-geo-alt-fill me-1"></i> <span class="location-text">{{ tour.locations }}</span>
-                </div>
-                <div class="info-row">
-                  <i class="bi bi-clock-fill me-1"></i> {{ tour.duration }}
-                </div>
+            </a>
+          </div>
+          {% endfor %}
+        {% else %}
+          <!-- No tours available message -->
+          <div class="col-12 text-center my-5">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body py-5">
+                <i class="bi bi-compass display-1 text-muted mb-4"></i>
+                <h3 class="text-muted mb-3">No tours available</h3>
+                <p class="text-muted mb-4">Check back soon for new adventures!</p>
+                <a href="/" class="btn btn-primary">Explore Homepage</a>
               </div>
             </div>
-          </a>
-        </div>
-        {% endfor %}
-        {% if not tours %}
-        <div class="col-12 text-center my-5">
-          <h4 class="text-muted">No tours available at the moment.</h4>
-        </div>
+          </div>
         {% endif %}
       </div>
     </div>
   </main>
-  <footer class="footer text-white pt-5 pb-4 mt-5">
+  
+  <!-- Footer with Dark Color -->
+  <footer class="footer text-white pt-5 pb-4">
     <div class="container">
       <div class="row">
         <div class="col-md-3 mb-4">
-          <h4 class="fw-bold"><i class="bi bi-gem me-2"></i>MMONDO</h4>
+          <h4 class="fw-bold"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</h4>
           <p>
             Explore Uganda's culture, nature, and wildlife with our curated
             tours.
@@ -232,7 +834,7 @@
         <div class="col-md-3 mb-4">
           <h5 class="fw-semibold">Contact</h5>
           <p><i class="bi bi-telephone-fill me-2"></i>+256 700 123 456</p>
-          <p><i class="bi bi-envelope-fill me-2"></i>info@pearltours.ug</p>
+          <p><i class="bi bi-envelope-fill me-2"></i>info@mmondo.ug</p>
           <p><i class="bi bi-geo-alt-fill me-2"></i>Kampala, Uganda</p>
           <div class="mt-3 mb-2">
             <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
@@ -241,10 +843,10 @@
             <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
             <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
           </div>
-          <a href="/login" class="btn btn-info w-100 mt-3">Subscribe to Updates</a>
+          <a href="/subscribe" class="btn btn-info w-100 mt-3">Subscribe to Updates</a>
         </div>
       </div>
-      <div class="text-center border-top pt-3 mt-4">
+      <div class="text-center border-top pt-3 mt-4" style="border-color: rgba(255, 255, 255, 0.1) !important;">
         <small>&copy; 2025 MMONDO. All rights reserved.</small>
       </div>
     </div>

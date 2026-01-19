@@ -79,6 +79,7 @@ async def process_booking(
             "tour_id": tour_id,
             "adults": adults,
             "kids": kids,
+            "price": float(tour.price),
             "tour_date": tour_date,
             "donation": donation_amount,
             "special_requirements": special_requirements,  # Store special requirements
