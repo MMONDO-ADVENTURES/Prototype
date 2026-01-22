@@ -73,11 +73,11 @@ MMONDO uses a role-based access system to manage platform permissions.
 
 ### User Roles
 
--Customer: Default role on public registration
+- Customer: Default role on public registration
 
--Admin: Manages tours, bookings, newsletters, and platform content
+- Admin: Manages tours, bookings, newsletters, and platform content
 
--Super Admin: Creates and manages admin accounts
+- Super Admin: Creates and manages admin accounts
 
 ### Admin Creation
 
@@ -91,11 +91,11 @@ This endpoint is protected and cannot be accessed by normal users.
 A Super Admin can be created via:
 ####  /superadmin/create
 
--This route is strictly restricted and intended for:
+- This route is strictly restricted and intended for:
 
--Initial system setup
+- Initial system setup
 
--Terminal-based execution
+- Terminal-based execution
 
 Secure environment-based access
 ## 🚀 Running the App
