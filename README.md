@@ -1,6 +1,6 @@
 # MMONDO Web Application
 
-**MMONDO** is a web application designed to showcase and manage tour packages for exploring Uganda, the Pearl of Africa. It allows users to browse tours, view details, and administrators to manage tour listings.
+**MMONDO**is a platform that allows users to browse tours and view detailed information about each experience. Administrators can easily manage tour listings, ensuring up-to-date and accurate offerings. Our website connects East African tour operators with customers in the European market, helping bridge the gap and open new opportunities for them in the international tourism sector.
 
 ---
 
@@ -73,11 +73,11 @@ MMONDO uses a role-based access system to manage platform permissions.
 
 ### User Roles
 
-Customer: Default role on public registration
+-Customer: Default role on public registration
 
-Admin: Manages tours, bookings, newsletters, and platform content
+-Admin: Manages tours, bookings, newsletters, and platform content
 
-Super Admin: Creates and manages admin accounts
+-Super Admin: Creates and manages admin accounts
 
 ### Admin Creation
 
@@ -91,11 +91,11 @@ This endpoint is protected and cannot be accessed by normal users.
 A Super Admin can be created via:
 ####  /superadmin/create
 
-This route is strictly restricted and intended for:
+-This route is strictly restricted and intended for:
 
-Initial system setup
+-Initial system setup
 
-Terminal-based execution
+-Terminal-based execution
 
 Secure environment-based access
 ## 🚀 Running the App
@@ -112,8 +112,8 @@ python -m venv venv && source venv/bin/activate && pip install -r requirements.t
 
 Use the following credentials:
 
-- **Email:** `mutalegeorge367@gmail.com`
-- **Password:** `Operator01@#`
+- **Email:** `george.mutale345@stud.th-deg.de`
+- **Password:** `Administer01@#`
 
 
 3. **Admin Sign-In:**
@@ -121,7 +121,7 @@ Use the following credentials:
 Use the following credentials:
 
 - **Email:** `mutalegeorge367@gmail.com`
-- **Password:** `Operator01@#`
+- **Password:** `Operator02@#`
 
 Alternatively, create a new admin via terminal:
 
