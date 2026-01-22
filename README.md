@@ -1,21 +1,18 @@
-# MMONDO Web Application
+MMONDO Web Application
 
-**MMONDO** is a web application designed to showcase and manage tour packages for exploring Uganda, the Pearl of Africa. It allows users to browse tours, view details, and administrators to manage tour listings.
+MMONDO is a web application designed to showcase and manage tour packages for exploring Uganda, the Pearl of Africa. It allows users to browse tours, view details, and administrators to manage tour listings.
 
----
+🛠 Technologies Used
 
-## 🛠 Technologies Used
+Backend: Python, FastAPI
 
-- **Backend:** Python, FastAPI
-- **Frontend:** HTML, CSS, JavaScript, Bootstrap, Tailwind
-- **Database:** MySQL (SQLite for development/testing)
-- **Containerization:** Docker, Docker Compose
+Frontend: HTML, CSS, JavaScript, Bootstrap, Tailwind
 
----
+Database: MySQL (SQLite for development/testing)
 
-## 📁 Project Structure
+Containerization: Docker, Docker Compose
 
-```
+📁 Project Structure
 ├── app/                    # Main application folder
 │   ├── templates/          # HTML templates
 │   ├── static/             # Static files (CSS, JS, images)
@@ -32,95 +29,152 @@
 ├── start.sh                # Startup script
 ├── Tests/                  # pytest tests
 └── .github/workflows/      # GitHub Actions workflows
-```
 
----
+👨‍💻 Developers
 
-## 👨‍💻 Developers
+Backend: Rhyan Lubega
 
-- **Backend:** Rhyan Lubega
-- **Frontend:** Boaz Onyango
-- **Database & Product Manager:** Oscar Kyamuwendo
-- **Business Role:** George Mutale
+Frontend: Boaz Onyango
 
----
+Database & Product Manager: Oscar Kyamuwendo
 
-## 🌟 Special Features
+Business Role: George Mutale
 
-- Secure payment using bank cards and PayPal
-- Terminal system for secure admin creation
-- Quick tour booking system
-- Tokenized emails for password recovery & support
-- Email system for tour updates and receiving receipts
-- Newsletter integration
-- Live AI-powered chatbot
+🌟 Special Features
 
----
+Secure payment using bank cards and PayPal
 
-## ⚙️ Setup and Running the Project
+Terminal system for secure admin creation
 
-### Prerequisites
+Quick tour booking system
 
-- Python 3.8+
-- pip
-- Docker (optional)
-- Docker Compose (optional)
+Tokenized emails for password recovery & support
 
----
+Email system for tour updates and receiving receipts
 
-## 🚀 Running the App
+Newsletter integration
 
-### ✅ Using Uvicorn (Local)
+Live AI-powered chatbot
 
-1. **Start the app:**
+🔐 Admin & Super Admin Management
 
-```bash
-python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python -m uvicorn app.main:app --reload --host localhost
-```
+MMONDO uses a role-based access system to manage platform permissions.
+
+User Roles
+
+Customer: Default role on public registration
+
+Admin: Manages tours, bookings, newsletters, and platform content
+
+Super Admin: Creates and manages admin accounts
+
+Admin Creation
+
+Admins can only be created by a Super Admin via:
+
+POST /register/admin
 
 
-### 🐳 Using Docker
+This endpoint is protected and cannot be accessed by normal users.
 
-> Docker creates a separate database. You must manually create admin and customer accounts inside the container.
+Super Admin Creation
 
-1. **Build and run the services:**
+A Super Admin can be created via:
 
-```bash
+POST /superadmin/create
+
+
+This route is strictly restricted and intended for:
+
+Initial system setup
+
+Terminal-based execution
+
+Secure environment-based access
+
+⚠️ It is recommended to disable this route after the first Super Admin is created.
+
+⚙️ Setup and Running the Project
+Prerequisites
+
+Python 3.8+
+
+pip
+
+Docker (optional)
+
+Docker Compose (optional)
+
+🚀 Running the App
+✅ Using Uvicorn (Local)
+
+Start the app:
+
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --host localhost
+
+
+Sample Accounts
+
+For testing purposes, the following sample accounts have been added. Replace the placeholders with your own emails and passwords as needed:
+
+Super Admin:
+
+Email: <superadmin_email>
+
+Password: <superadmin_password>
+
+Admin:
+
+Email: <admin_email>
+
+Password: <admin_password>
+
+Customer:
+
+Email: <customer_email>
+
+Password: <customer_password>
+
+You can use these accounts to log in and explore the application features.
+
+🐳 Using Docker
+
+Docker creates a separate database. The same sample accounts are available inside the container.
+
+Build and run the services:
+
 chmod +x start.sh
 ./start.sh
-```
 
 
-2. **Customer Sign-Up/Login:**  
-   Use the app interface to register and log in.
+Stop the services:
 
-3. **Stop the services:**
-
-```bash
 Ctrl + C
 # Or stop the container manually
 docker ps
 docker stop <container_id>
-```
 
----
-
-## 🤝 Contributing
+🤝 Contributing
 
 We welcome contributions!
 
-### Steps to Contribute
+Steps to Contribute
 
-1. Fork the repository
-2. Create a new feature branch: `git checkout -b feature-name`
-3. Commit your changes: `git commit -m "Description of changes"`
-4. Push to your fork: `git push origin feature-name`
-5. Open a pull request
+Fork the repository
+
+Create a new feature branch: git checkout -b feature-name
+
+Commit your changes: git commit -m "Description of changes"
+
+Push to your fork: git push origin feature-name
+
+Open a pull request
 
 Please follow standard coding practices and ensure your code passes tests.
 
----
-
-## 📄 License
+📄 License
 
 Specify the license for the project here. (e.g., MIT, Apache 2.0)
