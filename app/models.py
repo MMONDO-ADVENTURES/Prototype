@@ -36,6 +36,7 @@ class User(Base):
     created_tours = relationship("Tour", back_populates="creator")
     bookings = relationship("Booking", back_populates="user")
     reviews = relationship("Review", back_populates="user")
+    wishlist_entries = relationship("WishlistEntry", back_populates="user")
 
 
 class Session(Base):
@@ -72,6 +73,7 @@ class Tour(Base):
     creator = relationship("User", back_populates="created_tours")
     bookings = relationship("Booking", back_populates="tour", cascade="all, delete-orphan")
     reviews = relationship("Review", back_populates="tour", cascade="all, delete-orphan")
+    wishlist_entries = relationship("WishlistEntry", back_populates="tour", cascade="all, delete-orphan")
 
     def calculate_price(self, adults: int, kids: int, is_private: bool = False) -> float:
         base_price = (adults + kids) * self.price
@@ -116,6 +118,25 @@ class Booking(Base):
     @property
     def participant_count(self):
         return self.adults + self.kids
+
+
+class WishlistEntry(Base):
+    __tablename__ = "wishlist_entries"
+    id = Column(Integer, primary_key=True, index=True)
+    tour_id = Column(Integer, ForeignKey("tours.id"), nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+    full_name = Column(String(100), nullable=False)
+    email = Column(String(100), nullable=False, index=True)
+    phone = Column(String(50), nullable=False)
+    country = Column(String(100), nullable=True)
+    preferred_date = Column(DateTime, nullable=True)
+    adults = Column(Integer, default=1)
+    kids = Column(Integer, default=0)
+    message = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    tour = relationship("Tour", back_populates="wishlist_entries")
+    user = relationship("User", back_populates="wishlist_entries")
 
 
 class Country(Base):

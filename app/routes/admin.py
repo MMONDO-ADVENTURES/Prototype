@@ -9,7 +9,7 @@ from typing import List, Optional
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
 
-from app.models import User, Tour, TourImage, Booking, Review
+from app.models import User, Tour, TourImage, Booking, Review, WishlistEntry
 from app.utils import get_current_admin, notify_subscribers
 from app.database import get_db
 from fastapi.templating import Jinja2Templates
@@ -1231,3 +1231,36 @@ async def export_revenue_report(
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error exporting revenue report: {str(e)}")
+
+
+@router.get('/admin/wishlist', response_class=HTMLResponse)
+async def admin_wishlist(
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_admin),
+):
+    entries = (
+        db.query(WishlistEntry)
+        .options(joinedload(WishlistEntry.tour))
+        .order_by(WishlistEntry.created_at.desc())
+        .all()
+    )
+
+    tour_counts = (
+        db.query(Tour.title, func.count(WishlistEntry.id))
+        .join(WishlistEntry, Tour.id == WishlistEntry.tour_id)
+        .group_by(Tour.id, Tour.title)
+        .order_by(func.count(WishlistEntry.id).desc())
+        .all()
+    )
+
+    return templates.TemplateResponse(
+        "admin/wishlist.html",
+        {
+            "request": request,
+            "user": user,
+            "entries": entries,
+            "tour_counts": tour_counts,
+            "total_interest": len(entries),
+        },
+    )

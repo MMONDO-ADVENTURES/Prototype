@@ -221,7 +221,8 @@ async def revenue_analytics(
             "revenue_by_month": revenue_by_month,
             "revenue_by_tour": revenue_by_tour,
             "period": period,
-            "superadmin": superadmin
+            "superadmin": superadmin,
+            "datetime": datetime,
         }
     )
 
