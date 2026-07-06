@@ -12,24 +12,10 @@ from fastapi.templating import Jinja2Templates
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates", auto_reload=True)
 
-@router.get("/book/{tour_id}", response_class=HTMLResponse)
-async def book_tour(
-    request: Request,
-    tour_id: int,
-    db: Session = Depends(get_db),
-    user: User = Depends(get_current_user)
-):
-    tour = db.query(Tour).options(joinedload(Tour.images)).filter(Tour.id == tour_id).first()
-    if not tour:
-        return RedirectResponse(url="/tours", status_code=303)
+@router.get("/book/{tour_id}")
+async def book_tour(tour_id: int):
+    return RedirectResponse(url=f"/wishlist/{tour_id}", status_code=303)
 
-    today = datetime.now().date().isoformat()
-    return templates.TemplateResponse("booking.html", {
-        "request": request,
-        "tour": tour,
-        "user": user,
-        "today": today
-    })
 
 @router.post("/process_booking", response_class=HTMLResponse)
 async def process_booking(

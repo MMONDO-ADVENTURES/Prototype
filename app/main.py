@@ -19,7 +19,8 @@ from app.routes import (
     create_admin,
     culture_admin,
     superadmin,
-    superadmin_creation # <-- Added by Bammez: culture admin routes
+    superadmin_creation,
+    wishlist,
 )
 from app.database import engine, Base
 from dotenv import load_dotenv
@@ -53,7 +54,8 @@ app.include_router(tour_details.router)
 app.include_router(create_admin.router)
 app.include_router(culture_admin.router)
 app.include_router(superadmin.router)
-app.include_router(superadmin_creation.router) # <-- Added by Bammez: /admin/cultures etc.
+app.include_router(superadmin_creation.router)
+app.include_router(wishlist.router)
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
