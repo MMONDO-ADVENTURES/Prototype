@@ -29,6 +29,28 @@ async def read_root(
     )
 
 
+@router.get("/about", response_class=HTMLResponse)
+async def about_page(
+    request: Request,
+    user: User = Depends(get_current_user),
+):
+    return templates.TemplateResponse(
+        "about.html",
+        {"request": request, "user": user},
+    )
+
+
+@router.get("/contact", response_class=HTMLResponse)
+async def contact_page(
+    request: Request,
+    user: User = Depends(get_current_user),
+):
+    return templates.TemplateResponse(
+        "contact.html",
+        {"request": request, "user": user},
+    )
+
+
 @router.get("/tours", response_class=HTMLResponse)
 async def tours_page(
     request: Request,
