@@ -51,6 +51,18 @@ async def contact_page(
     )
 
 
+@router.get("/cultures", response_class=HTMLResponse)
+async def cultures_page(
+    request: Request,
+    user: User = Depends(get_current_user),
+):
+    """Editorial culture page. The content lives in the template, not the database."""
+    return templates.TemplateResponse(
+        "culture.html",
+        {"request": request, "user": user},
+    )
+
+
 @router.get("/tours", response_class=HTMLResponse)
 async def tours_page(
     request: Request,

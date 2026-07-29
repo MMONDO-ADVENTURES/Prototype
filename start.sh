@@ -1,47 +1,51 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Mmondo Adventures launcher — works in Git Bash, WSL, and Linux/macOS
+# Usage: bash start.sh
+cd "$(dirname "$0")" || exit 1
 
-PORT=8000
+find_python() {
+    # 1. Existing venv
+    [[ -f "venv/Scripts/python.exe" ]] && echo "venv/Scripts/python.exe" && return
+    [[ -f "venv/bin/python" ]]         && echo "venv/bin/python"         && return
 
-# Check if in Codespace environment
-if [ -n "$CODESPACES" ]; then
-    echo "Detected GitHub Codespaces"
-    
-    # Generate the Codespace URL
-    CODESPACE_DOMAIN="${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
-    CODESPACE_URL="https://${CODESPACE_NAME}-${PORT}.${CODESPACE_DOMAIN}"
-    
-    # Alternative method if above doesn't work
-    if [ -z "$CODESPACE_URL" ]; then
-        CODESPACE_URL=$(gp url $PORT 2>/dev/null)
-    fi
-    # what does fi mean Rhyan
-    if [ -z "$CODESPACE_URL" ]; then
-        echo "Error: Could not generate Codespace URL for port $PORT"
-        exit 1
-    fi
-    
-    echo "Using BASE_URL: $CODESPACE_URL"
-    BASE_URL_VALUE="$CODESPACE_URL"
+    # 2. System PATH
+    for cmd in py python3 python; do
+        command -v "$cmd" &>/dev/null && echo "$cmd" && return
+    done
+
+    # 3. Common Windows install dirs (Git Bash often can't see PATH)
+    for p in \
+        "$LOCALAPPDATA/Programs/Python"/Python3*/python.exe \
+        "$HOME/AppData/Local/Programs/Python"/Python3*/python.exe \
+        /c/Python3*/python.exe; do
+        [[ -f "$p" ]] && echo "$p" && return
+    done
+
+    return 1
+}
+
+PYTHON=$(find_python)
+if [[ -z "$PYTHON" ]]; then
+    echo "ERROR: Python not found. Install Python 3, then retry."
+    exit 1
+fi
+echo "Using: $PYTHON"
+
+# Create venv if missing
+if [[ ! -d "venv" ]]; then
+    echo "Creating virtual environment..."
+    "$PYTHON" -m venv venv || { echo "Failed to create venv"; exit 1; }
+    # Resolve venv python
+    [[ -f "venv/Scripts/python.exe" ]] && PYTHON="venv/Scripts/python.exe" || PYTHON="venv/bin/python"
+    echo "Installing dependencies..."
+    "$PYTHON" -m pip install -r requirements.txt -q
 else
-    echo "Using local environment"
-    BASE_URL_VALUE="http://localhost:$PORT"
+    [[ -f "venv/Scripts/python.exe" ]] && PYTHON="venv/Scripts/python.exe"
+    [[ -f "venv/bin/python" ]]         && PYTHON="venv/bin/python"
 fi
 
-# Export all environment variables for Docker Compose
-export BASE_URL="$BASE_URL_VALUE"
-export DATABASE_URL="mysql+pymysql://admin:1237tyu@db:3306/tourdb"
-export SECRET_KEY="your-secret-key-here"
-export DEBUG="False"
-export SMTP_SERVER="${SMTP_SERVER}"
-export SMTP_PORT="${SMTP_PORT}"
-export SMTP_USER="${SMTP_USER}"
-export SMTP_PASSWORD="${SMTP_PASSWORD}"
-export STRIPE_PUBLIC_KEY="${STRIPE_PUBLIC_KEY}"
-export STRIPE_SECRET_KEY="${STRIPE_SECRET_KEY}"
-export PAYPAL_CLIENT_ID="${PAYPAL_CLIENT_ID}"
-export PAYPAL_MODE="${PAYPAL_MODE}"
-
-echo "Starting application with BASE_URL: $BASE_URL_VALUE"
-
-# Run Docker Compose with all variables
-docker compose up --build
+echo ""
+echo "Starting MMONDO at http://localhost:8000"
+echo "Press Ctrl+C to stop."
+echo ""
+exec "$PYTHON" -m uvicorn app.main:app --reload --host localhost --port 8000

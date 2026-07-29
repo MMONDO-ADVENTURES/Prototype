@@ -14,10 +14,8 @@ from app.routes import (
     booking,
     payment,
     newsletter,
-    culture,
     tour_details,
     create_admin,
-    culture_admin,
     superadmin,
     superadmin_creation,
     wishlist,
@@ -45,14 +43,12 @@ app.add_middleware(
 # Include all routes
 app.include_router(auth.router)
 app.include_router(tours.router)
-app.include_router(culture.router)
 app.include_router(admin.router)
 app.include_router(booking.router)
 app.include_router(payment.router)
 app.include_router(newsletter.router)
 app.include_router(tour_details.router)
 app.include_router(create_admin.router)
-app.include_router(culture_admin.router)
 app.include_router(superadmin.router)
 app.include_router(superadmin_creation.router)
 app.include_router(wishlist.router)

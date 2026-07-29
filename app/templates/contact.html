@@ -1,317 +1,599 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us - MMONDO</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link href="/static/css/index.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Contact Us - Mmondo Adventures</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;family=Outfit:wght@100..900&amp;family=Geist:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-container": "#003410",
+            "tertiary-fixed": "#84fb94",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#ee6c1a",
+            "surface-container-high": "#e7e8ea",
+            "on-error-container": "#93000a",
+            "inverse-on-surface": "#f0f1f3",
+            "on-primary-fixed": "#341100",
+            "on-background": "#191c1e",
+            "inverse-surface": "#2e3132",
+            "primary-fixed-dim": "#ffb692",
+            "outline": "#8c7165",
+            "surface-variant": "#e1e2e4",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed-variant": "#793000",
+            "on-secondary-fixed": "#1b1b1c",
+            "surface-container-highest": "#e1e2e4",
+            "primary": "#9f4200",
+            "on-tertiary-fixed-variant": "#00531e",
+            "on-surface": "#191c1e",
+            "on-secondary-container": "#636262",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f8f9fb",
+            "primary-fixed": "#ffdbcb",
+            "surface-dim": "#d9dadc",
+            "on-primary-container": "#4e1c00",
+            "tertiary-container": "#2ba84d",
+            "white": "#FFFFFF",
+            "surface-tint": "#9f4200",
+            "tertiary": "#006e2a",
+            "on-secondary-fixed-variant": "#474746",
+            "tertiary-fixed-dim": "#67de7b",
+            "on-surface-variant": "#584237",
+            "slate-gray": "#6B7280",
+            "secondary": "#5f5e5e",
+            "surface-container": "#edeef0",
+            "error": "#ba1a1a",
+            "inverse-primary": "#ffb692",
+            "ink": "#212121",
+            "on-tertiary-fixed": "#002108",
+            "surface": "#f8f9fb",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#e5e2e1",
+            "surface-container-low": "#f3f4f6",
+            "on-primary": "#ffffff",
+            "background": "#f8f9fb",
+            "outline-variant": "#e0c0b2",
+            "secondary-container": "#e2dfde",
+            "secondary-fixed-dim": "#c8c6c5",
+            "on-error": "#ffffff",
+            "charcoal": "#1E1E1E"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "base": "4px",
+            "margin-mobile": "16px",
+            "gutter": "24px",
+            "margin-desktop": "32px",
+            "section-gap": "80px"
+          },
+          "fontFamily": {
+            "body-md": ["Outfit"],
+            "display-lg": ["Source Serif 4"],
+            "headline-sm": ["Source Serif 4"],
+            "display-lg-mobile": ["Source Serif 4"],
+            "data-mono": ["JetBrains Mono"],
+            "body-lg": ["Outfit"],
+            "label-md": ["Geist"],
+            "headline-md": ["Source Serif 4"]
+          },
+          "fontSize": {
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "700" }],
+            "data-mono": ["13px", { "lineHeight": "1.0", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --primary-color: #EA580C;
-      --primary-light: #FDBA74;
-      --primary-dark: #C2410C;
-      --navbar-bg: #1a1a1a;
-      --footer-bg: #1a1a1a;
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
     }
 
-    body {
-      padding-top: 76px;
+    .material-symbols-outlined {
+      vertical-align: middle;
     }
 
-    .navbar-custom {
-      background-color: var(--navbar-bg) !important;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      border-bottom: 3px solid var(--primary-color);
+    ::-webkit-scrollbar {
+      width: 6px;
     }
 
-    .navbar-custom .navbar-nav .nav-link {
-      color: rgba(255, 255, 255, 0.9) !important;
-      transition: all 0.3s ease;
-    }
-
-    .navbar-custom .navbar-nav .nav-link:hover,
-    .navbar-custom .navbar-nav .nav-link.active {
-      color: white !important;
-      background-color: rgba(234, 88, 12, 0.2);
-      border-radius: 5px;
-    }
-
-    .navbar-custom .navbar-brand {
-      color: white !important;
-      font-weight: 700;
-      font-size: 1.5rem;
-    }
-
-    .navbar-custom .navbar-brand:hover {
-      color: var(--primary-light) !important;
-    }
-
-    .navbar-custom .btn-outline-light {
-      border-color: rgba(255, 255, 255, 0.3);
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .navbar-custom .btn-outline-light:hover {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white !important;
-    }
-
-    .navbar-custom .btn-light {
-      background-color: var(--primary-color);
-      color: white !important;
-      border: 1px solid var(--primary-color);
-    }
-
-    .navbar-custom .btn-light:hover {
-      background-color: var(--primary-dark);
-      border-color: var(--primary-dark);
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(234, 88, 12, 0.5);
-    }
-
-    .navbar-custom .dropdown-menu {
-      background-color: #2c2c2c;
-      border: 1px solid rgba(234, 88, 12, 0.2);
-    }
-
-    .navbar-custom .dropdown-item {
-      color: #ddd;
-    }
-
-    .navbar-custom .dropdown-item:hover {
-      background-color: rgba(234, 88, 12, 0.2);
-      color: white;
-    }
-
-    .page-hero {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-      color: white;
-      padding: 4rem 0;
-      text-align: center;
-    }
-
-    .section-title {
-      font-size: 2.2rem;
-      margin-bottom: 1.5rem;
-      color: var(--primary-dark);
-    }
-
-    .contact-box {
-      transition: transform 0.3s ease;
-      padding: 1.5rem;
-    }
-
-    .contact-box:hover {
-      transform: translateY(-5px);
-    }
-
-    .contact-box i {
-      color: var(--primary-color);
-    }
-
-    .footer {
-      background-color: var(--footer-bg);
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      border-top: 4px solid var(--primary-color);
-    }
-
-    .footer-link {
-      color: #ddd !important;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      display: inline-block;
-      padding: 3px 0;
-    }
-
-    .footer-link:hover {
-      color: var(--primary-light) !important;
-      padding-left: 5px;
-    }
-
-    .footer .btn-info {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white;
-    }
-
-    .footer .btn-info:hover {
-      background-color: var(--primary-dark);
-      border-color: var(--primary-dark);
+    ::-webkit-scrollbar-thumb {
+      background: #e0c0b2;
+      border-radius: 10px;
     }
   </style>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-lg">
-    <div class="container">
-      <a class="navbar-brand" href="/"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav gap-3">
-          <li class="nav-item">
-            <a class="nav-link" href="/"><i class="bi bi-house-door-fill me-1"></i>Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cultures"><i class="bi bi-people-fill me-1"></i>Cultures</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/tours"><i class="bi bi-map me-1"></i>Tours</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about"><i class="bi bi-info-circle-fill me-1"></i>About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/contact"><i class="bi bi-envelope-fill me-1"></i>Contact</a>
-          </li>
+<body class="bg-surface font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+  <!-- TopNavBar -->
+  <nav class="bg-charcoal sticky top-0 z-50 border-b border-primary">
+    <div
+      class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1440px] mx-auto">
+      <a class="font-headline-sm text-headline-sm font-bold text-white tracking-tight" href="/">
+        Mmondo Adventures
+      </a>
+      <div class="hidden md:flex items-center space-x-8">
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/">Home</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/tours">Tours</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/cultures">Culture</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/about">About Us</a>
+        <a aria-current="page" class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md"
+          href="/contact">Contact</a>
           {% if user %}
-          <li class="nav-item">
-            <a class="nav-link" href="/my-bookings"><i class="bi bi-journal-check me-1"></i>My Bookings</a>
-          </li>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/my-bookings">My Bookings</a>
           {% endif %}
           {% if user and user.is_admin %}
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/dashboard"><i class="bi bi-speedometer2 me-1"></i>Admin</a>
-          </li>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/admin/dashboard">Admin</a>
           {% endif %}
-        </ul>
       </div>
-
-      <div class="d-flex align-items-center gap-2">
+      <div class="flex items-center gap-4">
         {% if user %}
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="relative" id="user-menu">
+          <button class="flex items-center gap-2 text-white font-label-md text-label-md hover:opacity-80 transition-all"
+            id="user-menu-button" type="button">
             {% if user.picture %}
-            <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
+            <img alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-primary"
+              src="{{ user.picture }}" />
             {% else %}
-            <i class="bi bi-person-circle me-2" style="color: var(--primary-light);"></i>
+            <span class="material-symbols-outlined text-primary-fixed-dim">account_circle</span>
             {% endif %}
-            {{ user.full_name }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
-            <li><a class="dropdown-item" href="/my-bookings"><i class="bi bi-calendar-check me-2"></i>My Bookings</a></li>
-            <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
-            <li><a class="dropdown-item text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-          </ul>
+            <span class="hidden sm:inline">{{ user.full_name }}</span>
+            <span class="material-symbols-outlined text-base">expand_more</span>
+          </button>
+          <div
+            class="hidden absolute right-0 mt-2 w-56 bg-charcoal border border-white/10 rounded-lg shadow-xl overflow-hidden"
+            id="user-menu-panel">
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/profile">
+              <span class="material-symbols-outlined text-base">person</span>My Profile
+            </a>
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/my-bookings">
+              <span class="material-symbols-outlined text-base">calendar_month</span>My Bookings
+            </a>
+            {% if user.newsletter_subscribed %}
+            <form action="/user/unsubscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-primary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications_off</span>Unsubscribe
+              </button>
+            </form>
+            {% else %}
+            <form action="/subscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-tertiary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications</span>Subscribe
+              </button>
+            </form>
+            {% endif %}
+            <a class="flex items-center gap-2 px-4 py-3 text-error-container font-label-md hover:bg-white/5 transition-colors border-t border-white/10"
+              href="/logout">
+              <span class="material-symbols-outlined text-base">logout</span>Logout
+            </a>
+          </div>
         </div>
         {% else %}
-        <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-        <a class="btn btn-light btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary transition-colors" href="/login">Log in</a>
+        <a class="bg-primary text-white font-label-md text-label-md px-6 py-2 rounded-lg hover:bg-primary-container transition-all active:scale-95"
+          href="/signup">Sign up</a>
         {% endif %}
+        <button class="md:hidden text-white" id="mobile-menu-button" type="button" aria-label="Toggle navigation">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
       </div>
+    </div>
+    <div class="hidden md:hidden border-t border-white/10 px-margin-mobile py-4 flex flex-col gap-4" id="mobile-menu">
+      <a class="text-white font-label-md text-label-md" href="/">Home</a>
+      <a class="text-white font-label-md text-label-md" href="/tours">Tours</a>
+      <a class="text-white font-label-md text-label-md" href="/cultures">Culture</a>
+      <a class="text-white font-label-md text-label-md" href="/about">About Us</a>
+      <a class="text-primary font-label-md text-label-md" href="/contact">Contact</a>
+      {% if user %}
+      <a class="text-white font-label-md text-label-md" href="/my-bookings">My Bookings</a>
+      {% endif %}
+      {% if user and user.is_admin %}
+      <a class="text-white font-label-md text-label-md" href="/admin/dashboard">Admin</a>
+      {% endif %}
     </div>
   </nav>
 
-  <main>
-    <section class="page-hero">
-      <div class="container">
-        <h1 class="display-5 fw-bold">Contact Us</h1>
-        <p class="lead mb-0">We're here to help plan your next East African adventure</p>
+  <main class="w-full bg-surface">
+    <div class="flex flex-col w-full font-body-md text-on-surface bg-surface">
+      <!-- Hero -->
+      <section class="relative pt-16 md:pt-20 pb-24 md:pb-28 px-margin-mobile md:px-margin-desktop overflow-hidden bg-cover bg-center"
+        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5u9DhUKVW0cXjzq-sHfLiS1Grxuj0WQaHgcqn_-32ukkwSAGwUe7dsCTsespk2MICK_CZSqk7FKjqHGnyCxT2hdYzRO4b4VVIj_BZSzMSyVr86pUnvdeLI55t4LyxZhwD9MUXSCq2A-jfFqFO8vfrOYwUdWYaCM-xZiS37tMSjRuAiUND8H6KgPOeb7DSZRWsYBA90It3qjDOUGjTKTxomWU5vUSDW-H0mnShkeDsPalIRYgmmxqL')">
+        <div class="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/50 to-transparent z-0"></div>
+        <div
+          class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-fixed-dim/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3">
+        </div>
+        <div
+          class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-tertiary-fixed-dim/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4">
+        </div>
+        <div class="relative max-w-[1440px] mx-auto z-10 grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+          <div class="col-span-1 lg:col-span-8 flex flex-col justify-center">
+            <p class="font-data-mono text-label-md text-primary-fixed-dim uppercase tracking-[0.2em] mb-4">Support
+              &amp; Inquiries</p>
+            <h1 class="font-bold text-[28px] md:text-[36px] mb-6 text-white">Get in Touch</h1>
+            <p class="font-body-lg text-body-lg max-w-2xl text-white/90">
+              Whether you're planning a bespoke safari or have questions about a booking, our local experts are here to
+              help craft your authentic Ugandan experience.
+            </p>
+          </div>
+          <div class="col-span-1 lg:col-span-4 hidden lg:flex items-center justify-end">
+            <div
+              class="w-32 h-32 rounded-full border-2 border-outline-variant/60 flex items-center justify-center p-2 relative animate-[spin_30s_linear_infinite]">
+              <svg class="w-full h-full text-primary-fixed-dim fill-current" style="overflow: visible;"
+                viewBox="0 0 100 100">
+                <path d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="transparent" id="curve"></path>
+                <text class="font-data-mono text-[10px] tracking-widest uppercase">
+                  <textPath href="#curve">authentic ugandan adventures • local experts • </textPath>
+                </text>
+              </svg>
+              <span
+                class="material-symbols-outlined absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary-fixed-dim text-4xl">travel_explore</span>
+            </div>
+          </div>
       </div>
     </section>
 
-    <section id="contact" class="contact-section py-5 bg-light">
-      <div class="container">
-        <h2 class="text-center section-title">We'd Love to Hear From You</h2>
-        <div class="row text-center g-4">
-          <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm bg-white rounded">
-              <div class="mb-2">
-                <i class="bi bi-telephone-fill fs-2"></i>
+      <!-- Contact details + form -->
+      <section class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop w-full -mt-10 pb-16 md:pb-20 relative z-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+          <div class="col-span-1 lg:col-span-5 flex flex-col gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-5">
+              <div
+                class="bg-surface-container-lowest p-6 md:p-8 rounded-xl shadow-[0_4px_20px_-2px_rgba(30,30,30,0.04)] hover:-translate-y-1 transition-transform duration-300">
+                <div class="w-12 h-12 bg-primary-container/10 rounded-xl flex items-center justify-center mb-5">
+                  <span class="material-symbols-outlined text-primary-container">location_on</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Our Offices</h3>
+                <p class="text-on-surface-variant font-body-md text-body-md mb-3">
+                  Mapeera House<br />
+                  Kampala, Uganda
+                </p>
+                <p class="text-on-surface-variant font-body-md text-body-md">
+                  Gärtnerstraße<br />
+                  Munich, Germany
+                </p>
               </div>
-              <h5 class="fw-bold">Phone Number</h5>
-              <p class="mb-0">+256 80004 36640</p>
-              <p class="mb-0">+49 80004 36640</p>
+
+              <div
+                class="bg-surface-container-lowest p-6 md:p-8 rounded-xl shadow-[0_4px_20px_-2px_rgba(30,30,30,0.04)] hover:-translate-y-1 transition-transform duration-300">
+                <div class="w-12 h-12 bg-tertiary-container/10 rounded-xl flex items-center justify-center mb-5">
+                  <span class="material-symbols-outlined text-tertiary">call</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Phone</h3>
+                <p class="text-on-surface-variant font-body-md text-body-md mb-1">
+                  <a class="hover:text-primary transition-colors" href="tel:+2568000436640">+256 80004 36640</a>
+                </p>
+                <p class="text-on-surface-variant font-body-md text-body-md mb-3">
+                  <a class="hover:text-primary transition-colors" href="tel:+498000436640">+49 80004 36640</a>
+                </p>
+                <p class="text-on-surface-variant font-body-md text-body-md opacity-70">Mon–Sat, 09:00 – 18:00</p>
+              </div>
+
+              <div
+                class="bg-surface-container-lowest p-6 md:p-8 rounded-xl shadow-[0_4px_20px_-2px_rgba(30,30,30,0.04)] hover:-translate-y-1 transition-transform duration-300 md:col-span-2 lg:col-span-1">
+                <div class="w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center mb-5">
+                  <span class="material-symbols-outlined text-on-surface">mail</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Email</h3>
+                <a class="text-primary hover:text-primary-container font-body-md text-body-md transition-colors inline-flex items-center gap-2 group"
+                  href="mailto:info@mmondoadventures.ug">
+                  info@mmondoadventures.ug
+                  <span
+                    class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </a>
+              </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm bg-white rounded">
-              <div class="mb-2">
-                <i class="bi bi-envelope-fill fs-2"></i>
+
+          <div class="col-span-1 lg:col-span-7">
+            <div
+              class="bg-surface-container-lowest rounded-xl p-6 md:p-10 shadow-[0_8px_30px_-4px_rgba(30,30,30,0.08)] relative overflow-hidden">
+              <div
+                class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-fixed/30 to-transparent rounded-bl-full pointer-events-none">
               </div>
-              <h5 class="fw-bold">Email</h5>
-              <p class="mb-0">info@mmondoadventures.ug</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm bg-white rounded">
-              <div class="mb-2">
-                <i class="bi bi-geo-alt-fill fs-2"></i>
-              </div>
-              <h5 class="fw-bold">Location</h5>
-              <p class="mb-0">
-                94424, Mapeera House, Kampala Uganda,<br />
-                8568, Gartenerstraße, Munich Germany
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm bg-white rounded">
-              <div class="mb-2">
-                <i class="bi bi-clock-fill fs-2"></i>
-              </div>
-              <h5 class="fw-bold">Working Hours</h5>
-              <p class="mb-0">Monday To Saturday</p>
-              <p class="mb-0">09:00 AM To 06:00 PM</p>
+              <h2 class="font-headline-md text-headline-md text-on-surface mb-6 relative z-10">Send us a message</h2>
+              <form class="flex flex-col gap-5 relative z-10" id="contact-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div class="flex flex-col gap-2">
+                    <label class="font-label-md text-label-md text-on-surface-variant" for="name">Full Name</label>
+                    <input
+                      class="bg-white rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface border border-outline/30 focus:border-primary focus:outline-none transition-colors w-full placeholder:text-on-surface-variant/50"
+                      id="name" name="name" placeholder="Jane Doe" required type="text"
+                      value="{{ user.full_name if user else '' }}" />
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <label class="font-label-md text-label-md text-on-surface-variant" for="email">Email Address</label>
+                    <input
+                      class="bg-white rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface border border-outline/30 focus:border-primary focus:outline-none transition-colors w-full placeholder:text-on-surface-variant/50"
+                      id="email" name="email" placeholder="jane@example.com" required type="email"
+                      value="{{ user.email if user else '' }}" />
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label class="font-label-md text-label-md text-on-surface-variant" for="subject">Subject</label>
+                  <div class="relative">
+                    <select
+                      class="appearance-none bg-white rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface border border-outline/30 focus:border-primary focus:outline-none transition-colors w-full pr-10 cursor-pointer"
+                      id="subject" name="subject">
+                      <option value="General Inquiry">General Inquiry</option>
+                      <option value="Tour Booking">Tour Booking</option>
+                      <option value="Existing Booking">Existing Booking</option>
+                      <option value="Partnerships">Partnerships</option>
+                      <option value="Media &amp; Press">Media &amp; Press</option>
+                    </select>
+                    <span
+                      class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label class="font-label-md text-label-md text-on-surface-variant" for="message">Message</label>
+                  <textarea
+                    class="bg-white rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface border border-outline/30 focus:border-primary focus:outline-none transition-colors w-full placeholder:text-on-surface-variant/50 resize-y"
+                    id="message" name="message" placeholder="Tell us about your dream adventure..." required
+                    rows="5"></textarea>
+                </div>
+                <p class="hidden font-body-md text-[14px] text-tertiary" id="form-success">
+                  Opening your email app so you can send this to our team…
+                </p>
+                <button
+                  class="bg-primary text-on-primary font-label-md text-label-md py-3.5 px-8 rounded-xl hover:bg-primary-container transition-colors shadow-sm self-start mt-1 flex items-center gap-2"
+                  id="submit-btn" type="submit">
+                  Send Message
+                  <span class="material-symbols-outlined text-sm">send</span>
+                </button>
+              </form>
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- FAQ + map -->
+      <section class="w-full bg-surface-container-low py-16 md:py-20">
+        <div
+          class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div>
+            <div class="font-data-mono text-label-md text-secondary uppercase tracking-[0.2em] mb-4">Quick Answers
+            </div>
+            <h2 class="font-headline-md text-headline-md text-on-surface mb-8">Frequently Asked Questions</h2>
+            <div class="flex flex-col gap-4">
+              <details class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm" open>
+                <summary
+                  class="font-headline-sm text-body-lg font-semibold text-on-surface px-5 py-4 cursor-pointer flex justify-between items-center gap-4 list-none [&::-webkit-details-marker]:hidden hover:bg-surface-container transition-colors">
+                  What is the best time to visit Uganda?
+                  <span
+                    class="material-symbols-outlined group-open:-rotate-180 transition-transform duration-300 text-primary shrink-0">expand_more</span>
+                </summary>
+                <div class="px-5 pb-4 pt-1 text-on-surface-variant font-body-md text-body-md">
+                  Uganda is a year-round destination, but the dry seasons (June to August and December to February) are
+                  generally best for wildlife viewing and gorilla trekking — trails are drier and animals gather around
+                  water sources.
+                </div>
+              </details>
+              <details class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+                <summary
+                  class="font-headline-sm text-body-lg font-semibold text-on-surface px-5 py-4 cursor-pointer flex justify-between items-center gap-4 list-none [&::-webkit-details-marker]:hidden hover:bg-surface-container transition-colors">
+                  Do I need a visa to travel to Uganda?
+                  <span
+                    class="material-symbols-outlined group-open:-rotate-180 transition-transform duration-300 text-primary shrink-0">expand_more</span>
+                </summary>
+                <div class="px-5 pb-4 pt-1 text-on-surface-variant font-body-md text-body-md">
+                  Most nationalities need a visa. We recommend applying for an e-Visa online before you travel. Our team
+                  can point you to the current requirements for your passport.
+                </div>
+              </details>
+              <details class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+                <summary
+                  class="font-headline-sm text-body-lg font-semibold text-on-surface px-5 py-4 cursor-pointer flex justify-between items-center gap-4 list-none [&::-webkit-details-marker]:hidden hover:bg-surface-container transition-colors">
+                  Are your tours suitable for children?
+                  <span
+                    class="material-symbols-outlined group-open:-rotate-180 transition-transform duration-300 text-primary shrink-0">expand_more</span>
+                </summary>
+                <div class="px-5 pb-4 pt-1 text-on-surface-variant font-body-md text-body-md">
+                  Many cultural tours and wildlife safaris are family-friendly. Gorilla and chimpanzee trekking have a
+                  strict minimum age of 15, set by the Uganda Wildlife Authority.
+                </div>
+              </details>
+              <details class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+                <summary
+                  class="font-headline-sm text-body-lg font-semibold text-on-surface px-5 py-4 cursor-pointer flex justify-between items-center gap-4 list-none [&::-webkit-details-marker]:hidden hover:bg-surface-container transition-colors">
+                  How do cancellations work?
+                  <span
+                    class="material-symbols-outlined group-open:-rotate-180 transition-transform duration-300 text-primary shrink-0">expand_more</span>
+                </summary>
+                <div class="px-5 pb-4 pt-1 text-on-surface-variant font-body-md text-body-md">
+                  You can manage upcoming bookings from My Bookings. Most tours allow cancellation up to 24 hours before
+                  departure — check the tour page for the specific policy.
+                </div>
+              </details>
+              </div>
+            <div class="mt-8">
+              <a class="inline-flex items-center gap-2 text-on-surface font-label-md text-label-md border border-outline px-6 py-3 rounded-lg hover:bg-on-surface hover:text-white transition-all"
+                href="/my-bookings">
+                Manage a booking
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="relative h-[360px] lg:h-full min-h-[360px] rounded-xl overflow-hidden shadow-[0_8px_30px_-4px_rgba(30,30,30,0.08)] bg-surface-container">
+            <div class="w-full h-full bg-cover bg-center"
+              style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBlXlaP1pBBTV9J_WiGwvoEJ8eIvTWffyQHNN0VqcOl1G1wOnIBiBqwk_1FMgdb9Aoz-Dhqqpf9ao6TxX4v6wX8hPhh1bGmX0WVLS2v1_S8wlGPQWnn5YF8EOWFfyX9wEoryPq2l9s0rueAfeN3XAqUcIw-fdKEu_GyT7Riy-DdKRX74kgRUCNQt-Xw-iKrbpxMEju-p21VotHsxkQDnTqrqoQD9Oq54QEQrU4JL5WwoHQ8LSxLvibt')">
+            </div>
+            <div
+              class="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur p-4 rounded-xl shadow-lg border border-white/20 flex items-center justify-between gap-3">
+              <div>
+                <div class="font-label-md text-label-md text-on-surface mb-1">Mmondo · Kampala</div>
+                <div class="font-data-mono text-xs text-on-surface-variant">Mapeera House, Kampala</div>
+              </div>
+              <a class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-colors shrink-0"
+                href="https://www.google.com/maps/search/?api=1&amp;query=Mapeera+House+Kampala+Uganda"
+                rel="noopener noreferrer" target="_blank" title="Open in Google Maps">
+                <span class="material-symbols-outlined text-[20px]">directions</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
       </div>
-    </section>
   </main>
 
-  <footer class="footer text-white pt-5 pb-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 mb-4">
-          <h4 class="fw-bold"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</h4>
-          <p>Explore Uganda's culture, nature, and wildlife with our curated tours.</p>
+  <!-- Footer -->
+  <footer class="w-full bg-charcoal pt-16 pb-10 border-t border-primary">
+    <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
+        <div class="space-y-5">
+          <span class="font-headline-sm text-headline-sm font-bold text-white">Mmondo Adventures</span>
+          <p class="font-body-md text-body-md text-white/70 max-w-[240px]">
+            Authentic Ugandan adventures crafted for the sophisticated explorer.
+          </p>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Quick Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="/" class="footer-link"><i class="bi bi-house-door-fill me-1"></i>Home</a></li>
-            <li><a href="/cultures" class="footer-link"><i class="bi bi-people-fill me-1"></i>Cultures</a></li>
-            <li><a href="/tours" class="footer-link"><i class="bi bi-map me-1"></i>Tours</a></li>
-            <li><a href="/about" class="footer-link"><i class="bi bi-info-circle me-1"></i>About Us</a></li>
-            <li><a href="/contact" class="footer-link"><i class="bi bi-envelope me-1"></i>Contact</a></li>
+        <div>
+          <h4 class="font-label-md text-label-md text-white mb-4 uppercase tracking-wider">Platform</h4>
+          <ul class="space-y-3">
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/tours">Tours</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/cultures">Culture</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/about">About Us</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/contact">Contact</a></li>
           </ul>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Destinations</h5>
-          <ul class="list-unstyled">
-            <li><a href="/tours?country=Uganda" class="footer-link"><i class="bi bi-geo-alt me-1"></i>Uganda</a></li>
-            <li><a href="/tours?country=Kenya" class="footer-link"><i class="bi bi-geo-alt me-1"></i>Kenya</a></li>
-            <li><a href="/tours?country=Tanzania" class="footer-link"><i class="bi bi-geo-alt me-1"></i>Tanzania</a></li>
+        <div>
+          <h4 class="font-label-md text-label-md text-white mb-4 uppercase tracking-wider">Contact</h4>
+          <ul class="space-y-3 font-body-md text-body-md text-white/70">
+            <li>
+              <a class="hover:text-primary-fixed-dim transition-colors"
+                href="mailto:info@mmondoadventures.ug">info@mmondoadventures.ug</a>
+            </li>
+            <li>
+              <a class="hover:text-primary-fixed-dim transition-colors" href="tel:+2568000436640">+256 80004 36640</a>
+            </li>
+            <li>Kampala · Munich</li>
           </ul>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Get in Touch</h5>
-          <p><i class="bi bi-envelope-fill me-2"></i>info@mmondoadventures.ug</p>
-          <a href="/subscribe" class="btn btn-info w-100 mt-3">Subscribe to Updates</a>
+        <div>
+          <h4 class="font-label-md text-label-md text-white mb-4 uppercase tracking-wider">Newsletter</h4>
+          <p class="font-body-md text-body-md text-white/70 mb-4">Get expedition updates and travel insights.</p>
+          {% if user and user.newsletter_subscribed %}
+          <form action="/user/unsubscribe_newsletter" class="m-0" method="post">
+            <p class="font-body-md text-body-md text-tertiary-fixed-dim mb-3 flex items-center gap-2">
+              <span class="material-symbols-outlined text-base">check_circle</span> You're subscribed
+            </p>
+            <button
+              class="w-full border border-white/20 text-white/70 rounded-lg py-2.5 font-label-md text-label-md hover:bg-white/5 transition-colors"
+              type="submit">Unsubscribe</button>
+          </form>
+          {% elif user %}
+          <form action="/subscribe_newsletter" class="m-0" method="post">
+            <p class="font-body-md text-[14px] text-white/50 mb-3">Sent to {{ user.email }}</p>
+            <button
+              class="w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md hover:bg-primary-container transition-colors"
+              type="submit">Subscribe</button>
+          </form>
+          {% else %}
+          <a class="block text-center w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md hover:bg-primary-container transition-colors"
+            href="/login">Log in to subscribe</a>
+          {% endif %}
         </div>
       </div>
-      <div class="text-center border-top pt-3 mt-4" style="border-color: rgba(255, 255, 255, 0.1) !important;">
-        <small>&copy; 2025 MMONDO. All rights reserved.</small>
+      <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <span class="font-body-md text-body-md text-white/70">© 2025 Mmondo Adventures. All rights reserved.</span>
+        <div class="flex gap-8">
+          <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors"
+            href="/about">Privacy Policy</a>
+          <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors" href="/about">Terms of
+            Service</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('mobile-menu-button')?.addEventListener('click', function () {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    const userMenu = document.getElementById('user-menu');
+    const userMenuPanel = document.getElementById('user-menu-panel');
+    document.getElementById('user-menu-button')?.addEventListener('click', function (event) {
+      event.stopPropagation();
+      userMenuPanel.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function (event) {
+      if (userMenuPanel && !userMenu.contains(event.target)) {
+        userMenuPanel.classList.add('hidden');
+      }
+    });
+
+    // No contact API yet — open the visitor's mail client with a prefilled message
+    document.getElementById('contact-form')?.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value.trim();
+      const body = [
+        'Name: ' + name,
+        'Email: ' + email,
+        '',
+        message
+      ].join('\n');
+      const mailto = 'mailto:info@mmondoadventures.ug'
+        + '?subject=' + encodeURIComponent('[Mmondo] ' + subject)
+        + '&body=' + encodeURIComponent(body);
+
+      const btn = document.getElementById('submit-btn');
+      const success = document.getElementById('form-success');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Opening…';
+      success?.classList.remove('hidden');
+      window.location.href = mailto;
+      setTimeout(function () {
+        btn.disabled = false;
+        btn.innerHTML = 'Send Message <span class="material-symbols-outlined text-sm">send</span>';
+      }, 2000);
+    });
+  </script>
 </body>
 
 </html>

@@ -1,715 +1,350 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sign Up - MMONDO Tours</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-    <style>
-        :root {
-            --primary-color: #EA580C;
-            --primary-light: #FDBA74;
-            --primary-dark: #C2410C;
-            --navbar-bg: #1a1a1a;
-            --footer-bg: #1a1a1a;
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Sign up - Mmondo Adventures</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&amp;family=Geist:wght@300;400;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;600;700&amp;family=JetBrains+Mono&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e1e2e4",
+            "background": "#f8f9fb",
+            "tertiary": "#006e2a",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#00531e",
+            "inverse-on-surface": "#f0f1f3",
+            "surface-container-high": "#e7e8ea",
+            "white": "#FFFFFF",
+            "primary-fixed": "#ffdbcb",
+            "on-primary-fixed-variant": "#793000",
+            "ink": "#212121",
+            "on-secondary-fixed-variant": "#474746",
+            "outline-variant": "#e0c0b2",
+            "on-tertiary": "#ffffff",
+            "primary-fixed-dim": "#ffb692",
+            "inverse-primary": "#ffb692",
+            "on-background": "#191c1e",
+            "surface-container-highest": "#e1e2e4",
+            "slate-gray": "#6B7280",
+            "surface-container": "#edeef0",
+            "on-tertiary-container": "#003410",
+            "on-primary": "#ffffff",
+            "charcoal": "#1E1E1E",
+            "primary": "#9f4200",
+            "on-error-container": "#93000a",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#e5e2e1",
+            "on-secondary-container": "#636262",
+            "inverse-surface": "#2e3132",
+            "on-secondary-fixed": "#1b1b1c",
+            "secondary-container": "#e2dfde",
+            "tertiary-fixed": "#84fb94",
+            "surface": "#f8f9fb",
+            "on-error": "#ffffff",
+            "on-primary-container": "#4e1c00",
+            "surface-container-low": "#f3f4f6",
+            "error-container": "#ffdad6",
+            "secondary": "#5f5e5e",
+            "on-surface-variant": "#584237",
+            "secondary-fixed-dim": "#c8c6c5",
+            "tertiary-fixed-dim": "#67de7b",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#2ba84d",
+            "on-surface": "#191c1e",
+            "on-primary-fixed": "#341100",
+            "surface-tint": "#9f4200",
+            "outline": "#8c7165",
+            "primary-container": "#ee6c1a",
+            "surface-bright": "#f8f9fb",
+            "on-tertiary-fixed": "#002108",
+            "surface-dim": "#d9dadc"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "16px",
+            "gutter": "24px",
+            "section-gap": "80px",
+            "base": "4px",
+            "margin-desktop": "32px"
+          },
+          "fontFamily": {
+            "body-md": ["Outfit"],
+            "label-md": ["Geist"],
+            "headline-md": ["\"Source Serif 4\""],
+            "display-lg-mobile": ["\"Source Serif 4\""],
+            "display-lg": ["\"Source Serif 4\""],
+            "headline-sm": ["\"Source Serif 4\""],
+            "body-lg": ["Outfit"],
+            "data-mono": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "700" }],
+            "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+            "data-mono": ["13px", { "lineHeight": "1.0", "fontWeight": "400" }]
+          }
         }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
 
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-        }
+    .auth-card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(30, 30, 30, 0.08);
+    }
 
-        .container-full {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: row;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(234, 88, 12, 0.1);
-            background: white;
-        }
-
-        .form-side,
-        .welcome-side {
-            flex: 1;
-            padding: 3rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .form-side {
-            background-color: #ffffff;
-            position: relative;
-        }
-
-        .welcome-side {
-            background: linear-gradient(135deg, rgba(234, 88, 12, 0.9), rgba(194, 65, 12, 0.8)),
-                        url('/static/img/signup-bg.jpg') center/cover;
-            color: white;
-            position: relative;
-        }
-
-        .welcome-side::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .form-section {
-            max-width: 420px;
-            width: 100%;
-            margin: auto;
-            position: relative;
-        }
-
-        .form-title {
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 2.5rem;
-            position: relative;
-        }
-
-        .brand-logo {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .form-icons-inline {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            z-index: 10;
-        }
-
-        .form-icons-inline a {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            padding: 0.5rem;
-            border: 1px solid rgba(234, 88, 12, 0.2);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #fff;
-            transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-        }
-
-        .form-icons-inline a:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #495057;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .input-group-text {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-right: none;
-            color: var(--primary-color);
-        }
-
-        .form-control {
-            padding: 0.75rem 1rem;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.15);
-        }
-
-        .submit-btn {
-            background-color: var(--primary-color);
-            color: white;
-            width: 100%;
-            padding: 0.85rem;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
-        }
-
-        .form-text {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-
-        .progress {
-            height: 6px;
-            border-radius: 3px;
-            margin-top: 0.5rem;
-            background-color: #e9ecef;
-        }
-
-        .progress-bar {
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-
-        .welcome-content {
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-            margin: auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .welcome-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-
-        .welcome-text {
-            font-size: 1.05rem;
-            margin-bottom: 2.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-        }
-
-        .signin-btn {
-            background-color: white;
-            color: var(--primary-color);
-            padding: 0.75rem 2rem;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 2px solid white;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .signin-btn:hover {
-            background-color: transparent;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .google-btn {
-            margin-top: 1rem;
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 8px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            background-color: white;
-            color: #5f6368;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .google-btn:hover {
-            background-color: #f8f9fa;
-            border-color: #ddd;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            color: #5f6368;
-        }
-
-        .floating-support {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1050;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
-        }
-
-        .floating-support:hover {
-            background-color: var(--primary-dark);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
-        }
-
-        .terms-checkbox {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .terms-checkbox input[type="checkbox"] {
-            margin-top: 0.2rem;
-            width: 1.2em;
-            height: 1.2em;
-            cursor: pointer;
-        }
-
-        .terms-checkbox input[type="checkbox"]:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .terms-checkbox label {
-            font-size: 0.9rem;
-            color: #6c757d;
-            line-height: 1.5;
-            cursor: pointer;
-        }
-
-        .terms-checkbox a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .terms-checkbox a:hover {
-            text-decoration: underline;
-        }
-
-        .password-strength {
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        .strength-weak { color: #dc3545; }
-        .strength-medium { color: #ffc107; }
-        .strength-strong { color: #28a745; }
-
-        .alert {
-            border-radius: 8px;
-            border: none;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .alert-danger {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            border-left: 4px solid #dc3545;
-        }
-
-        .alert-success {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: #28a745;
-            border-left: 4px solid #28a745;
-        }
-
-        @media (max-width: 992px) {
-            .container-full {
-                flex-direction: column;
-                border-radius: 0;
-                box-shadow: none;
-            }
-
-            .form-side,
-            .welcome-side {
-                flex: none;
-                width: 100%;
-                padding: 2rem;
-                min-height: 50vh;
-            }
-
-            .welcome-side {
-                order: -1;
-                padding: 3rem 2rem;
-            }
-
-            .form-section {
-                max-width: 500px;
-            }
-
-            .welcome-content {
-                max-width: 500px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .form-side,
-            .welcome-side {
-                padding: 1.5rem;
-            }
-
-            .form-title {
-                font-size: 1.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .welcome-title {
-                font-size: 1.75rem;
-            }
-
-            .welcome-text {
-                font-size: 1rem;
-            }
-
-            .floating-support {
-                bottom: 20px;
-                right: 20px;
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Animation for form elements */
-        .form-group {
-            animation: fadeInUp 0.5s ease forwards;
-            opacity: 0;
-        }
-
-        .form-group:nth-child(1) { animation-delay: 0.1s; }
-        .form-group:nth-child(2) { animation-delay: 0.2s; }
-        .form-group:nth-child(3) { animation-delay: 0.3s; }
-        .form-group:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Custom checkbox styling */
-        .form-check-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.15);
-        }
+    @media (min-width: 1024px) {
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+    }
     </style>
 </head>
 
-<body>
-    <div class="container py-4">
-        <div class="container-full">
-            <!-- Form Side -->
-            <div class="form-side">
-                <div class="form-section">
-                    <div class="form-title">
-                        <div class="form-icons-inline">
-                            <a href="/" title="Back to Home"><i class="bi bi-arrow-left"></i></a>
-                            <a href="/" title="Close"><i class="bi bi-x"></i></a>
+<body
+  class="bg-surface-container-low font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen lg:h-screen flex flex-col overflow-x-hidden">
+  <header class="bg-charcoal shrink-0 z-50 border-b border-primary">
+    <nav
+      class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-3 max-w-[1440px] mx-auto">
+      <a class="font-headline-sm text-[20px] font-bold text-white tracking-tight" href="/">Mmondo Adventures</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/">Home</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/tours">Tours</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/cultures">Culture</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/about">About Us</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/contact">Contact</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/login">Log in</a>
+        <a class="bg-primary-container text-white px-5 py-1.5 rounded-lg font-label-md text-label-md"
+          href="/signup">Sign up</a>
                         </div>
-                        <i class="bi bi-gem brand-logo"></i>
-                        Create Your Account
-                        <p class="text-muted mt-2" style="font-size: 0.95rem;">
-                            Join MMONDO to explore East Africa's wonders
-                        </p>
+    </nav>
+  </header>
+
+  <main class="flex-1 min-h-0 flex flex-col lg:flex-row w-full">
+    <div class="hidden lg:flex lg:w-1/2 relative bg-cover bg-center h-full"
+      style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDBXlUF3ATFUDgIk-rVfCiJyJ6j-jYKTBSjci07fnOZzqu1VPwkJy4sLo95ojotuudfm_RJ37-QCf2A2Cd_m-_nH7yJF9mxzWqoXg4kRxt3XYm4ao97TcxWRDRNa3qDmzBr3yhBxhfXdvAiejwSFTj1EgSA7h1Gl4U9uWTaq7lZmKTg8o_7bXmgdGg0IAka2rEYpF4cz-Z_C5sHEY0NEBBfxF_ULYuWIQmNwAkg1zR6URxR-rqRGr-L')">
+      <div class="absolute inset-0 bg-charcoal/40"></div>
+      <div class="absolute inset-0 p-10 flex flex-col items-center justify-center text-center z-10">
+        <h2 class="text-white font-headline-sm text-headline-sm mb-2">Join the journey</h2>
+        <p class="text-white/90 font-body-md text-body-md max-w-md">
+          Create your account to book safaris, manage trips, and explore Uganda with local experts.
+        </p>
+      </div>
+    </div>
+
+    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center py-6 lg:py-4 px-margin-mobile bg-surface-container-low overflow-y-auto">
+      <div class="w-full max-w-[420px] z-10 my-auto">
+        <div class="bg-white rounded-xl auth-card-shadow overflow-hidden border border-surface-container">
+          <div class="flex bg-surface-container-low p-1 m-4 mb-0 rounded-lg">
+            <a class="flex-1 py-2 text-center text-label-md font-label-md rounded-md text-secondary hover:text-charcoal transition-colors"
+              href="/login{% if next %}?next={{ next|urlencode }}{% endif %}">Log in</a>
+            <a class="flex-1 py-2 text-center text-label-md font-label-md rounded-md bg-white text-primary shadow-sm"
+              href="/signup">Sign up</a>
+          </div>
+
+          <div class="px-5 md:px-6 pt-5 pb-6">
+            <div class="text-center mb-4">
+              <h1 class="font-headline-sm text-headline-sm text-charcoal mb-1">Create Account</h1>
+              <p class="font-body-md text-[14px] text-secondary">Join the Mmondo traveler community</p>
                     </div>
 
                     {% if error %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="mb-3 flex items-start gap-2 bg-error-container/50 border border-error/20 text-on-error-container rounded-lg p-2.5">
+              <span class="material-symbols-outlined text-[18px] mt-0.5">error</span>
+              <p class="font-body-md text-[13px]">{{ error }}</p>
                     </div>
                     {% endif %}
 
                     {% if success %}
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle-fill me-2"></i>{{ success }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="mb-3 flex items-start gap-2 bg-tertiary-container/15 border border-tertiary/30 text-on-tertiary-container rounded-lg p-2.5">
+              <span class="material-symbols-outlined text-[18px] mt-0.5">check_circle</span>
+              <p class="font-body-md text-[13px]">{{ success }}</p>
                     </div>
                     {% endif %}
 
-                    <form method="post" action="/signup" onsubmit="return validateForm()" id="signup-form">
-                        <div class="form-group">
-                            <label for="full_name" class="form-label">
-                                <i class="bi bi-person-fill me-1"></i>Full Name
-                            </label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-person"></i>
-                                </span>
-                                <input type="text" id="full_name" name="full_name" class="form-control" 
-                                       placeholder="Enter your full name" required minlength="2" maxlength="50" />
+            <div class="grid grid-cols-2 gap-2.5 mb-4">
+              <a class="flex items-center justify-center gap-2 py-2.5 px-3 border border-surface-container-high rounded-lg hover:bg-surface-container-low transition-colors"
+                href="/auth/google{% if next %}?next={{ next|urlencode }}{% endif %}" id="googleSignup">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                </svg>
+                <span class="font-label-md text-label-md text-charcoal">Google</span>
+              </a>
+              <a class="flex items-center justify-center gap-2 py-2.5 px-3 border border-surface-container-high rounded-lg hover:bg-surface-container-low transition-colors"
+                href="/auth/apple">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M17.05 20.28c-.96.95-2.21 1.72-3.72 1.72-1.48 0-2.31-.83-3.41-.83-1.12 0-2.11.82-3.41.82-1.48 0-2.85-.85-3.92-1.96C.68 18.11 0 15.68 0 13.08c0-2.58 1.05-4.52 2.65-5.69 1.1-.79 2.45-1.24 3.73-1.24 1.34 0 2.22.62 3.23.62s1.7-.62 3.16-.62c1.23 0 2.5.39 3.5 1.04.5.33 1.65 1.32 2.05 2.65-.12.06-2.12 1.23-2.12 3.71 0 2.98 2.5 4.02 2.52 4.03-.02.04-.38 1.33-1.67 2.7zM11.95 5.5c-.02-2.13 1.74-4.22 3.84-4.5.23 2.5-2.07 4.75-3.84 4.5z"
+                    fill="currentColor"></path>
+                </svg>
+                <span class="font-label-md text-label-md text-charcoal">Apple</span>
+              </a>
+            </div>
+
+            <div class="relative mb-4">
+              <div class="absolute inset-0 flex items-center">
+                <span class="w-full border-t border-surface-container-high"></span>
+              </div>
+              <div class="relative flex justify-center">
+                <span class="bg-white px-3 text-slate-gray font-label-md text-[11px] uppercase tracking-wider">Or
+                  email</span>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="email" class="form-label">
-                                <i class="bi bi-envelope-fill me-1"></i>Email Address
-                            </label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-envelope"></i>
-                                </span>
-                                <input type="email" id="email" name="email" class="form-control" 
-                                       placeholder="Enter your email" required />
+            <form action="/signup" class="space-y-3" id="signup-form" method="post">
+              <div>
+                <label class="block font-label-md text-label-md text-secondary mb-1" for="full_name">Full Name</label>
+                <input
+                  class="w-full px-3.5 py-2.5 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                  autocomplete="name" id="full_name" maxlength="50" minlength="2" name="full_name"
+                  placeholder="Jane Doe" required type="text" />
                             </div>
+
+              <div>
+                <label class="block font-label-md text-label-md text-secondary mb-1" for="email">Email Address</label>
+                <input
+                  class="w-full px-3.5 py-2.5 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                  autocomplete="email" id="email" name="email" placeholder="name@example.com" required type="email" />
                         </div>
 
-                        <div class="form-group">
-                            <label for="password" class="form-label">
-                                <i class="bi bi-lock-fill me-1"></i>Password
-                            </label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-key"></i>
-                                </span>
-                                <input type="password" id="password" name="password" class="form-control" 
-                                       placeholder="Create a strong password" required />
-                                <button type="button" class="btn btn-outline-secondary" id="toggle-password">
-                                    <i class="bi bi-eye"></i>
+              <div>
+                <label class="block font-label-md text-label-md text-secondary mb-1" for="password">Password</label>
+                <div class="relative">
+                  <input
+                    class="w-full px-3.5 py-2.5 pr-11 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    autocomplete="new-password" id="password" minlength="8" name="password" placeholder="••••••••"
+                    required type="password" />
+                  <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-gray hover:text-charcoal"
+                    id="togglePassword" type="button" aria-label="Show password">
+                    <span class="material-symbols-outlined text-[20px]" id="togglePasswordIcon">visibility</span>
                                 </button>
                             </div>
-                            <div class="progress mt-2">
-                                <div id="password-strength" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+                <div class="mt-1.5 h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+                  <div class="h-full w-0 bg-error transition-all duration-300 rounded-full" id="strength-bar"></div>
                             </div>
-                            <div id="strength-text" class="password-strength"></div>
-                            <small class="form-text text-muted">
-                                Use at least 8 characters with a mix of letters, numbers & symbols
-                            </small>
+                <p class="mt-1 font-body-md text-[11px] text-slate-gray" id="strength-text">
+                  Use at least 8 characters with letters and numbers.
+                </p>
                         </div>
 
-                        <div class="terms-checkbox">
-                            <input type="checkbox" class="form-check-input" id="privacy" required>
-                            <label for="privacy">
-                                I agree to the <a href="/privacy" target="_blank">Privacy Policy</a> and 
-                                <a href="/terms" target="_blank">Terms of Service</a>
+              <div class="flex items-start gap-2.5 pt-0.5">
+                <input
+                  class="mt-0.5 rounded border-surface-container-high text-primary focus:ring-primary"
+                  id="terms" required type="checkbox" />
+                <label class="font-body-md text-[13px] text-secondary leading-snug" for="terms">
+                  I agree to the
+                  <a class="text-primary hover:underline" href="/about">Terms of Service</a>
+                  and
+                  <a class="text-primary hover:underline" href="/about">Privacy Policy</a>.
                             </label>
                         </div>
 
-                        <div class="terms-checkbox mb-4">
-                            <input type="checkbox" class="form-check-input" id="newsletter">
-                            <label for="newsletter">
-                                Subscribe to newsletter for updates and offers
-                            </label>
-                        </div>
-
-                        <button type="submit" class="submit-btn" id="submit-btn">
-                            <i class="bi bi-person-plus me-2"></i>Create Account
+              <button
+                class="w-full bg-primary-container text-white py-3 rounded-lg font-label-md text-label-md hover:opacity-95 transition-all active:scale-[0.99] shadow-sm flex items-center justify-center gap-2"
+                id="submitBtn" type="submit">
+                Sign up
                         </button>
-
-                        <div class="text-center mt-4">
-                            <p class="text-muted mb-2">Already have an account?</p>
-                            <a href="/login" class="btn btn-outline-primary w-100">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
-                            </a>
-                        </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Welcome Side -->
-            <div class="welcome-side">
-                <div class="welcome-content">
-                    <h2 class="welcome-title">Welcome to MMONDO</h2>
-                    <p class="welcome-text">
-                        Discover the beauty of East Africa with our curated tours and authentic cultural experiences. 
-                        Join our community of adventurers and start your journey today.
-                    </p>
-                    
-                    <div class="mt-4">
-                        <a href="/login" class="signin-btn">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In Instead
-                        </a>
-                        
-                        <a href="/auth/google" class="google-btn" id="google-signup">
-                            <svg width="20" height="20" viewBox="0 0 24 24">
-                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                            </svg>
-                            Sign up with Google
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <p class="text-center mt-4 font-body-md text-[14px] text-secondary">
+          Already have an account?
+          <a class="text-primary font-label-md text-label-md hover:underline"
+            href="/login{% if next %}?next={{ next|urlencode }}{% endif %}">Log in</a>
+        </p>
         </div>
     </div>
+  </main>
 
-    <!-- Floating Support Button -->
-    <a href="/#contact" class="floating-support" title="Need Help?">
-        <i class="bi bi-headset"></i> Contact Support
-    </a>
+  <footer class="lg:hidden shrink-0 border-t border-surface-container py-3 text-center">
+    <p class="text-slate-gray font-data-mono text-[11px]">© 2025 Mmondo Adventures</p>
+  </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Form Validation & Password Strength JS -->
     <script>
-        const passwordInput = document.getElementById('password');
-        const strengthBar = document.getElementById('password-strength');
-        const strengthText = document.getElementById('strength-text');
-        const togglePassword = document.getElementById('toggle-password');
-        const toggleIcon = togglePassword.querySelector('i');
-        const signupForm = document.getElementById('signup-form');
-        const submitBtn = document.getElementById('submit-btn');
+    document.getElementById('togglePassword')?.addEventListener('click', function () {
+      const input = document.getElementById('password');
+      const icon = document.getElementById('togglePasswordIcon');
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      icon.textContent = show ? 'visibility_off' : 'visibility';
+      this.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    });
 
-        // Toggle password visibility
-        togglePassword.addEventListener('click', () => {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            toggleIcon.classList.toggle('bi-eye');
-            toggleIcon.classList.toggle('bi-eye-slash');
-        });
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.getElementById('strength-bar');
+    const strengthText = document.getElementById('strength-text');
 
-        // Password strength checker
-        passwordInput.addEventListener('input', () => {
+    passwordInput?.addEventListener('input', function () {
             const val = passwordInput.value;
-            let strength = 0;
-            let message = '';
-            
-            // Length check
-            if (val.length >= 8) strength += 25;
-            // Uppercase check
-            if (/[A-Z]/.test(val)) strength += 25;
-            // Number check
-            if (/[0-9]/.test(val)) strength += 25;
-            // Special character check
-            if (/[^A-Za-z0-9]/.test(val)) strength += 25;
+      let score = 0;
+      if (val.length >= 8) score += 1;
+      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score += 1;
+      if (/\d/.test(val)) score += 1;
+      if (/[^A-Za-z0-9]/.test(val)) score += 1;
 
-            // Update progress bar
-            strengthBar.style.width = strength + '%';
-            strengthBar.className = 'progress-bar';
-            
-            // Update strength text and color
-            if (strength < 50) {
-                strengthBar.classList.add('bg-danger');
-                strengthText.className = 'password-strength strength-weak';
-                strengthText.textContent = 'Weak password';
-            } else if (strength < 75) {
-                strengthBar.classList.add('bg-warning');
-                strengthText.className = 'password-strength strength-medium';
-                strengthText.textContent = 'Medium strength';
-            } else {
-                strengthBar.classList.add('bg-success');
-                strengthText.className = 'password-strength strength-strong';
-                strengthText.textContent = 'Strong password';
-            }
-        });
+      const widths = ['0%', '25%', '50%', '75%', '100%'];
+      const colors = ['bg-error', 'bg-error', 'bg-primary-container', 'bg-primary', 'bg-tertiary'];
+      const labels = [
+        'Use at least 8 characters with letters and numbers.',
+        'Weak — keep going.',
+        'Fair — add more variety.',
+        'Good password.',
+        'Strong password.'
+      ];
 
-        // Form validation
-        function validateForm() {
-            const name = document.getElementById('full_name').value.trim();
-            const email = document.getElementById('email').value.trim();
+      strengthBar.style.width = widths[score];
+      strengthBar.className = 'h-full transition-all duration-300 rounded-full ' + colors[score];
+      strengthText.textContent = labels[score];
+    });
+
+    document.getElementById('signup-form')?.addEventListener('submit', function (event) {
             const password = passwordInput.value;
-            const privacy = document.getElementById('privacy').checked;
-            
-            // Basic validation
-            if (!name || !email || !password || !privacy) {
-                alert("Please fill in all required fields and agree to the privacy policy.");
-                return false;
-            }
-            
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert("Please enter a valid email address.");
-                return false;
-            }
-            
-            // Password length validation
             if (password.length < 8) {
-                alert("Password must be at least 8 characters long.");
-                return false;
-            }
-            
-            // Show loading state
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Creating Account...';
-            submitBtn.disabled = true;
-            
-            return true;
-        }
-
-        // Google signup button handler
-        document.getElementById('google-signup').addEventListener('click', function(e) {
-            e.preventDefault();
-            this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Redirecting...';
-            this.disabled = true;
-            
-            setTimeout(() => {
-                window.location.href = '/auth/google';
-            }, 1000);
-        });
-
-        // Form submission feedback
-        signupForm.addEventListener('submit', function(e) {
-            if (!validateForm()) {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        // Check for URL parameters (for error/success messages from redirects)
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const error = urlParams.get('error');
-            const success = urlParams.get('success');
-            
-            if (error) {
-                showMessage(decodeURIComponent(error.replace(/\+/g, ' ')), 'error');
-            }
-            
-            if (success) {
-                showMessage(decodeURIComponent(success.replace(/\+/g, ' ')), 'success');
-            }
-        });
-
-        function showMessage(message, type) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-            alertDiv.innerHTML = `
-                <i class="bi ${type === 'error' ? 'bi-exclamation-triangle-fill' : 'bi-check-circle-fill'} me-2"></i>
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            const formTitle = document.querySelector('.form-title');
-            formTitle.parentNode.insertBefore(alertDiv, formTitle.nextSibling);
-        }
+        event.preventDefault();
+        strengthText.textContent = 'Password must be at least 8 characters.';
+        strengthText.classList.add('text-error');
+        return;
+      }
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> Creating account…';
+    });
     </script>
 </body>
+
 </html>

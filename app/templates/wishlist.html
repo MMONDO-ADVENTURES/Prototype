@@ -145,7 +145,7 @@
                   <div class="col-md-4">
                     <label for="adults" class="form-label fw-semibold">Adults *</label>
                     <input type="number" class="form-control" id="adults" name="adults" min="1"
-                      max="{{ tour.max_participants }}" value="1" required>
+                      max="{{ tour.max_participants }}" value="{{ prefill_adults if prefill_adults else 1 }}" required>
                   </div>
                   <div class="col-md-4">
                     <label for="kids" class="form-label fw-semibold">Children</label>
@@ -154,12 +154,13 @@
                   </div>
                   <div class="col-md-4">
                     <label for="preferred_date" class="form-label fw-semibold">Preferred Travel Date</label>
-                    <input type="date" class="form-control" id="preferred_date" name="preferred_date" min="{{ today }}">
+                    <input type="date" class="form-control" id="preferred_date" name="preferred_date" min="{{ today }}"
+                      value="{{ prefill_date if prefill_date else '' }}">
                   </div>
                   <div class="col-12">
                     <label for="message" class="form-label fw-semibold">Notes <span class="text-muted">(optional)</span></label>
                     <textarea class="form-control" id="message" name="message" rows="3"
-                      placeholder="Tell us anything else about your trip plans..."></textarea>
+                      placeholder="Tell us anything else about your trip plans...">{{ prefill_message if prefill_message else '' }}</textarea>
                   </div>
                 </div>
 

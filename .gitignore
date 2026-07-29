@@ -1,24 +1,46 @@
-# Ignore the virtual environment folder
+# Python virtual environments
 venv/
+.venv/
+env/
+ENV/
 
-# Ignore environment variable files
+# Environment and secrets
 .env
+.env.*
+!.env.example
 
-htmlcov/
-
-# Ignore common Python artifacts
+# Python cache and build artifacts
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.egg
-*.egg-info/
+*.so
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
 dist/
 build/
+site/
+.eggs/
+*.egg
+*.egg-info/
+pip-wheel-metadata/
 
-# Ignore IDE/project-specific files
+# Local databases and runtime files
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.pid
+
+# OS / editor files
 .vscode/
 .idea/
 *.swp
-
-*.txt
+*.swo
+Thumbs.db
+.DS_Store

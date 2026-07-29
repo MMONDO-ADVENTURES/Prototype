@@ -1,770 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - MMONDO</title>
+<html class="scroll-smooth" lang="en">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-
-    <style>
-      :root {
-        --primary-color: #EA580C;
-        --primary-light: #FDBA74;
-        --primary-dark: #C2410C;
-        --navbar-bg: #1a1a1a;
-        --footer-bg: #1a1a1a;
-        --google-red: #DB4437;
-        --apple-dark: #000000;
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Log in - Mmondo Adventures</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&amp;family=Geist:wght@300;400;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;600;700&amp;family=JetBrains+Mono&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e1e2e4",
+            "background": "#f8f9fb",
+            "tertiary": "#006e2a",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#00531e",
+            "inverse-on-surface": "#f0f1f3",
+            "surface-container-high": "#e7e8ea",
+            "white": "#FFFFFF",
+            "primary-fixed": "#ffdbcb",
+            "on-primary-fixed-variant": "#793000",
+            "ink": "#212121",
+            "on-secondary-fixed-variant": "#474746",
+            "outline-variant": "#e0c0b2",
+            "on-tertiary": "#ffffff",
+            "primary-fixed-dim": "#ffb692",
+            "inverse-primary": "#ffb692",
+            "on-background": "#191c1e",
+            "surface-container-highest": "#e1e2e4",
+            "slate-gray": "#6B7280",
+            "surface-container": "#edeef0",
+            "on-tertiary-container": "#003410",
+            "on-primary": "#ffffff",
+            "charcoal": "#1E1E1E",
+            "primary": "#9f4200",
+            "on-error-container": "#93000a",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#e5e2e1",
+            "on-secondary-container": "#636262",
+            "inverse-surface": "#2e3132",
+            "on-secondary-fixed": "#1b1b1c",
+            "secondary-container": "#e2dfde",
+            "tertiary-fixed": "#84fb94",
+            "surface": "#f8f9fb",
+            "on-error": "#ffffff",
+            "on-primary-container": "#4e1c00",
+            "surface-container-low": "#f3f4f6",
+            "error-container": "#ffdad6",
+            "secondary": "#5f5e5e",
+            "on-surface-variant": "#584237",
+            "secondary-fixed-dim": "#c8c6c5",
+            "tertiary-fixed-dim": "#67de7b",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#2ba84d",
+            "on-surface": "#191c1e",
+            "on-primary-fixed": "#341100",
+            "surface-tint": "#9f4200",
+            "outline": "#8c7165",
+            "primary-container": "#ee6c1a",
+            "surface-bright": "#f8f9fb",
+            "on-tertiary-fixed": "#002108",
+            "surface-dim": "#d9dadc"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "16px",
+            "gutter": "24px",
+            "section-gap": "80px",
+            "base": "4px",
+            "margin-desktop": "32px"
+          },
+          "fontFamily": {
+            "body-md": ["Outfit"],
+            "label-md": ["Geist"],
+            "headline-md": ["\"Source Serif 4\""],
+            "display-lg-mobile": ["\"Source Serif 4\""],
+            "display-lg": ["\"Source Serif 4\""],
+            "headline-sm": ["\"Source Serif 4\""],
+            "body-lg": ["Outfit"],
+            "data-mono": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "700" }],
+            "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+            "data-mono": ["13px", { "lineHeight": "1.0", "fontWeight": "400" }]
+          }
+        }
       }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
 
-      html, body {
+    .auth-card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(30, 30, 30, 0.08);
+    }
+
+    @media (min-width: 1024px) {
+      html,
+      body {
         height: 100%;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
+        overflow: hidden;
       }
-
-      .main-container {
-        display: flex;
-        min-height: 100vh;
-        width: 100vw;
-        flex-wrap: wrap;
-      }
-
-      .image-section {
-        flex: 1;
-        background: linear-gradient(rgba(234, 88, 12, 0.2), rgba(194, 65, 12, 0.3)),
-                    url("/static/img/19.webp");
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 2rem;
-        color: white;
-      }
-
-      .brand-overlay {
-        position: relative;
-        z-index: 2;
-        max-width: 500px;
-        margin: 0 auto;
-      }
-
-      .brand-logo {
-        font-size: 3.5rem;
-        color: white;
-        margin-bottom: 1.5rem;
-      }
-
-      .brand-overlay h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      }
-
-      .brand-overlay p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        opacity: 0.9;
-      }
-
-      .features-list {
-        margin-top: 2rem;
-      }
-
-      .feature-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-        font-size: 0.95rem;
-      }
-
-      .feature-item i {
-        color: var(--primary-light);
-        margin-right: 10px;
-        font-size: 1.2rem;
-      }
-
-      .login-section {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-        position: relative;
-        background-color: white;
-      }
-
-      .login-container {
-        width: 100%;
-        max-width: 420px;
-        padding: 2.5rem;
-        background-color: white;
-        border-radius: 16px;
-        box-shadow: 0 10px 40px rgba(234, 88, 12, 0.1);
-        border: 1px solid rgba(234, 88, 12, 0.1);
-      }
-
-      .login-header {
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-
-      .login-logo {
-        color: var(--primary-color);
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .login-title {
-        color: var(--primary-dark);
-        font-weight: 700;
-        font-size: 1.8rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .login-subtitle {
-        color: #6c757d;
-        font-size: 0.95rem;
-        margin-bottom: 0;
-      }
-
-      .form-control {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-      }
-
-      .form-control:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.15);
-      }
-
-      .input-group-text {
-        background-color: white;
-        border: 1px solid #ddd;
-        border-right: none;
-        color: var(--primary-color);
-      }
-
-      .btn-primary {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        font-size: 1rem;
-        padding: 0.75rem;
-        font-weight: 600;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-      }
-
-      .btn-primary:hover {
-        background-color: var(--primary-dark);
-        border-color: var(--primary-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
-      }
-
-      .btn-outline-primary {
-        color: var(--primary-color);
-        border-color: var(--primary-color);
-        font-size: 0.95rem;
-        padding: 0.75rem;
-        font-weight: 500;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-      }
-
-      .btn-outline-primary:hover {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        color: white;
-      }
-
-      .btn-google {
-        background-color: white;
-        color: #5f6368;
-        border: 1px solid #e0e0e0;
-        font-size: 0.95rem;
-        padding: 0.75rem;
-        font-weight: 500;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-      }
-
-      .btn-google:hover {
-        background-color: #f8f9fa;
-        border-color: #ddd;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      }
-
-      .btn-apple {
-        background-color: var(--apple-dark);
-        color: white;
-        border: 1px solid var(--apple-dark);
-        font-size: 0.95rem;
-        padding: 0.75rem;
-        font-weight: 500;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-      }
-
-      .btn-apple:hover {
-        background-color: #1a1a1a;
-        border-color: #1a1a1a;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      }
-
-      .divider {
-        display: flex;
-        align-items: center;
-        margin: 2rem 0;
-        color: #6c757d;
-        font-size: 0.9rem;
-        font-weight: 500;
-      }
-
-      .divider::before,
-      .divider::after {
-        content: "";
-        flex: 1;
-        border-bottom: 1px solid #e0e0e0;
-      }
-
-      .divider::before {
-        margin-right: 1rem;
-      }
-
-      .divider::after {
-        margin-left: 1rem;
-      }
-
-      .form-check-input:checked {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-      }
-
-      .form-check-input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.15);
-      }
-
-      a {
-        color: var(--primary-color);
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s ease;
-      }
-
-      a:hover {
-        color: var(--primary-dark);
-        text-decoration: underline;
-      }
-
-      .password-toggle {
-        cursor: pointer;
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #6c757d;
-        z-index: 5;
-        background: none;
-        border: none;
-        padding: 0;
-      }
-
-      .password-toggle:hover {
-        color: var(--primary-color);
-      }
-
-      .password-input-group {
-        position: relative;
-      }
-
-      .login-actions {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        z-index: 10;
-      }
-
-      .back-btn {
-        color: white;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        font-size: 1rem;
-        cursor: pointer;
-        padding: 8px 16px;
-        border-radius: 25px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-      }
-
-      .back-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-      }
-
-      .alert {
-        border-radius: 8px;
-        border: none;
-        padding: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .alert-danger {
-        background-color: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-        border-left: 4px solid #dc3545;
-      }
-
-      .alert-success {
-        background-color: rgba(40, 167, 69, 0.1);
-        color: #28a745;
-        border-left: 4px solid #28a745;
-      }
-
-      .social-login-buttons {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .loading-spinner {
-        display: none;
-        text-align: center;
-        margin: 1rem 0;
-      }
-
-      .spinner-border {
-        width: 1.5rem;
-        height: 1.5rem;
-        border-width: 0.2em;
-      }
-
-      .signup-link {
-        text-align: center;
-        margin-top: 2rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid #e0e0e0;
-      }
-
-      .signup-link p {
-        color: #6c757d;
-        margin-bottom: 0.5rem;
-      }
-
-      .signup-btn {
-        display: inline-block;
-        padding: 0.6rem 1.5rem;
-        background-color: white;
-        color: var(--primary-color);
-        border: 2px solid var(--primary-color);
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-
-      .signup-btn:hover {
-        background-color: var(--primary-color);
-        color: white;
-        text-decoration: none;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
-      }
-
-      @media (max-width: 992px) {
-        .main-container {
-          flex-direction: column;
-        }
-
-        .image-section {
-          height: 300px;
-          flex: none;
-          padding: 1.5rem;
-        }
-
-        .brand-logo {
-          font-size: 2.5rem;
-        }
-
-        .brand-overlay h1 {
-          font-size: 2rem;
-        }
-
-        .login-section {
-          padding: 2rem 1rem;
-        }
-
-        .login-container {
-          padding: 2rem;
-          max-width: 100%;
-          margin-top: -50px;
-          position: relative;
-          z-index: 2;
-        }
-      }
-
-      @media (max-width: 576px) {
-        .login-container {
-          padding: 1.5rem;
-          box-shadow: none;
-          border: none;
-        }
-
-        .social-login-buttons {
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .brand-logo {
-          font-size: 2rem;
-        }
-
-        .brand-overlay h1 {
-          font-size: 1.5rem;
-        }
-      }
-
-      /* Animation for form focus */
-      .form-group {
-        position: relative;
-        margin-bottom: 1.5rem;
-      }
-
-      .form-label {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        color: #495057;
-      }
-
-      /* Custom checkbox styling */
-      .form-check {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .form-check-input {
-        width: 1.2em;
-        height: 1.2em;
-        margin-top: 0;
-      }
-
-      .form-check-label {
-        font-size: 0.9rem;
-        color: #6c757d;
-      }
-
-      /* Google icon styling */
-      .google-icon {
-        width: 18px;
-        height: 18px;
-      }
-
-      /* Apple icon styling */
-      .apple-icon {
-        width: 18px;
-        height: 18px;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="main-container">
-      <!-- Left Image/Brand Section -->
-      <div class="image-section">
-        <div class="login-actions">
-          <button class="back-btn" onclick="window.location.href='/'">
-            <i class="bi bi-arrow-left"></i> Back to Home
-          </button>
-        </div>
-        
-        <div class="brand-overlay">
-          <div class="brand-logo">
-            <i class="bi bi-gem"></i>
-          </div>
-          <h1>Welcome to MMONDO</h1>
-          <p>Discover the beauty of East Africa with our curated tours and authentic cultural experiences. Login to access your bookings and explore exclusive offers.</p>
-          
-          <div class="features-list">
-            <div class="feature-item">
-              <i class="bi bi-check-circle-fill"></i>
-              <span>Secure & reliable booking system</span>
-            </div>
-            <div class="feature-item">
-              <i class="bi bi-check-circle-fill"></i>
-              <span>24/7 customer support</span>
-            </div>
-            <div class="feature-item">
-              <i class="bi bi-check-circle-fill"></i>
-              <span>Exclusive member discounts</span>
-            </div>
-            <div class="feature-item">
-              <i class="bi bi-check-circle-fill"></i>
-              <span>Easy tour management</span>
-            </div>
-          </div>
-        </div>
+    }
+  </style>
+</head>
+
+<body
+  class="bg-surface-container-low font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen lg:h-screen flex flex-col overflow-x-hidden">
+  <header class="bg-charcoal shrink-0 z-50 border-b border-primary">
+    <nav
+      class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-3 max-w-[1440px] mx-auto">
+      <a class="font-headline-sm text-[20px] font-bold text-white tracking-tight" href="/">Mmondo Adventures</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/">Home</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/tours">Tours</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/cultures">Culture</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/about">About Us</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/contact">Contact</a>
       </div>
+      <div class="flex items-center gap-3">
+        <a class="text-primary-fixed-dim font-label-md text-label-md" href="/login">Log in</a>
+        <a class="bg-primary-container text-white px-5 py-1.5 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all active:scale-95"
+          href="/signup">Sign up</a>
+      </div>
+    </nav>
+  </header>
 
-      <!-- Right Login Form Section -->
-      <div class="login-section">
-        <div class="login-container">
-          <div class="login-header">
-            <div class="login-logo">
-              <i class="bi bi-gem"></i>
-            </div>
-            <h1 class="login-title">Welcome Back</h1>
-            <p class="login-subtitle">Sign in to your MMONDO account</p>
-          </div>
-
-          {% if error %}
-          <div class="alert alert-danger">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
-          </div>
-          {% endif %} 
-          
-          {% if success %}
-          <div class="alert alert-success">
-            <i class="bi bi-check-circle-fill me-2"></i>{{ success }}
-          </div>
-          {% endif %}
-
-          <form method="post" action="/login" id="login-form">
-            <div class="form-group">
-              <label for="email" class="form-label">Email Address</label>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <i class="bi bi-envelope"></i>
-                </span>
-                <input
-                  type="email"
-                  name="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="Enter your email"
-                  required
-                  autocomplete="email"
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="password" class="form-label">Password</label>
-              <div class="password-input-group">
-                <div class="input-group">
-                  <span class="input-group-text">
-                    <i class="bi bi-lock"></i>
-                  </span>
-                  <input
-                    type="password"
-                    name="password"
-                    class="form-control"
-                    id="password"
-                    placeholder="Enter your password"
-                    required
-                    autocomplete="current-password"
-                  />
-                </div>
-                <button type="button" class="password-toggle" id="togglePassword">
-                  <i class="bi bi-eye"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="remember"
-                  name="remember"
-                />
-                <label class="form-check-label" for="remember">
-                  Remember me
-                </label>
-              </div>
-              <div>
-                <a href="/forgot-password">Forgot password?</a>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 mb-3">
-              <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
-            </button>
-
-            <div class="divider">Or continue with</div>
-
-            <!-- Social Login Buttons -->
-            <div class="social-login-buttons">
-              <a href="/auth/google" class="btn btn-google" id="googleLogin">
-                <svg class="google-icon" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Google
-              </a>
-              <a href="/auth/apple" class="btn btn-apple">
-                <svg class="apple-icon" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M14.94 5.19A4.38 4.38 0 0 0 16 2a4.44 4.44 0 0 0-3 1.52 4.17 4.17 0 0 0-1 3.09 3.69 3.69 0 0 0 2.94-1.42zm2.52 7.44a4.51 4.51 0 0 1 2.16-3.81 4.66 4.66 0 0 0-3.66-2c-1.56-.16-3 .91-3.83.91s-2-.89-3.3-.87a4.92 4.92 0 0 0-4.14 2.53C2.93 12.45 4.24 17 6 19.47c.8 1.21 1.8 2.58 3.12 2.53s1.75-.76 3.28-.76 2 .76 3.3.73 2.22-1.24 3.06-2.45a11 11 0 0 0 1.38-2.85 4.41 4.41 0 0 1-2.68-4.04z"/>
-                </svg>
-                Apple
-              </a>
-            </div>
-
-            <!-- Loading State for Social Login -->
-            <div class="loading-spinner" id="social-login-loading" style="display: none;">
-              <div class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-2 text-muted">Redirecting to Google...</p>
-              </div>
-            </div>
-
-            <!-- Sign Up Link -->
-            <div class="signup-link">
-              <p class="mb-3">Don't have an account?</p>
-              <a href="/signup" class="signup-btn">
-                <i class="bi bi-person-plus me-2"></i>Create New Account
-              </a>
-            </div>
-          </form>
-        </div>
+  <main class="flex-1 min-h-0 flex flex-col lg:flex-row w-full">
+    <div class="hidden lg:flex lg:w-1/2 relative bg-cover bg-center h-full"
+      style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDBXlUF3ATFUDgIk-rVfCiJyJ6j-jYKTBSjci07fnOZzqu1VPwkJy4sLo95ojotuudfm_RJ37-QCf2A2Cd_m-_nH7yJF9mxzWqoXg4kRxt3XYm4ao97TcxWRDRNa3qDmzBr3yhBxhfXdvAiejwSFTj1EgSA7h1Gl4U9uWTaq7lZmKTg8o_7bXmgdGg0IAka2rEYpF4cz-Z_C5sHEY0NEBBfxF_ULYuWIQmNwAkg1zR6URxR-rqRGr-L')">
+      <div class="absolute inset-0 bg-charcoal/40"></div>
+      <div class="absolute inset-0 p-10 flex flex-col items-center justify-center text-center z-10">
+        <h2 class="text-white font-headline-sm text-headline-sm mb-2">Discover the Pearl of Africa</h2>
+        <p class="text-white/90 font-body-md text-body-md max-w-md">
+          Immerse yourself in authentic Ugandan experiences and cinematic landscapes.
+        </p>
       </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center py-6 lg:py-4 px-margin-mobile bg-surface-container-low overflow-y-auto">
+      <div class="w-full max-w-[420px] z-10 my-auto">
+        <div class="bg-white rounded-xl auth-card-shadow overflow-hidden border border-surface-container">
+          <div class="flex bg-surface-container-low p-1 m-4 mb-0 rounded-lg">
+            <a class="flex-1 py-2 text-center text-label-md font-label-md rounded-md bg-white text-primary shadow-sm"
+              href="/login">Log in</a>
+            <a class="flex-1 py-2 text-center text-label-md font-label-md rounded-md text-secondary hover:text-charcoal transition-colors"
+              href="/signup{% if next %}?next={{ next|urlencode }}{% endif %}">Sign up</a>
+          </div>
 
-    <script>
-      // Password visibility toggle
-      const togglePassword = document.querySelector("#togglePassword");
-      const password = document.querySelector("#password");
-      const passwordIcon = togglePassword.querySelector("i");
+          <div class="px-5 md:px-6 pt-5 pb-6">
+            <div class="text-center mb-4">
+              <h1 class="font-headline-sm text-headline-sm text-charcoal mb-1">Welcome Back</h1>
+              <p class="font-body-md text-[14px] text-secondary">Continue your Ugandan journey</p>
+            </div>
 
-      togglePassword.addEventListener("click", function () {
-        const type = password.getAttribute("type") === "password" ? "text" : "password";
-        password.setAttribute("type", type);
-        
-        // Toggle icon
-        if (type === "text") {
-          passwordIcon.classList.remove("bi-eye");
-          passwordIcon.classList.add("bi-eye-slash");
-          togglePassword.setAttribute("aria-label", "Hide password");
-        } else {
-          passwordIcon.classList.remove("bi-eye-slash");
-          passwordIcon.classList.add("bi-eye");
-          togglePassword.setAttribute("aria-label", "Show password");
-        }
-      });
+            {% if error %}
+            <div class="mb-3 flex items-start gap-2 bg-error-container/50 border border-error/20 text-on-error-container rounded-lg p-2.5">
+              <span class="material-symbols-outlined text-[18px] mt-0.5">error</span>
+              <p class="font-body-md text-[13px]">{{ error }}</p>
+            </div>
+            {% endif %}
 
-      // Add loading state to Google login
-      document.getElementById('googleLogin').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('social-login-loading').style.display = 'block';
-        
-        // Simulate loading for demo, then redirect
-        setTimeout(() => {
-          window.location.href = '/auth/google';
-        }, 1000);
-      });
+            {% if success %}
+            <div class="mb-3 flex items-start gap-2 bg-tertiary-container/15 border border-tertiary/30 text-on-tertiary-container rounded-lg p-2.5">
+              <span class="material-symbols-outlined text-[18px] mt-0.5">check_circle</span>
+              <p class="font-body-md text-[13px]">{{ success }}</p>
+            </div>
+            {% endif %}
 
-      // Form submission handling
-      document.getElementById('login-form').addEventListener('submit', function(e) {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        // Basic validation
-        if (!email || !password) {
-          e.preventDefault();
-          alert('Please fill in all fields');
-          return false;
-        }
-        
-        // Show loading state on form submit
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Signing in...';
-        submitBtn.disabled = true;
-        
-        // Re-enable button after 3 seconds (for demo)
-        setTimeout(() => {
-          submitBtn.innerHTML = originalText;
-          submitBtn.disabled = false;
-        }, 3000);
-      });
+            {% if next %}
+            <div class="mb-3 flex items-start gap-2 bg-primary-fixed/40 border border-primary/20 text-on-primary-fixed rounded-lg p-2.5">
+              <span class="material-symbols-outlined text-[18px] mt-0.5">info</span>
+              <p class="font-body-md text-[13px]">Please sign in to continue with your booking.</p>
+            </div>
+            {% endif %}
 
-      // Check for URL parameters for error/success messages
-      document.addEventListener('DOMContentLoaded', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const error = urlParams.get('error');
-        const success = urlParams.get('success');
-        const loggedOut = urlParams.get('logged_out');
-        
-        if (loggedOut) {
-          showMessage('You have been successfully logged out.', 'success');
-        }
-        
-        if (error) {
-          showMessage(decodeURIComponent(error), 'error');
-        }
-        
-        if (success) {
-          showMessage(decodeURIComponent(success), 'success');
-        }
-        
-        // Auto-focus email field
-        document.getElementById('email').focus();
-      });
+            <div class="grid grid-cols-2 gap-2.5 mb-4">
+              <a class="flex items-center justify-center gap-2 py-2.5 px-3 border border-surface-container-high rounded-lg hover:bg-surface-container-low transition-colors"
+                href="/auth/google{% if next %}?next={{ next|urlencode }}{% endif %}" id="googleLogin">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                </svg>
+                <span class="font-label-md text-label-md text-charcoal">Google</span>
+              </a>
+              <a class="flex items-center justify-center gap-2 py-2.5 px-3 border border-surface-container-high rounded-lg hover:bg-surface-container-low transition-colors"
+                href="/auth/apple">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M17.05 20.28c-.96.95-2.21 1.72-3.72 1.72-1.48 0-2.31-.83-3.41-.83-1.12 0-2.11.82-3.41.82-1.48 0-2.85-.85-3.92-1.96C.68 18.11 0 15.68 0 13.08c0-2.58 1.05-4.52 2.65-5.69 1.1-.79 2.45-1.24 3.73-1.24 1.34 0 2.22.62 3.23.62s1.7-.62 3.16-.62c1.23 0 2.5.39 3.5 1.04.5.33 1.65 1.32 2.05 2.65-.12.06-2.12 1.23-2.12 3.71 0 2.98 2.5 4.02 2.52 4.03-.02.04-.38 1.33-1.67 2.7zM11.95 5.5c-.02-2.13 1.74-4.22 3.84-4.5.23 2.5-2.07 4.75-3.84 4.5z"
+                    fill="currentColor"></path>
+                </svg>
+                <span class="font-label-md text-label-md text-charcoal">Apple</span>
+              </a>
+            </div>
 
-      function showMessage(message, type) {
-        // Create alert element
-        const alertDiv = document.createElement('div');
-        alertDiv.className = `alert alert-${type === 'error' ? 'danger' : 'success'} alert-dismissible fade show`;
-        alertDiv.innerHTML = `
-          <i class="bi ${type === 'error' ? 'bi-exclamation-triangle-fill' : 'bi-check-circle-fill'} me-2"></i>
-          ${message}
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        
-        // Insert after login header
-        const loginHeader = document.querySelector('.login-header');
-        loginHeader.parentNode.insertBefore(alertDiv, loginHeader.nextSibling);
-        
-        // Auto-dismiss after 5 seconds
-        setTimeout(() => {
-          const bsAlert = new bootstrap.Alert(alertDiv);
-          bsAlert.close();
-        }, 5000);
-      }
-    </script>
-  </body>
+            <div class="relative mb-4">
+              <div class="absolute inset-0 flex items-center">
+                <span class="w-full border-t border-surface-container-high"></span>
+              </div>
+              <div class="relative flex justify-center">
+                <span class="bg-white px-3 text-slate-gray font-label-md text-[11px] uppercase tracking-wider">Or
+                  email</span>
+              </div>
+            </div>
+
+            <form action="/login" class="space-y-3" id="login-form" method="post">
+              {% if next %}
+              <input name="next" type="hidden" value="{{ next }}" />
+              {% endif %}
+
+              <div>
+                <label class="block font-label-md text-label-md text-secondary mb-1" for="email">Email Address</label>
+                <input
+                  class="w-full px-3.5 py-2.5 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                  autocomplete="email" id="email" name="email" placeholder="name@example.com" required type="email" />
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <label class="block font-label-md text-label-md text-secondary" for="password">Password</label>
+                  <a class="text-primary font-label-md text-label-md hover:underline" href="/forgot-password">Forgot?</a>
+                </div>
+                <div class="relative">
+                  <input
+                    class="w-full px-3.5 py-2.5 pr-11 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    autocomplete="current-password" id="password" name="password" placeholder="••••••••" required
+                    type="password" />
+                  <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-gray hover:text-charcoal"
+                    id="togglePassword" type="button" aria-label="Show password">
+                    <span class="material-symbols-outlined text-[20px]" id="togglePasswordIcon">visibility</span>
+                  </button>
+                </div>
+              </div>
+
+              <label class="flex items-center gap-2.5 cursor-pointer">
+                <input
+                  class="rounded border-surface-container-high text-primary focus:ring-primary"
+                  id="remember" name="remember" type="checkbox" />
+                <span class="font-body-md text-[13px] text-secondary">Remember me</span>
+              </label>
+
+              <button
+                class="w-full bg-primary-container text-white py-3 rounded-lg font-label-md text-label-md hover:opacity-95 transition-all active:scale-[0.99] shadow-sm flex items-center justify-center gap-2"
+                id="submitBtn" type="submit">
+                Log in
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <p class="text-center mt-4 font-body-md text-[14px] text-secondary">
+          Don't have an account?
+          <a class="text-primary font-label-md text-label-md hover:underline"
+            href="/signup{% if next %}?next={{ next|urlencode }}{% endif %}">Create account</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="lg:hidden shrink-0 border-t border-surface-container py-3 text-center">
+    <p class="text-slate-gray font-data-mono text-[11px]">© 2025 Mmondo Adventures</p>
+  </footer>
+
+  <script>
+    document.getElementById('togglePassword')?.addEventListener('click', function () {
+      const input = document.getElementById('password');
+      const icon = document.getElementById('togglePasswordIcon');
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      icon.textContent = show ? 'visibility_off' : 'visibility';
+      this.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    });
+
+    document.getElementById('login-form')?.addEventListener('submit', function () {
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> Signing in…';
+    });
+  </script>
+</body>
+
 </html>

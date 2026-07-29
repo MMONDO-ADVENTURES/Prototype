@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
@@ -30,6 +32,7 @@ async def tour_details_page(
             "title": f"{tour.title} - Mmondo Adventures",
             "is_logged_in": user is not None,
             "user": user,
-            "tour": tour
+            "tour": tour,
+            "today": datetime.now().date().isoformat(),
         }
     )

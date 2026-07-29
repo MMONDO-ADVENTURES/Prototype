@@ -1,1064 +1,763 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MMONDO - Discover East Africa</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link href="/static/css/index.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Mmondo Adventures | Discover Uganda's Soul</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;family=Outfit:wght@100..900&amp;family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind Configuration -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e1e2e4",
+            "background": "#f8f9fb",
+            "tertiary": "#006e2a",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#00531e",
+            "inverse-on-surface": "#f0f1f3",
+            "surface-container-high": "#e7e8ea",
+            "white": "#FFFFFF",
+            "primary-fixed": "#ffdbcb",
+            "on-primary-fixed-variant": "#793000",
+            "ink": "#212121",
+            "on-secondary-fixed-variant": "#474746",
+            "outline-variant": "#e0c0b2",
+            "on-tertiary": "#ffffff",
+            "primary-fixed-dim": "#ffb692",
+            "inverse-primary": "#ffb692",
+            "on-background": "#191c1e",
+            "surface-container-highest": "#e1e2e4",
+            "slate-gray": "#6B7280",
+            "surface-container": "#edeef0",
+            "on-tertiary-container": "#003410",
+            "on-primary": "#ffffff",
+            "charcoal": "#1E1E1E",
+            "primary": "#9f4200",
+            "on-error-container": "#93000a",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#e5e2e1",
+            "on-secondary-container": "#636262",
+            "inverse-surface": "#2e3132",
+            "on-secondary-fixed": "#1b1b1c",
+            "secondary-container": "#e2dfde",
+            "tertiary-fixed": "#84fb94",
+            "surface": "#f8f9fb",
+            "on-error": "#ffffff",
+            "on-primary-container": "#4e1c00",
+            "surface-container-low": "#f3f4f6",
+            "error-container": "#ffdad6",
+            "secondary": "#5f5e5e",
+            "on-surface-variant": "#584237",
+            "secondary-fixed-dim": "#c8c6c5",
+            "tertiary-fixed-dim": "#67de7b",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#2ba84d",
+            "on-surface": "#191c1e",
+            "on-primary-fixed": "#341100",
+            "surface-tint": "#9f4200",
+            "outline": "#8c7165",
+            "primary-container": "#ee6c1a",
+            "surface-bright": "#f8f9fb",
+            "on-tertiary-fixed": "#002108",
+            "surface-dim": "#d9dadc"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "16px",
+            "gutter": "24px",
+            "section-gap": "80px",
+            "base": "4px",
+            "margin-desktop": "32px"
+          },
+          "fontFamily": {
+            "body-md": ["Outfit"],
+            "label-md": ["Geist"],
+            "headline-md": ["\"Source Serif 4\""],
+            "display-lg-mobile": ["\"Source Serif 4\""],
+            "display-lg": ["\"Source Serif 4\""],
+            "headline-sm": ["\"Source Serif 4\""],
+            "body-lg": ["Outfit"],
+            "data-mono": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "700" }],
+            "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+            "data-mono": ["13px", { "lineHeight": "1.0", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
   <style>
-    /* Primary Color Variables */
-    :root {
-      --primary-color: #EA580C;
-      --primary-light: #FDBA74;
-      --primary-dark: #C2410C;
-      --navbar-bg: #1a1a1a;
-      --footer-bg: #1a1a1a;
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
 
-    /* Fix for navbar covering content */
-    body {
-      padding-top: 76px;
-      /* Height of navbar */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
     }
 
-    /* Navbar with Dark Color (matching footer) */
-    .navbar-custom {
-      background-color: var(--navbar-bg) !important;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      border-bottom: 3px solid var(--primary-color);
-    }
-
-    .navbar-custom .navbar-nav .nav-link {
-      color: rgba(255, 255, 255, 0.9) !important;
-      transition: all 0.3s ease;
-    }
-
-    .navbar-custom .navbar-nav .nav-link:hover,
-    .navbar-custom .navbar-nav .nav-link.active {
-      color: white !important;
-      background-color: rgba(234, 88, 12, 0.2);
-      border-radius: 5px;
-    }
-
-    .navbar-custom .navbar-brand {
-      color: white !important;
-      font-weight: 700;
-      font-size: 1.5rem;
-    }
-
-    .navbar-custom .navbar-brand:hover {
-      color: var(--primary-light) !important;
-    }
-
-    .navbar-custom .btn-outline-light {
-      border-color: rgba(255, 255, 255, 0.3);
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .navbar-custom .btn-outline-light:hover {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white !important;
-    }
-
-    .navbar-custom .btn-light {
-      background-color: var(--primary-color);
-      color: white !important;
-      border: 1px solid var(--primary-color);
-    }
-
-    .navbar-custom .btn-light:hover {
-      background-color: var(--primary-dark);
-      border-color: var(--primary-dark);
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(234, 88, 12, 0.5);
-    }
-
-    /* Dropdown menu styling */
-    .navbar-custom .dropdown-menu {
-      background-color: #2c2c2c;
-      border: 1px solid rgba(234, 88, 12, 0.2);
-    }
-
-    .navbar-custom .dropdown-item {
-      color: #ddd;
-    }
-
-    .navbar-custom .dropdown-item:hover {
-      background-color: rgba(234, 88, 12, 0.2);
-      color: white;
-    }
-
-    /* Footer with Dark Color */
-    .footer {
-      background-color: var(--footer-bg);
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      border-top: 4px solid var(--primary-color);
-    }
-
-    .footer-link {
-      color: #ddd !important;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      display: inline-block;
-      padding: 3px 0;
-    }
-
-    .footer-link:hover {
-      color: var(--primary-light) !important;
-      padding-left: 5px;
-    }
-
-    .social-icon {
-      display: inline-block;
-      width: 36px;
-      height: 36px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      text-align: center;
-      line-height: 36px;
-      margin-right: 10px;
-      color: white;
-      transition: all 0.3s ease;
-    }
-
-    .social-icon:hover {
-      background-color: var(--primary-color);
-      transform: translateY(-3px);
-    }
-
-    .footer .btn-info {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white;
-    }
-
-    .footer .btn-info:hover {
-      background-color: var(--primary-dark);
-      border-color: var(--primary-dark);
-    }
-
-    /* Tour Card Styles for homepage */
-    .tour-card {
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      height: 100%;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    .tour-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(234, 88, 12, 0.1);
-      border-color: var(--primary-light);
-      cursor: pointer;
-    }
-
-    .tour-type-badge {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: var(--primary-color);
-      color: white;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .tour-price-badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: var(--primary-color);
-      color: white;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    .tour-difficulty-badge {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 15px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      z-index: 2;
-    }
-
-    .difficulty-easy {
-      background-color: #28a745;
-    }
-
-    .difficulty-moderate {
-      background-color: #ffc107;
-      color: #000;
-    }
-
-    .difficulty-challenging {
-      background-color: #dc3545;
-    }
-
-    .tour-image-placeholder {
-      height: 200px;
-      background: linear-gradient(135deg, var(--primary-color) 0%, #fd7238 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tour-image-placeholder img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .tour-image-placeholder .placeholder-text {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 8px 15px;
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    /* Placeholder image styling */
-    .placeholder-image {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      width: 100%;
-    }
-
-    .placeholder-image .bi-image {
-      font-size: 3rem;
-      margin-bottom: 10px;
-      opacity: 0.7;
-    }
-
-    /* Tour Card Content */
-    .tour-card-content {
-      padding: 1.5rem;
-    }
-
-    .tour-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .tour-highlight {
-      color: #666;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 15px;
-    }
-
-    .tour-meta-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    .tour-meta-item i {
-      width: 20px;
-      color: var(--primary-color);
-      margin-right: 8px;
-    }
-
-    .tour-rating {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-      margin-bottom: 15px;
-    }
-
-    .star-rating {
-      color: #FFC107;
-      margin-right: 5px;
-    }
-
-    .review-count {
-      color: #6c757d;
-      font-size: 0.85rem;
-      margin-left: 5px;
-    }
-
-    .cancellation-policy {
-      padding: 12px;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      margin-top: 15px;
-      border-left: 3px solid var(--primary-color);
-    }
-
-    .cancellation-policy .policy-label {
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 5px;
-    }
-
-    .refund-full {
-      color: #28a745;
-      font-weight: 600;
-    }
-
-    .tour-status {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .tour-status .availability {
-      display: flex;
-      align-items: center;
-    }
-
-    .tour-status .availability i {
-      margin-right: 5px;
-    }
-
-    .available {
-      color: #28a745;
-    }
-
-    .not-available {
-      color: #dc3545;
-    }
-
-    .tour-date {
-      color: #6c757d;
-      font-size: 0.85rem;
-    }
-
-    /* Primary color buttons */
-    .btn-primary {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-dark);
-      border-color: var(--primary-dark);
-    }
-
-    .btn-outline-primary {
-      color: var(--primary-color);
-      border-color: var(--primary-color);
-    }
-
-    .btn-outline-primary:hover {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white;
-    }
-
-    /* REDUCED Tours Section Header - CENTERED */
-    .tours-header {
-      text-align: center;
-      padding: 2rem 1rem; /* Reduced from 3rem */
-      margin: 2rem 0; /* Reduced from 3rem */
-    }
-
-    .header-title {
-      color: var(--primary-dark);
-      font-weight: 700;
-      font-size: 2.2rem; /* Slightly smaller */
-      margin-bottom: 0.75rem; /* Reduced */
-    }
-
-    .tour-count {
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-
-    /* Existing index.css styles preserved - REDUCED PADDING */
-    .video-hero {
-      height: 70vh; /* Reduced from 80vh */
-      min-height: 500px; /* Reduced from 600px */
-    }
-
-    .video-container {
-      z-index: 1;
-    }
-
-    .video-overlay {
-      z-index: 2;
-      background: rgba(0, 0, 0, 0.4);
-    }
-
-    .section-narrow {
-      padding: 60px 0; /* Reduced from 80px */
-    }
-
-    .section-title {
-      font-size: 2.2rem; /* Reduced from 2.5rem */
-      margin-bottom: 1.5rem; /* Reduced from 2rem */
-      color: var(--primary-dark);
-    }
-
-    .benefit-icon {
-      font-size: 2.5rem; /* Reduced from 3rem */
-      color: var(--primary-color);
-      margin-bottom: 0.75rem; /* Reduced from 1rem */
-    }
-
-    .testimonial-card {
-      border-left: 4px solid var(--primary-color);
-    }
-
-    .process-step {
-      text-align: center;
-      padding: 1.5rem 1rem; /* Reduced from 2rem 1rem */
-    }
-
-    .process-number {
-      width: 50px; /* Reduced from 60px */
-      height: 50px; /* Reduced from 60px */
-      background: var(--primary-color);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem; /* Reduced from 1.5rem */
-      font-weight: bold;
-      margin: 0 auto 0.75rem; /* Reduced from 1rem */
-    }
-
-    .stat-number {
-      font-size: 2.5rem; /* Reduced from 3rem */
-      font-weight: bold;
-      color: var(--primary-color);
-    }
-
-    .profile-circle {
-      width: 130px; /* Reduced from 150px */
-      height: 130px; /* Reduced from 150px */
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--primary-color);
-    }
-
-    .contact-box {
-      transition: transform 0.3s ease;
-      padding: 1.5rem; /* Added consistent padding */
-    }
-
-    .contact-box:hover {
-      transform: translateY(-5px);
-    }
-
-    /* View All Tours button */
-    .view-all-section {
-      text-align: center;
-      margin-top: 2rem; /* Reduced from 3rem */
-      padding-top: 1.5rem; /* Reduced from 2rem */
-      border-top: 1px solid #eee;
-    }
-
-    /* Additional spacing reductions */
-    .tour-card-content {
-      padding: 1.25rem; /* Reduced from 1.5rem */
-    }
-
-    .tour-title {
-      font-size: 1.3rem; /* Reduced from 1.4rem */
-      margin-bottom: 8px; /* Reduced from 10px */
-    }
-
-    .tour-highlight {
-      font-size: 0.9rem; /* Reduced from 0.95rem */
-      margin-bottom: 12px; /* Reduced from 15px */
-    }
-
-    .tour-rating {
-      margin-top: 8px; /* Reduced from 10px */
-      margin-bottom: 12px; /* Reduced from 15px */
-    }
-
-    .cancellation-policy {
-      padding: 10px; /* Reduced from 12px */
-      margin-top: 12px; /* Reduced from 15px */
-    }
-
-    .tour-status {
-      margin-top: 12px; /* Reduced from 15px */
-      padding-top: 12px; /* Reduced from 15px */
-    }
-
-    /* Reduced featured tours section padding */
-    #featured-tours {
-      padding: 3rem 0; /* Reduced overall section padding */
-    }
-
-    /* Reduce spacing between sections */
-    main section {
-      margin-bottom: 1rem; /* Reduced spacing between sections */
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   </style>
 </head>
 
-<body>
-  <!-- Navbar with Dark Color (matching tours template) -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-lg">
-    <div class="container">
-      <a class="navbar-brand" href="/"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav gap-3">
-          <li class="nav-item">
-            <a class="nav-link active" href="/"><i class="bi bi-house-door-fill me-1"></i>Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cultures"><i class="bi bi-people-fill me-1"></i>Cultures</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/tours"><i class="bi bi-map me-1"></i>Tours</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about"><i class="bi bi-info-circle-fill me-1"></i>About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact"><i class="bi bi-envelope-fill me-1"></i>Contact</a>
-          </li>
-          {% if user %}
-          <li class="nav-item">
-            <a class="nav-link" href="/my-bookings"><i class="bi bi-journal-check me-1"></i>My Bookings</a>
-          </li>
-          {% endif %}
-          {% if user and user.is_admin %}
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/dashboard"><i class="bi bi-speedometer2 me-1"></i>Admin</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
+{% import "partials/tour_card.html" as cards %}
 
-      <div class="d-flex align-items-center gap-2">
+<body class="bg-white text-ink font-body-md overflow-x-hidden">
+  <!-- TopNavBar -->
+  <header class="bg-charcoal sticky top-0 z-50 border-b border-primary">
+    <nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1440px] mx-auto">
+      <a class="font-headline-sm text-headline-sm font-bold text-white tracking-tight" href="/">
+        Mmondo Adventures
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/">Home</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/tours">Tours</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/cultures">Culture</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/about">About Us</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/contact">Contact</a>
         {% if user %}
-        <!-- Enhanced User Dropdown (shown when user is logged in) -->
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/my-bookings">My Bookings</a>
+        {% endif %}
+        {% if user and user.is_admin %}
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/admin/dashboard">Admin</a>
+        {% endif %}
+      </div>
+      <div class="flex items-center gap-4">
+        {% if user %}
+        <div class="relative" id="user-menu">
+          <button
+            class="flex items-center gap-2 text-white font-label-md text-label-md px-2 py-2 hover:opacity-80 transition-all"
+            id="user-menu-button" type="button">
             {% if user.picture %}
-            <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
+            <img alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-primary"
+              src="{{ user.picture }}" />
             {% else %}
-            <i class="bi bi-person-circle me-2" style="color: var(--primary-light);"></i>
+            <span class="material-symbols-outlined text-primary-fixed-dim">account_circle</span>
             {% endif %}
-            {{ user.full_name }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="/profile">
-                <i class="bi bi-person me-2"></i>My Profile
-              </a></li>
-            <li><a class="dropdown-item" href="/my-bookings">
-                <i class="bi bi-calendar-check me-2"></i>My Bookings
-              </a></li>
-            <li>
-              <hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);">
-            </li>
+            <span class="hidden sm:inline">{{ user.full_name }}</span>
+            <span class="material-symbols-outlined text-base">expand_more</span>
+          </button>
+          <div class="hidden absolute right-0 mt-2 w-56 bg-charcoal border border-white/10 rounded-lg shadow-xl overflow-hidden"
+            id="user-menu-panel">
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/profile">
+              <span class="material-symbols-outlined text-base">person</span>My Profile
+            </a>
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/my-bookings">
+              <span class="material-symbols-outlined text-base">calendar_month</span>My Bookings
+            </a>
             {% if user.newsletter_subscribed %}
-            <li>
-              <form action="/user/unsubscribe_newsletter" method="post" class="m-0">
-                <button type="submit" class="dropdown-item text-warning">
-                  <i class="bi bi-bell-slash me-2"></i>Unsubscribe
-                </button>
-              </form>
-            </li>
+            <form action="/user/unsubscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-primary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications_off</span>Unsubscribe
+              </button>
+            </form>
             {% else %}
-            <li>
-              <form action="/subscribe_newsletter" method="post" class="m-0">
-                <button type="submit" class="dropdown-item text-info">
-                  <i class="bi bi-bell me-2"></i>Subscribe
-                </button>
-              </form>
-            </li>
+            <form action="/subscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-tertiary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications</span>Subscribe
+              </button>
+            </form>
             {% endif %}
-            <li><a class="dropdown-item text-danger" href="/logout">
-                <i class="bi bi-box-arrow-right me-2"></i>Logout
-              </a></li>
-          </ul>
+            <a class="flex items-center gap-2 px-4 py-3 text-error-container font-label-md hover:bg-white/5 transition-colors border-t border-white/10"
+              href="/logout">
+              <span class="material-symbols-outlined text-base">logout</span>Logout
+            </a>
+          </div>
         </div>
         {% else %}
-        <!-- Login/Signup buttons (shown ONLY when user is NOT logged in) -->
-        <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-        <a class="btn btn-light btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
+        <a class="text-white font-label-md text-label-md px-4 py-2 hover:opacity-80 transition-all" href="/login">Log
+          in</a>
+        <a class="bg-primary-container text-white font-label-md text-label-md px-6 py-2 rounded-lg hover:opacity-90 active:scale-95 transition-all"
+          href="/signup">Sign up</a>
         {% endif %}
+        <button class="md:hidden text-white" id="mobile-menu-button" type="button" aria-label="Toggle navigation">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
       </div>
+    </nav>
+    <div class="hidden md:hidden border-t border-white/10 px-margin-mobile py-4 flex flex-col gap-4" id="mobile-menu">
+      <a class="text-primary font-label-md text-label-md" href="/">Home</a>
+      <a class="text-white font-label-md text-label-md" href="/tours">Tours</a>
+      <a class="text-white font-label-md text-label-md" href="/cultures">Culture</a>
+      <a class="text-white font-label-md text-label-md" href="/about">About Us</a>
+      <a class="text-white font-label-md text-label-md" href="/contact">Contact</a>
+      {% if user %}
+      <a class="text-white font-label-md text-label-md" href="/my-bookings">My Bookings</a>
+      {% endif %}
+      {% if user and user.is_admin %}
+      <a class="text-white font-label-md text-label-md" href="/admin/dashboard">Admin</a>
+      {% endif %}
     </div>
-  </nav>
-  <main class="pt-2">
-    <!-- Video Hero Section -->
-    <section class="video-hero position-relative overflow-hidden">
-      <div class="video-container position-absolute w-100 h-100 top-0 start-0">
-        <video autoplay muted loop playsinline class="w-100 h-100 object-fit-cover">
-          <source src="/static/vds/11760750-uhd_4096_2160_30fps.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      <div
-        class="video-overlay position-relative text-white text-center d-flex flex-column justify-content-center align-items-center h-100">
-        <h1 class="display-3 fw-bold">MMONDO</h1>
-        <h2 class="h4 fw-light">Discover East Africa</h2>
-        <p class="lead mb-4">Experience the Pearl of Africa</p>
-        <a href="#featured-tours" class="btn btn-outline-light btn-lg">Explore Tours</a>
-      </div>
-    </section>
+  </header>
 
-    <!-- Featured Tours Section -->
-    <section id="featured-tours" class="py-4"> <!-- Reduced from py-5 -->
-      <div class="container">
-        <!-- CENTERED HEADER -->
-        <div class="tours-header">
-          <h1 class="header-title">Featured Tours</h1>
-          <p class="lead mb-3">Discover our most popular adventures in East Africa</p>
-          
-          <div class="mb-3">
-            <h2 class="h5">Showing <span class="tour-count">{{ tours|length if tours else 0 }}</span> featured tours</h2>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden px-margin-mobile md:px-margin-desktop pt-16 pb-16">
+    <video autoplay class="absolute inset-0 w-full h-full object-cover" loop muted playsinline>
+      <source src="/static/vds/11760750-uhd_4096_2160_30fps.mp4" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-charcoal/50"></div>
+    <div class="relative z-10 max-w-[1440px] mx-auto text-center">
+      <h1 class="font-bold text-[28px] md:text-[36px] mb-4 text-white">Where tours find travellers
+      </h1>
+      <p class="font-body-lg text-body-lg mb-8 max-w-2xl mx-auto text-white/80">Authentic Ugandan experiences curated by
+        local experts. Discover the Pearl of Africa with confidence.</p>
+
+      <!-- Search Bar -->
+      <form action="/tours" class="relative z-10" method="get">
+        <div
+          class="bg-white p-4 rounded-xl shadow-lg border border-surface-container flex flex-col md:flex-row gap-4 items-center max-w-5xl mx-auto">
+          <div
+            class="flex-1 w-full border-b md:border-b-0 md:border-r border-surface-container-high px-4 py-2 flex items-center gap-3">
+            <span class="material-symbols-outlined text-slate-gray">location_on</span>
+            <div class="text-left w-full">
+              <label class="block text-xs font-bold text-slate-gray uppercase tracking-wider"
+                for="search-destination">Destination</label>
+              <input
+                class="w-full border-none p-0 focus:ring-0 font-label-md text-charcoal placeholder:text-slate-gray"
+                id="search-destination" name="destination" placeholder="Where are you going?" type="text" />
+            </div>
           </div>
+          <div
+            class="flex-1 w-full border-b md:border-b-0 md:border-r border-surface-container-high px-4 py-2 flex items-center gap-3">
+            <span class="material-symbols-outlined text-slate-gray">calendar_month</span>
+            <div class="text-left w-full">
+              <label class="block text-xs font-bold text-slate-gray uppercase tracking-wider" for="search-dates">Check-in
+                / Check-out</label>
+              <input
+                class="w-full border-none p-0 focus:ring-0 font-label-md text-charcoal placeholder:text-slate-gray"
+                id="search-dates" name="dates" placeholder="Add dates" type="text" />
+            </div>
+          </div>
+          <div class="flex-1 w-full px-4 py-2 flex items-center gap-3">
+            <span class="material-symbols-outlined text-slate-gray">group</span>
+            <div class="text-left w-full">
+              <label class="block text-xs font-bold text-slate-gray uppercase tracking-wider"
+                for="search-travellers">Travellers</label>
+              <input
+                class="w-full border-none p-0 focus:ring-0 font-label-md text-charcoal placeholder:text-slate-gray"
+                id="search-travellers" name="travellers" placeholder="2 adults, 0 children" type="text" />
+            </div>
+          </div>
+          <button
+            class="w-full md:w-auto bg-primary-container text-white px-8 py-4 rounded-lg font-label-md hover:brightness-110 transition-all flex items-center justify-center gap-2"
+            type="submit">
+            Search
+            <span class="material-symbols-outlined">search</span>
+          </button>
         </div>
+      </form>
+    </div>
+  </section>
 
-        <!-- Tour Grid with REAL tours from API -->
-        <div class="row g-4 mb-3"> <!-- Reduced from mb-4 -->
+  <!-- Popular Tours Row -->
+  <section class="py-14 px-margin-mobile md:px-margin-desktop overflow-hidden" id="featured-tours">
+    <div class="max-w-[1440px] mx-auto mb-8 flex flex-wrap gap-4 justify-between items-end">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-charcoal">Popular tours right now</h2>
+        <p class="text-secondary font-body-md">
           {% if tours and tours|length > 0 %}
-            {% set display_tours = tours[:6] %} <!-- Show only first 6 tours -->
-            {% for tour in display_tours %}
-            <div class="col-lg-4 col-md-6">
-              <a href="/tour/{{ tour.id }}" class="tour-card">
-                <div class="position-relative">
-                  <div class="tour-image-placeholder">
-                    {% if tour.images and tour.images|length > 0 %}
-                    <img src="{{ tour.images[0].image_url }}" alt="{{ tour.title }}"
-                      onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'placeholder-image\'><i class=\'bi bi-image\'></i><div class=\'placeholder-text\'>{{ tour.title }}</div></div>';">
-                    {% else %}
-                    <div class="placeholder-image">
-                      <i class="bi bi-image"></i>
-                      <div class="placeholder-text">{{ tour.title }}</div>
-                    </div>
-                    {% endif %}
-                  </div>
-
-                  <!-- TOUR TYPE BADGE -->
-                  {% if tour.tour_type %}
-                  <span class="tour-type-badge">{{ tour.tour_type|title }}</span>
-                  {% endif %}
-
-                  <!-- PRICE BADGE -->
-                  <span class="tour-price-badge">${{ "%.0f"|format(tour.price) }}</span>
-
-                  <!-- DIFFICULTY BADGE -->
-                  {% if tour.difficulty %}
-                  <span class="tour-difficulty-badge 
-                      {% if tour.difficulty == 'Easy' or tour.difficulty == 'easy' %}difficulty-easy
-                      {% elif tour.difficulty == 'Moderate' or tour.difficulty == 'moderate' %}difficulty-moderate
-                      {% elif tour.difficulty == 'Difficult' or tour.difficulty == 'difficult' or tour.difficulty == 'Challenging' %}difficulty-challenging
-                      {% endif %}">
-                    {{ tour.difficulty }}
-                  </span>
-                  {% endif %}
-                </div>
-
-                <div class="tour-card-content">
-                  <!-- Tour Title -->
-                  <h3 class="tour-title">{{ tour.title }}</h3>
-
-                  <!-- Description/Highlight -->
-                  <p class="tour-highlight">
-                    {% if tour.description %}
-                    {{ tour.description[:100] }}...
-                    {% else %}
-                    No description available
-                    {% endif %}
-                  </p>
-
-                  <!-- Location and Duration -->
-                  <div class="tour-meta-item">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>
-                      {% if tour.locations %}
-                      {{ tour.locations[:50] }}{% if tour.locations|length > 50 %}...{% endif %}
-                      {% elif tour.location %}
-                      {{ tour.location }}
-                      {% elif tour.country %}
-                      {{ tour.country }}
-                      {% else %}
-                      Location not specified
-                      {% endif %}
-                    </span>
-                  </div>
-
-                  <div class="tour-meta-item">
-                    <i class="bi bi-clock"></i>
-                    <span>
-                      {{ tour.duration if tour.duration else 'Duration not specified' }}
-                    </span>
-                  </div>
-
-                  <!-- Rating section -->
-                  <div class="tour-rating">
-                    <div class="star-rating">
-                      {% if tour.reviews and tour.reviews|length > 0 %}
-                      {% set avg_rating = tour.reviews|selectattr('rating')|map(attribute='rating')|list|sum /
-                      tour.reviews|length if tour.reviews|length > 0 else 0 %}
-                      {% for i in range(1, 6) %}
-                      {% if i <= avg_rating %} <i class="bi bi-star-fill"></i>
-                        {% elif i-0.5 <= avg_rating %} <i class="bi bi-star-half"></i>
-                          {% else %}
-                          <i class="bi bi-star"></i>
-                          {% endif %}
-                          {% endfor %}
-                          {% else %}
-                          <!-- Default stars for new tours -->
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-half"></i>
-                          {% endif %}
-                    </div>
-                    <span class="review-count">
-                      {% if tour.reviews and tour.reviews|length > 0 %}
-                      {{ "%.1f"|format(avg_rating) if avg_rating else "0.0" }} ({{ tour.reviews|length }} reviews)
-                      {% else %}
-                      4.9 (0 reviews)
-                      {% endif %}
-                    </span>
-                  </div>
-
-                  <!-- Cancellation policy -->
-                  <div class="cancellation-policy">
-                    <div class="policy-label">Cancellation Policy</div>
-                    <div class="refund-full">
-                      {% if tour.cancellation_policy %}
-                      {{ tour.cancellation_policy }}
-                      {% else %}
-                      Full Refund
-                      {% endif %}
-                    </div>
-                  </div>
-
-                  <!-- Tour status and creation date -->
-                  <div class="tour-status">
-                    <div class="availability">
-                      <i class="bi bi-circle-fill me-1 {% if tour.is_active %}available{% else %}not-available{% endif %}"></i>
-                      <span class="{% if tour.is_active %}available{% else %}not-available{% endif %}">
-                        {{ 'Available' if tour.is_active else 'Not Available' }}
-                      </span>
-                    </div>
-                    {% if tour.created_at %}
-                    <div class="tour-date">
-                      <i class="bi bi-calendar me-1"></i>
-                      {{ tour.created_at.strftime('%b %Y') }}
-                    </div>
-                    {% endif %}
-                  </div>
-                </div>
-              </a>
-            </div>
-            {% endfor %}
+          {{ tours|length }} hand-picked experiences from our local community
           {% else %}
-          <!-- No tours available message -->
-          <div class="col-12 text-center my-4"> <!-- Reduced from my-5 -->
-            <div class="card border-0 shadow-sm">
-              <div class="card-body py-4"> <!-- Reduced from py-5 -->
-                <i class="bi bi-compass display-1 text-muted mb-3"></i> <!-- Reduced from mb-4 -->
-                <h3 class="text-muted mb-2">No tours available</h3> <!-- Reduced from mb-3 -->
-                <p class="text-muted mb-3">Check back soon for new adventures!</p> <!-- Reduced from mb-4 -->
-              </div>
-            </div>
-          </div>
+          Hand-picked by our local community
           {% endif %}
-        </div>
-
-        <!-- View All Tours Link -->
-        {% if tours and tours|length > 6 %}
-        <div class="view-all-section">
-          <p class="lead mb-3">We have {{ tours|length }} amazing tours waiting for you!</p> <!-- Reduced from mb-4 -->
-          <a href="/tours" class="btn btn-primary btn-lg">View All Tours</a>
-        </div>
-        {% elif tours and tours|length > 0 %}
-        <div class="view-all-section">
-          <p class="lead mb-3">Explore all our amazing tours!</p> <!-- Reduced from mb-4 -->
-          <a href="/tours" class="btn btn-primary btn-lg">View All Tours</a>
-        </div>
-        {% endif %}
-      </div>
-    </section>
-
-    <!-- Why Choose Us (selling points) -->
-    <section id="why-us" class="bg-light section-narrow">
-      <div class="container">
-        <h2 class="text-center section-title">Why Choose MMONDO?</h2>
-        <p class="text-center lead mb-4">
-          Unforgettable East African adventures, backed by trusted local experts
         </p>
+      </div>
+      <a class="text-primary font-label-md hover:underline" href="/tours">View all tours</a>
+    </div>
 
-        <!-- Benefits Grid -->
-        <div class="row g-3"> <!-- Reduced from g-4 -->
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-3"> <!-- Reduced from p-4 -->
-                <div class="benefit-icon">
-                  <i class="fas fa-headset"></i>
-                </div>
-                <h3>24/7 Support</h3>
-                <p class="text-muted">
-                  Our dedicated team is available round-the-clock to assist you
-                  before, during, and after your trip.
-                </p>
-              </div>
-            </div>
-          </div>
+    <div class="max-w-[1440px] mx-auto flex flex-wrap justify-start gap-4">
+      {% if tours and tours|length > 0 %}
+      {% for tour in tours[:6] %}
+      <div class="w-full max-w-[360px]">
+        {{ cards.tour_card(tour, large=true) }}
+      </div>
+      {% endfor %}
+      {% else %}
+      <div
+        class="w-full text-center py-16 border border-surface-variant rounded-xl bg-surface-container-lowest">
+        <span class="material-symbols-outlined text-6xl text-slate-gray mb-4">explore</span>
+        <h3 class="font-headline-sm text-headline-sm text-charcoal mb-2">No tours available</h3>
+        <p class="text-secondary font-body-md">Check back soon for new adventures!</p>
+      </div>
+      {% endif %}
+    </div>
+  </section>
 
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-3"> <!-- Reduced from p-4 -->
-                <div class="benefit-icon">
-                  <i class="fas fa-map-marked-alt"></i>
-                </div>
-                <h3>Trusted Local Guides</h3>
-                <p class="text-muted">
-                  We work exclusively with knowledgeable local guides who bring
-                  destinations to life with authentic insights.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-3"> <!-- Reduced from p-4 -->
-                <div class="benefit-icon">
-                  <i class="fas fa-credit-card"></i>
-                </div>
-                <h3>Flexible Payments</h3>
-                <p class="text-muted">
-                  Choose from multiple payment options with no hidden fees and
-                  flexible cancellation policies.
-                </p>
-              </div>
-            </div>
-          </div>
+  <!-- Uganda's Big 8 - Asymmetric Bento Grid -->
+  <section class="py-14 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest">
+    <div class="max-w-[1440px] mx-auto mb-8 text-center">
+      <h2 class="font-bold text-[28px] md:text-[36px] text-charcoal">Uganda's Big 8</h2>
+      <p class="text-secondary font-body-lg">The definitive list of flagship experiences</p>
+    </div>
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[250px]">
+      <!-- Lion -->
+      <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl">
+        <img alt="Tree-climbing lion in Queen Elizabeth National Park"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbLjL_99iU6y5ZUE7DeABMYFHb_K8BwNPP1LjZErzjI1GQ1_duQeQy5GBlFUHKGH-KngJLmeTU55HPNL1EI7cBm9tgOP9R2uFBo2ubudM6vioLn_LBdGv1ez6DO24pKEIxBkFnw8i9FmPCOLksOhjzy-Sw2cx-pF37cPCmCasQov2V6LN9W24ERB8aAPJxj4vvn6d9p7Zpiha2DKpCfOI4dZRfJ8pd3UPxVoxMIHlvmLZpDNhiHv7g" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-6 left-6">
+          <h4 class="text-white font-headline-sm text-headline-sm">The Lion</h4>
+          <p class="text-primary-fixed font-label-md">King of the Savanna</p>
         </div>
       </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="section-narrow">
-      <div class="container">
-        <h2 class="text-center section-title">What Our Travelers Say</h2>
-
-        <div class="row g-3"> <!-- Reduced from g-4 -->
-          <div class="col-md-6">
-            <div class="card h-100 testimonial-card">
-              <div class="card-body p-3"> <!-- Reduced from p-4 -->
-                <div class="mb-2"> <!-- Reduced from mb-3 -->
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                </div>
-                <p class="fst-italic">
-                  "The best-organized tour I've ever experienced! Our guide made
-                  history come alive."
-                </p>
-                <div class="d-flex align-items-center mt-2"> <!-- Reduced from mt-3 -->
-                  <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="50"
-                    alt="Sarah" />
-                  <div>
-                    <h6 class="mb-0">Sarah M.</h6>
-                    <small class="text-muted">Adventure Seeker</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="card h-100 testimonial-card">
-              <div class="card-body p-3"> <!-- Reduced from p-4 -->
-                <div class="mb-2"> <!-- Reduced from mb-3 -->
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                  <i class="fas fa-star text-warning"></i>
-                </div>
-                <p class="fst-italic">
-                  "Flawless from booking to return. The 24/7 support really
-                  saved us when our flight was delayed."
-                </p>
-                <div class="d-flex align-items-center mt-2"> <!-- Reduced from mt-3 -->
-                  <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-3" width="50"
-                    alt="John" />
-                  <div>
-                    <h6 class="mb-0">The Johnson Family</h6>
-                    <small class="text-muted">Family Travelers</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- Gorilla -->
+      <div class="md:col-span-2 relative group overflow-hidden rounded-xl">
+        <img alt="Mountain gorilla mother and infant"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMpb3JBsGnLht1JEdtCHkQme_HYRRhTBsCjgIlA8FVzvdv-odrD0A2m1kzIjhhiUMcVgOUwdho_aiQ6_3dAA3_Z1LGYrrxxzLg0YeFIwYJdmKKA-9uo7tVoocGHfCod8DyT-5Gd5DI3dLbWRtVwG_etlBByt3_UfbD8-SPDo4hdMv3CXiu9XTrgNjH3pKz-i4szyTQVyyjKd7qn_HJPRRNK6ymOBvVDq7ZwlUntncY8Wkp50JkMThM" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-6 left-6">
+          <h4 class="text-white font-headline-sm text-headline-sm">Mountain Gorilla</h4>
+          <p class="text-primary-fixed font-label-md">Gentle Giants</p>
         </div>
       </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section id="process" class="bg-light section-narrow">
-      <div class="container">
-        <h2 class="text-center section-title">How It Works</h2>
-
-        <div class="row g-3"> <!-- Reduced from g-4 -->
-          <div class="col-md-4 process-step">
-            <div class="process-number">1</div>
-            <h3>Choose Your Tour package</h3>
-            <p>Browse our curated collection of unforgettable experiences</p>
-          </div>
-
-          <div class="col-md-4 process-step">
-            <div class="process-number">2</div>
-            <h3>Book & Pay</h3>
-            <p>Secure your spot with our easy online system</p>
-          </div>
-
-          <div class="col-md-4 process-step">
-            <div class="process-number">3</div>
-            <h3>Travel & Enjoy</h3>
-            <p>We handle the details so you can focus on making memories</p>
-          </div>
+      <!-- Leopard -->
+      <div class="relative group overflow-hidden rounded-xl">
+        <img alt="Leopard camouflaged in tall grass"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLAz9P05b9p87Py5vN-eGld69tMHjSH_owDwUQC9oYzMj89saIo5CjDs5qPnbAkYJX_dzjVMHNCrG6HiL9dtGvHgpNEGsyD2z9fxdh3NUqoiZPZFFUVJ9yGdfEPg6cH0AgVBc6IhFRQl-eo9atGbd7_crksmDMsAzkDEYzBm94UkdMokTGFNQEgMwwGYEV_uNHoTi-Xxit8KTiWUVBalykzS8bA4bAPEepMw2kiIjM9zTuE8_OxhDq" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <h4 class="text-white font-label-md text-lg">Leopard</h4>
         </div>
       </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="section-narrow text-center">
-      <div class="container">
-        <h2 class="section-title">Ready for Your Adventure?</h2>
-        <p class="lead text-muted mb-4">Browse our curated tours and start planning your East African journey today.</p>
-        <a href="/tours" class="btn btn-primary btn-lg me-2">View All Tours</a>
-        <a href="/about" class="btn btn-outline-primary btn-lg">Learn About Us</a>
+      <!-- Elephant -->
+      <div class="relative group overflow-hidden rounded-xl">
+        <img alt="African elephant bull in Murchison Falls"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqMhLL1revPHnMo9ClK5oauq0KKnJP01pgUdsbNnneTDnVzVbJMrds8iaQFSbJQ6jV_G3ehXyVA47X5L8r5aQXez3Sq2JHIJVL4GT2LObExZS0npgPN7uc9yLjequ0LGgUlcQ6A7unjKKyzbxcHRhL249pUTKyhE0m0yJtJNzoYsiUhinsv1KVjiE8stDoPlHKyADMR0ZWarbXoP7u-5YB6WwbXqHjBpPGJ6lMj9a_sHDvJd2viwW1" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <h4 class="text-white font-label-md text-lg">Elephant</h4>
+        </div>
       </div>
-    </section>
-  </main>
+      <!-- Rhino -->
+      <div class="relative group overflow-hidden rounded-xl">
+        <img alt="White rhinos at Ziwa sanctuary"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4vslHFQAtSCVuTgx20faVdAM-a5sDa6r2is8iczeB6Bllj7QyElxgt1-3coXS6BZXNnW0lazZja3EmagZ6n4yv4WMx-DhEq-JDho-9a-tUp5SrNjaDPtjPjyfE8VNUZ0PaxnjyPztuimj3jzkxVq178PjVh8qgRc6RsOnKA2Akkxeuqg9Qk5p70Cc6KxxhIIxEMpKq0JXUTMZwvF1WofxXjG0kHmAY79iY7Ic0yfbGL9UAA0IXOxq" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <h4 class="text-white font-label-md text-lg">Rhino</h4>
+        </div>
+      </div>
+      <!-- Chimpanzee -->
+      <div class="relative group overflow-hidden rounded-xl">
+        <img alt="Chimpanzee in Kibale Forest canopy"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl9WEKyHmZ_ZEd0BHBiver4_5sbLbZfC_KQuPi5C5LOhFNO_TZ3wPG3IHdvyw9ubFy8gdgo94_xppqZOdu3o3AfRKAVkYlsoEc0GvmicKmtDwxLypVzkY5RE2v3rhmeVJ16oJeJ6gu23kX7811aCPFOv9cwi8sRU3OD4fpefcy9aGTLLJnoWvyo3eMDjFiS9QwqA86rHyOXxtiz6xBXQaKGcd8xpJE2QXtgWpBM-wpmdZ3P-LBgigQ" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <h4 class="text-white font-label-md text-lg">Chimp</h4>
+        </div>
+      </div>
+      <!-- Buffalo -->
+      <div class="relative group overflow-hidden rounded-xl">
+        <img alt="Cape buffalo in Lake Mburo National Park"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-7YRpEFjv9JY3lmXmUN6iTlU2CaRvCbo9y0NvQXpoVaP_5yOAXDo5IzY8fkuk708x4b7Jru54C_PXD5qehQzRvnRFHsEUY-q1_p_dg0_iLRcRbDCMl_mLTV-jsCEr2PZYf0ue1SSqkrCKtezOEnYgYU7uZ7kfRYBGTCIw86rixXKP9-KYnLKHcLJcTq-P31yq1ULCvVTnUD7yFQ-xg_gMkiE-S6oWmUr1WeejfIRIGoBiFkQhLgGQ" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <h4 class="text-white font-label-md text-lg">Buffalo</h4>
+        </div>
+      </div>
+      <!-- Culture -->
+      <a class="relative group overflow-hidden rounded-xl block" href="/cultures">
+        <img alt="Ugandan marketplace filled with tropical fruits"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz3PtuQZz5W1qDgAYDjKV7NBMo3lB-tb1jcna2h9qpXoogWj0RESVjHBtHNUxxgTY4pN3kwe2JnQOyOvVg8rF09QFG21B8BXt5z0OeOlGLQA94x7HGjfSJol88FYpAJxi9CT8OFttmbrYikspwHH2y2Sn_bdIuIZ5LCv7b5gNIrigAqXTLjpbfqkPu1ZGh7u3ntVQqligS2Ex9mXu2hFBkVhp1gXbhzdBqt6jF2fb4q8ZF9qw4qQY_" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <h4 class="text-white font-label-md text-lg">Culture</h4>
+        </div>
+      </a>
+    </div>
+  </section>
 
-  <!-- Footer with Dark Color (matching tours template) -->
-  <footer class="footer text-white pt-5 pb-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 mb-4">
-          <h4 class="fw-bold"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</h4>
-          <p>
-            Explore Uganda's culture, nature, and wildlife with our curated
-            tours.
+  <!-- How it Works -->
+  <section class="py-14 px-margin-mobile md:px-margin-desktop bg-surface-container-low">
+    <div class="max-w-[1440px] mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="font-headline-md text-headline-md text-charcoal">How it works</h2>
+        <div class="w-24 h-1 bg-primary mx-auto mt-4"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+        <div class="text-center px-4">
+          <div
+            class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-surface-container">
+            <span class="material-symbols-outlined text-primary text-3xl">travel_explore</span>
+          </div>
+          <h4 class="font-headline-sm text-headline-sm text-charcoal mb-4">1. Choose your adventure</h4>
+          <p class="text-secondary font-body-md">Browse hundreds of curated tours and safaris from verified local
+            operators.</p>
+        </div>
+        <div class="text-center px-4">
+          <div
+            class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-surface-container">
+            <span class="material-symbols-outlined text-primary text-3xl">event_available</span>
+          </div>
+          <h4 class="font-headline-sm text-headline-sm text-charcoal mb-4">2. Instant booking</h4>
+          <p class="text-secondary font-body-md">Secure your dates instantly with transparent pricing and no hidden fees.
           </p>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Quick Links</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="/" class="footer-link"><i class="bi bi-house-door-fill me-1"></i>Home</a>
-            </li>
-            <li>
-              <a href="/cultures" class="footer-link"><i class="bi bi-people-fill me-1"></i>Cultures</a>
-            </li>
-            <li>
-              <a href="/tours" class="footer-link"><i class="bi bi-map me-1"></i>Tours</a>
-            </li>
-            <li>
-              <a href="/about" class="footer-link"><i class="bi bi-info-circle me-1"></i>About Us</a>
-            </li>
-            <li>
-              <a href="/contact" class="footer-link"><i class="bi bi-envelope me-1"></i>Contact</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Partners</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="footer-link"><i class="bi bi-building me-1"></i>Serena Hotels</a>
-            </li>
-            <li>
-              <a href="#" class="footer-link"><i class="bi bi-building me-1"></i>Mweya Safari Lodge</a>
-            </li>
-            <li>
-              <a href="#" class="footer-link"><i class="bi bi-building me-1"></i>Protea Hotel</a>
-            </li>
-          </ul>
-          <h6 class="fw-semibold mt-3">National Parks</h6>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="footer-link"><i class="bi bi-tree-fill me-1"></i>Murchison Falls</a>
-            </li>
-            <li>
-              <a href="#" class="footer-link"><i class="bi bi-tree-fill me-1"></i>Bwindi Forest</a>
-            </li>
-            <li>
-              <a href="#" class="footer-link"><i class="bi bi-tree-fill me-1"></i>Queen Elizabeth</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Contact</h5>
-          <p><i class="bi bi-telephone-fill me-2"></i>+256 700 123 456</p>
-          <p><i class="bi bi-envelope-fill me-2"></i>info@mmondo.ug</p>
-          <p><i class="bi bi-geo-alt-fill me-2"></i>Kampala, Uganda</p>
-          <div class="mt-3 mb-2">
-            <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
-            <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
+        <div class="text-center px-4">
+          <div
+            class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-surface-container">
+            <span class="material-symbols-outlined text-primary text-3xl">forest</span>
           </div>
-          <a href="/subscribe" class="btn btn-info w-100 mt-3">Subscribe to Updates</a>
+          <h4 class="font-headline-sm text-headline-sm text-charcoal mb-4">3. Experience Uganda</h4>
+          <p class="text-secondary font-body-md">Travel with confidence knowing you have 24/7 local support and verified
+            guides.</p>
         </div>
       </div>
-      <div class="text-center border-top pt-3 mt-4" style="border-color: rgba(255, 255, 255, 0.1) !important;">
-        <small>&copy; 2025 MMONDO. All rights reserved.</small>
+    </div>
+  </section>
+
+  <!-- Trending Destinations -->
+  <section class="py-14 px-margin-mobile md:px-margin-desktop">
+    <div class="max-w-[1440px] mx-auto">
+      <h2 class="font-headline-md text-headline-md text-charcoal mb-8">Trending destinations</h2>
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-gutter">
+        <a class="group" href="/tours">
+          <div
+            class="aspect-square rounded-full overflow-hidden mb-4 border-2 border-transparent group-hover:border-primary transition-all">
+            <img alt="Bwindi Impenetrable Forest" class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuApn7rFpt9NbpMfMERtDlpRIu1ZgZtovagTuk9_-KooccfEtgPpjJJM4Csb4z7YxM0G3oSCJkjO2A6_jAZwD_dTM54taOBDob3ZGcWEzfthMvUzaNSWuRCjlvD4UmnMsobWw2ypeibuCrW7QzUPuC4wLl_akk4epyHY2ASppCxDrFLceRzaNhPTff-PJxcCIBYeEfV65H8pqFX2XbANAwhZjWK4m9IheNEuLzFQVjg6PWw1OU450RUM" />
+          </div>
+          <p class="text-center font-label-md text-charcoal">Bwindi</p>
+        </a>
+        <a class="group" href="/tours">
+          <div
+            class="aspect-square rounded-full overflow-hidden mb-4 border-2 border-transparent group-hover:border-primary transition-all">
+            <img alt="Kazinga Channel boat safari" class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAc2PnvLGEF6BJS4c9VOAAHmr_lO25h4nntrjD-Iws3zz2Jw-gaxfWtVpeFuwNTyN7JDD9f15lC6bjxKmdRcVm3UJMULM7A2OJZoSSTnIP29imm1CBtwppTFENrmbLfpXP6rdR4qY1FXuioA-agn4UCUSQXmFwZBcwIjV0G8NvOptyEPqn0FLZLUHH59-vjSWTGkiI2l_iQplpeLcypT90aTDvIZSJMW572E072n8zGHXktq-uV2AL" />
+          </div>
+          <p class="text-center font-label-md text-charcoal">Queen Elizabeth</p>
+        </a>
+        <a class="group" href="/tours">
+          <div
+            class="aspect-square rounded-full overflow-hidden mb-4 border-2 border-transparent group-hover:border-primary transition-all">
+            <img alt="Murchison Falls on the Nile" class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvGcHmyQD7B_W2bCsJ4IjlY0GWjH3b8J1k0gnVrR58gdHyYBwxtzTtYa0e9UvoU1UiYEosEWdPRxgoUGQ-ECHVuNW_oQfkodYU1Zg1uu26LgHgl83acs1NyQ-ABylvMgnYNWd7D9s_MHnrq0Ezx2mBwjVKK7dvKlGf3Baisxcuh1OotsoDC20vM_QT6xW2sgy-CmnG5fUCMW0PWOTWtIJ0H_0wspiitGwBqqwWZ8Biu38RP83iVERx" />
+          </div>
+          <p class="text-center font-label-md text-charcoal">Murchison Falls</p>
+        </a>
+        <a class="group" href="/tours">
+          <div
+            class="aspect-square rounded-full overflow-hidden mb-4 border-2 border-transparent group-hover:border-primary transition-all">
+            <img alt="Kibale Forest primate research" class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWJYc9mew16doeOiDGPpG0Kn9CKTsELBcqiD4Jg4dTqvaUqDunwtd5IV0-4zDxNzeD_kPYRwODhN8bKUnv5vxaSevwL5JwLCYSfviJ00TQLYkOJSrH3d_SNi4JONDvAmzyYfs8mt1f6__N4Y92gidihPcn3W0vSFauqgPeCV0-7g88ceOYI1xuTSeVt35CyNivlkdQbh2kMVaXP0qdAxvR7bA2PEaU4bW9Pr7OmvZGKUWdzS4wHseu" />
+          </div>
+          <p class="text-center font-label-md text-charcoal">Kibale</p>
+        </a>
+        <a class="group" href="/tours">
+          <div
+            class="aspect-square rounded-full overflow-hidden mb-4 border-2 border-transparent group-hover:border-primary transition-all">
+            <img alt="Rhino at Ziwa sanctuary" class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoUxU7ionz9ORerfIbwET3Y4_KqJqbtsZh-fzAE2OA2q2MvRJ4NtG6GF0qJo-rTJ7m_XRXSu7Fkb3TOnQZbhMtcQqtNgA3Ta8O7bEGXXYDpBXHZP-f70GpH5tVV-Y4lPxIEDYcXoK1dQ7d7mhOxKIOeC2Oggfppbi2NUKRbbhbKbfH9o8VJtuVqGSAwFGj5M-TkWiCD4sGNRVVl2Cx380DTdRhdhLk0LvxTKNlGIElyd64W2Pb2fe6" />
+          </div>
+          <p class="text-center font-label-md text-charcoal">Ziwa</p>
+        </a>
+        <a class="group" href="/tours">
+          <div
+            class="aspect-square rounded-full overflow-hidden mb-4 border-2 border-transparent group-hover:border-primary transition-all">
+            <img alt="White-water rafting on the Nile in Jinja" class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYld_0YlnGPfFDSKhSXYlSUvbfxB5mFs31SpXoAd0AL0WYw7wThm3GSx4ltMs7JMQg_hVqYw1v8Y90NLAa6tlvGfWh_2aKl6jm6BhKDEhof-z_zPkC-q6732K0_2UEk1Vn7s1WpFchJS9V0onQntMGSWcIuXc7aWuRv3dz-k3_eKPsY1pSnsf_evknpOjvuCyjgyD2nTKQOJVc_6iOVTjpHDYPf3jkRXnWiD7LrtIm2NjGCapmnQ5x" />
+          </div>
+          <p class="text-center font-label-md text-charcoal">Jinja</p>
+        </a>
       </div>
+    </div>
+  </section>
+
+  <!-- Stays Included -->
+  <section class="py-14 px-margin-mobile md:px-margin-desktop bg-charcoal text-white">
+    <div class="max-w-[1440px] mx-auto mb-8">
+      <h2 class="font-bold text-[28px] md:text-[36px]">Stays included</h2>
+      <p class="text-primary-fixed-dim font-body-lg">Premium lodges and boutique camps in the heart of the wild</p>
+    </div>
+    <div class="max-w-[1440px] mx-auto flex gap-gutter overflow-x-auto hide-scrollbar snap-x">
+      <div class="flex-shrink-0 w-80 md:w-96 snap-start">
+        <div class="relative h-64 rounded-xl overflow-hidden mb-4 shadow-lg">
+          <img alt="Clouds Mountain Gorilla Lodge lounge" class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHQXA2sgdt2AnHvSUcqftqsdTn6mSjTNhxqeYUDQeHC9un7Knqefz3aim-QxuILfBQ5fZcaz3wXmABE5sY9WMp1sdPcm3GgiMAegd-Z26wkcsiHxuC1sMwY0W2rjhe9ecSss-y49uvDEdb6jV-d4P9sSn2ZrI8qr_V0IP2m-n7WcbLTxefuTYSl3bWdqiAHyd3WwTmoWJZRuCzGHN6j-e1q6AX5LfGmWVViI5yEZKz6LS82W7jNEx9" />
+          <div
+            class="absolute bottom-4 left-4 bg-charcoal/40 backdrop-blur-md px-4 py-1 rounded-full text-xs border border-white/20">
+            Clouds Mountain Gorilla Lodge
+          </div>
+        </div>
+      </div>
+      <div class="flex-shrink-0 w-80 md:w-96 snap-start">
+        <div class="relative h-64 rounded-xl overflow-hidden mb-4 shadow-lg">
+          <img alt="Chobe Safari Lodge infinity pool" class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrznXkMVNUgfwpuKFNzOvGofvPLFUrS7A4sku1a-iR9ZiawSb00IT5pkevmJKeARB93J-b6Hc_blDHk5Rm7gsS4R4ZbkqNwfZK3JPVKMkG0fuXF4r3QGor8YCmUwAJdGfZp4eE0Ank2Tthh3BdcumULhpXcAreMqWoCc-0RJY632l1fuy4LKZIrmgVqgcBprOKN8NwiHufrqKgpnxaxfParSXp5HMuEeAhrhkewxy06RJ3DGpZbuAO" />
+          <div
+            class="absolute bottom-4 left-4 bg-charcoal/40 backdrop-blur-md px-4 py-1 rounded-full text-xs border border-white/20">
+            Chobe Safari Lodge
+          </div>
+        </div>
+      </div>
+      <div class="flex-shrink-0 w-80 md:w-96 snap-start">
+        <div class="relative h-64 rounded-xl overflow-hidden mb-4 shadow-lg">
+          <img alt="Wildwaters Lodge boutique safari tents" class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtRULLQGmAhtYoBBLeS8C_-3XBZnCmdSeWfBrvlpcCTFgogyEY_Y05zOf_f5x2L6ATCEMTVnTlvDR6hCZ8YzUZaOHfr-9ANnW-G3avHqqWojR1ZlYzhmyZyJPj9_K6vuql9aaZZcrjGqDVAv6rMKQEknedaAPp0VrEmx_j7N6pb1Bru9tLntwx6YRPAane67asgNfsJP4tmVho5lhF1n5rAHTqb5EnjxLnhZtSdl4W4SCoOWQMXrrb" />
+          <div
+            class="absolute bottom-4 left-4 bg-charcoal/40 backdrop-blur-md px-4 py-1 rounded-full text-xs border border-white/20">
+            Wildwaters Lodge
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Mmondo Trust Row -->
+  <section
+    class="py-10 px-margin-mobile md:px-margin-desktop bg-surface-container-low border-b border-surface-container">
+    <div class="max-w-[1440px] mx-auto flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-80">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-4xl">verified_user</span>
+        <div>
+          <h5 class="font-label-md text-charcoal">100% Secure Payment</h5>
+          <p class="text-xs text-secondary">PCI-DSS compliant booking</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-4xl">support_agent</span>
+        <div>
+          <h5 class="font-label-md text-charcoal">Local Support</h5>
+          <p class="text-xs text-secondary">24/7 help in Uganda</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-4xl">eco</span>
+        <div>
+          <h5 class="font-label-md text-charcoal">Ethical Tourism</h5>
+          <p class="text-xs text-secondary">Supporting local communities</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-4xl">thumb_up</span>
+        <div>
+          <h5 class="font-label-md text-charcoal">Hand-picked</h5>
+          <p class="text-xs text-secondary">Only the best experiences</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories from Uganda -->
+  <section class="py-14 px-margin-mobile md:px-margin-desktop bg-white">
+    <div class="max-w-[1440px] mx-auto mb-8 flex flex-wrap gap-4 justify-between items-end">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-charcoal">Stories from Uganda</h2>
+        <p class="text-secondary font-body-md">Dive deeper into the Pearl of Africa</p>
+      </div>
+      <a class="bg-charcoal text-white font-label-md px-6 py-2 rounded-lg hover:bg-ink transition-all"
+        href="/cultures">Read more</a>
+    </div>
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-gutter">
+      <article class="group">
+        <a href="/cultures">
+          <div class="aspect-[16/9] rounded-xl overflow-hidden mb-6">
+            <img alt="Sunrise over the Rwenzori Mountains"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYu_TtBryPr_Zx_1zglmcL3uAraW_30Xx1sqihGmyVLdF_YHgD572TayeqSFZoLgO2zBudmAJYo9hxnALFQ_8w-tMGTyBjq0t0Gxr2i8g1i8nci30Qd9xliAyugMAJaEp3SiEYLkolKpuvFTK4NEna8UFOLje7nUfpargr9duB-Mvq7OAesjo_MP3nUc7Rl8Dx5r1oWTnxD9N4U9q7nb939U6KGk9wQyaQfAytbwMxJxUMfoZUsZxY" />
+          </div>
+          <div class="text-xs font-bold text-primary mb-2 uppercase tracking-widest">Adventure Guide</div>
+          <h3 class="font-headline-sm text-headline-sm text-charcoal mb-4 group-hover:text-primary transition-colors">
+            Climbing the Mountains of the Moon: What to expect</h3>
+          <p class="text-secondary font-body-md mb-4 line-clamp-2">A comprehensive guide to trekking the Rwenzori
+            Mountains, from gear lists to mental preparation for the high-altitude journey.</p>
+          <div class="flex items-center gap-2 text-slate-gray font-label-md text-xs">
+            <span>Oct 12, 2023</span>
+            <span>•</span>
+            <span>8 min read</span>
+          </div>
+        </a>
+      </article>
+      <article class="group">
+        <a href="/cultures">
+          <div class="aspect-[16/9] rounded-xl overflow-hidden mb-6">
+            <img alt="Traditional Ugandan luwombo meal"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfzprXzTuTVG3UKUzhoh_heJzxgvOKVifZPzHdIQL46PEXOg71vtB8NGfJuLAIzK35XkWtfFvAqfwXPqosasuBkLKr86VFrx9nUR53CDBfeR6nnIkcJHSjbZzaTlj9tueaxn9ftrD5QzBf1UHSeszB0Fut8awloEOz9bbTEsrX-4-J81j1V_P0Os_BkzX3PNRSoGH_sLc9qnOEO1_OwPjYhAtclCd_nTcKfl606Q1HpCc_nojeej--" />
+          </div>
+          <div class="text-xs font-bold text-primary mb-2 uppercase tracking-widest">Culture &amp; Food</div>
+          <h3 class="font-headline-sm text-headline-sm text-charcoal mb-4 group-hover:text-primary transition-colors">
+            The taste of Buganda: A journey through Luwombo</h3>
+          <p class="text-secondary font-body-md mb-4 line-clamp-2">Exploring the history and ritual behind Uganda's most
+            iconic royal dish, and where to find the best authentic versions today.</p>
+          <div class="flex items-center gap-2 text-slate-gray font-label-md text-xs">
+            <span>Sep 28, 2023</span>
+            <span>•</span>
+            <span>5 min read</span>
+          </div>
+        </a>
+      </article>
+      <article class="group">
+        <a href="/cultures">
+          <div class="aspect-[16/9] rounded-xl overflow-hidden mb-6">
+            <img alt="Local Ugandan forest guide"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPpEj3hEx6avTRhM8vf1BZK9_Yj1MiwoWSwMZt0mw6P1-pulAUpkDuNUWtVyTbiWUBzjotIEcTth8Sf2CYrLDm9WgRFdL6GGOPMUBkO-Z_HPUs9o8WzFOJwNaqxboP1L49oxdrTq-3pfVyEGUYfwqS_t_LsDRx6Xgwu6qrS3zP3-NK_rIOBPfzZNboj1dnRaoEnqOwWeANbYqxuXCSJzGlUwyKMm8j544SYaSXDkzi6n_vqkcJ9zQG" />
+          </div>
+          <div class="text-xs font-bold text-primary mb-2 uppercase tracking-widest">Expert Voices</div>
+          <h3 class="font-headline-sm text-headline-sm text-charcoal mb-4 group-hover:text-primary transition-colors">
+            Meet the guides: David's 15 years in Bwindi</h3>
+          <p class="text-secondary font-body-md mb-4 line-clamp-2">An interview with David, one of our most experienced
+            tracking guides, about the changing faces of gorilla conservation.</p>
+          <div class="flex items-center gap-2 text-slate-gray font-label-md text-xs">
+            <span>Sep 15, 2023</span>
+            <span>•</span>
+            <span>12 min read</span>
+          </div>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-charcoal text-white border-t border-primary">
+    <div
+      class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-14 w-full max-w-[1440px] mx-auto">
+      <div class="flex flex-col gap-6">
+        <div class="font-headline-sm text-headline-sm font-bold text-white">Mmondo Adventures</div>
+        <p class="text-surface-variant font-body-md">Empowering local tourism and connecting travellers to the authentic
+          soul of Uganda.</p>
+        <div class="flex gap-4">
+          <a class="material-symbols-outlined text-primary hover:text-white transition-colors" href="/cultures">public</a>
+          <a class="material-symbols-outlined text-primary hover:text-white transition-colors"
+            href="/contact">contact_mail</a>
+          <a class="material-symbols-outlined text-primary hover:text-white transition-colors" href="/about">share</a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <h5 class="text-white font-label-md text-lg">Platform</h5>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/tours">Tours</a>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/cultures">Culture blog</a>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/contact">Apply as
+          Guide</a>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/about">Verification</a>
+      </div>
+      <div class="flex flex-col gap-4">
+        <h5 class="text-white font-label-md text-lg">Support</h5>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/contact">Help Center</a>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/contact">Contact</a>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/my-bookings">Cancellations</a>
+        <a class="text-surface-variant font-label-md hover:text-white transition-colors" href="/about">Trust &amp;
+          Safety</a>
+      </div>
+      <div class="flex flex-col gap-4">
+        <h5 class="text-white font-label-md text-lg">Newsletter</h5>
+        {% if user and user.newsletter_subscribed %}
+        <p class="text-surface-variant text-sm">You are subscribed to our newsletter. Expect the best of Uganda in your
+          inbox.</p>
+        <form action="/user/unsubscribe_newsletter" method="post">
+          <button class="bg-white/10 border border-white/20 px-4 py-2 rounded-lg text-white font-label-md w-full"
+            type="submit">Unsubscribe</button>
+        </form>
+        {% else %}
+        <p class="text-surface-variant text-sm">Join our newsletter for exclusive Ugandan travel tips and deals.</p>
+        <form action="/subscribe_newsletter" class="flex gap-2" method="post">
+          <label class="sr-only" for="newsletter-email">Your email</label>
+          <input
+            class="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary w-full outline-none"
+            id="newsletter-email" name="email" placeholder="Your email" type="email"
+            value="{{ user.email if user else '' }}" />
+          <button class="bg-primary-container px-4 py-2 rounded-lg text-white font-label-md" type="submit">Join</button>
+        </form>
+        {% endif %}
+        <div class="mt-4 flex gap-4 opacity-50">
+          <div class="flex items-center gap-1 font-data-mono text-[10px]">
+            <span class="material-symbols-outlined text-sm">payments</span>
+            VISA
+          </div>
+          <div class="flex items-center gap-1 font-data-mono text-[10px]">
+            <span class="material-symbols-outlined text-sm">payments</span>
+            MC
+          </div>
+          <div class="flex items-center gap-1 font-data-mono text-[10px]">
+            <span class="material-symbols-outlined text-sm">attach_money</span>
+            USD
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-ink py-6 border-t border-white/5 text-center px-margin-mobile md:px-margin-desktop">
+      <p class="text-surface-variant font-label-md opacity-60">© 2025 Mmondo Adventures. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/static/js/index.js"></script>
+  <script>
+    // Mobile navigation toggle
+    document.getElementById('mobile-menu-button')?.addEventListener('click', function () {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    // User dropdown toggle
+    const userMenuButton = document.getElementById('user-menu-button');
+    const userMenuPanel = document.getElementById('user-menu-panel');
+
+    userMenuButton?.addEventListener('click', function (event) {
+      event.stopPropagation();
+      userMenuPanel.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function (event) {
+      if (userMenuPanel && !document.getElementById('user-menu').contains(event.target)) {
+        userMenuPanel.classList.add('hidden');
+      }
+    });
+
+    // Highlight the active search field
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function () {
+        this.closest('.flex-1')?.classList.add('bg-surface-container-low');
+      });
+      input.addEventListener('blur', function () {
+        this.closest('.flex-1')?.classList.remove('bg-surface-container-low');
+      });
+    });
+  </script>
   <script src="//code.tidio.co/00ji7zmrvbf9k3mgaxbbrhx92kosg6qn.js" async></script>
 </body>
 

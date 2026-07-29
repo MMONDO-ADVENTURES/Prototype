@@ -1,498 +1,677 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ page_title or "East Africa Cultures | MMONDO Adventures" }}</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/static/css/culture.css" />
-
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Culture - Mmondo Adventures</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;family=Outfit:wght@100..900&amp;family=Geist:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#f8f9fb",
+            "tertiary-fixed-dim": "#67de7b",
+            "charcoal": "#1E1E1E",
+            "outline": "#8c7165",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "on-tertiary-fixed-variant": "#00531e",
+            "primary-fixed": "#ffdbcb",
+            "on-primary-fixed": "#341100",
+            "secondary-container": "#e2dfde",
+            "surface-container": "#edeef0",
+            "ink": "#212121",
+            "on-surface": "#191c1e",
+            "surface-dim": "#d9dadc",
+            "surface-tint": "#9f4200",
+            "primary": "#9f4200",
+            "secondary-fixed-dim": "#c8c6c5",
+            "secondary-fixed": "#e5e2e1",
+            "on-secondary-container": "#636262",
+            "on-secondary-fixed-variant": "#474746",
+            "on-background": "#191c1e",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed": "#002108",
+            "primary-fixed-dim": "#ffb692",
+            "white": "#FFFFFF",
+            "surface-container-high": "#e7e8ea",
+            "on-tertiary-container": "#003410",
+            "on-error": "#ffffff",
+            "tertiary-fixed": "#84fb94",
+            "surface-variant": "#e1e2e4",
+            "on-tertiary": "#ffffff",
+            "secondary": "#5f5e5e",
+            "inverse-primary": "#ffb692",
+            "on-surface-variant": "#584237",
+            "inverse-surface": "#2e3132",
+            "on-primary-container": "#4e1c00",
+            "primary-container": "#ee6c1a",
+            "inverse-on-surface": "#f0f1f3",
+            "slate-gray": "#6B7280",
+            "surface-container-highest": "#e1e2e4",
+            "surface": "#f8f9fb",
+            "on-primary-fixed-variant": "#793000",
+            "outline-variant": "#e0c0b2",
+            "tertiary-container": "#2ba84d",
+            "on-secondary": "#ffffff",
+            "surface-bright": "#f8f9fb",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#006e2a",
+            "on-secondary-fixed": "#1b1b1c",
+            "surface-container-low": "#f3f4f6",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "32px",
+            "section-gap": "80px",
+            "base": "4px",
+            "gutter": "24px",
+            "margin-mobile": "16px"
+          },
+          "fontFamily": {
+            "headline-sm": ["\"Source Serif 4\""],
+            "display-lg": ["\"Source Serif 4\""],
+            "headline-md": ["\"Source Serif 4\""],
+            "display-lg-mobile": ["\"Source Serif 4\""],
+            "data-mono": ["JetBrains Mono"],
+            "body-md": ["Outfit"],
+            "label-md": ["Geist"],
+            "body-lg": ["Outfit"]
+          },
+          "fontSize": {
+            "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+            "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "700" }],
+            "data-mono": ["13px", { "lineHeight": "1.0", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    /* You can move these into culture.css later */
-    #map {
-      height: 450px;
-      width: 100%;
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
     }
 
-    .region .slider img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
+    .material-symbols-outlined {
+      vertical-align: middle;
     }
 
-    .back-to-top {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: none;
-      z-index: 999;
+    ::-webkit-scrollbar {
+      width: 6px;
     }
 
-    .back-to-top.show {
-      display: inline-flex;
+    ::-webkit-scrollbar-thumb {
+      background: #e0c0b2;
+      border-radius: 10px;
     }
   </style>
 </head>
 
-<body>
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-      <a class="navbar-brand text-white" href="/">
-        <i class="bi bi-globe2 me-2"></i> MMONDO Adventures
+<body class="bg-surface font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+  <!-- TopNavBar -->
+  <nav class="bg-charcoal sticky top-0 z-50 border-b border-primary">
+    <div
+      class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1440px] mx-auto">
+      <a class="font-headline-sm text-headline-sm font-bold text-white tracking-tight" href="/">
+        Mmondo Adventures
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="/"><i class="bi bi-house-door"></i> Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#map-section"><i class="bi bi-map"></i> Map</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#regions"><i class="bi bi-geo-alt"></i> Cultures</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#festivals"><i class="bi bi-calendar-event"></i> Festivals</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#stories"><i class="bi bi-book"></i> Stories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#locals"><i class="bi bi-people"></i> Locals</a>
-          </li>
-        </ul>
+      <div class="hidden md:flex items-center space-x-8">
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/">Home</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/tours">Tours</a>
+        <a aria-current="page" class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md"
+          href="/cultures">Culture</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/about">About Us</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/contact">Contact</a>
+        {% if user %}
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/my-bookings">My Bookings</a>
+        {% endif %}
+        {% if user and user.is_admin %}
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/admin/dashboard">Admin</a>
+        {% endif %}
       </div>
+      <div class="flex items-center gap-4">
+        {% if user %}
+        <div class="relative" id="user-menu">
+          <button class="flex items-center gap-2 text-white font-label-md text-label-md hover:opacity-80 transition-all"
+            id="user-menu-button" type="button">
+            {% if user.picture %}
+            <img alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-primary"
+              src="{{ user.picture }}" />
+            {% else %}
+            <span class="material-symbols-outlined text-primary-fixed-dim">account_circle</span>
+                {% endif %}
+            <span class="hidden sm:inline">{{ user.full_name }}</span>
+            <span class="material-symbols-outlined text-base">expand_more</span>
+          </button>
+          <div
+            class="hidden absolute right-0 mt-2 w-56 bg-charcoal border border-white/10 rounded-lg shadow-xl overflow-hidden"
+            id="user-menu-panel">
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/profile">
+              <span class="material-symbols-outlined text-base">person</span>My Profile
+            </a>
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/my-bookings">
+              <span class="material-symbols-outlined text-base">calendar_month</span>My Bookings
+            </a>
+            {% if user.newsletter_subscribed %}
+            <form action="/user/unsubscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-primary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications_off</span>Unsubscribe
+              </button>
+            </form>
+            {% else %}
+            <form action="/subscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-tertiary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications</span>Subscribe
+              </button>
+            </form>
+            {% endif %}
+            <a class="flex items-center gap-2 px-4 py-3 text-error-container font-label-md hover:bg-white/5 transition-colors border-t border-white/10"
+              href="/logout">
+              <span class="material-symbols-outlined text-base">logout</span>Logout
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <a class="text-white font-label-md text-label-md hover:text-primary transition-colors" href="/login">Log in</a>
+        <a class="bg-primary text-white font-label-md text-label-md px-6 py-2 rounded-lg hover:bg-primary-container transition-all active:scale-95"
+          href="/signup">Sign up</a>
+        {% endif %}
+        <button class="md:hidden text-white" id="mobile-menu-button" type="button" aria-label="Toggle navigation">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="hidden md:hidden border-t border-white/10 px-margin-mobile py-4 flex flex-col gap-4" id="mobile-menu">
+      <a class="text-white font-label-md text-label-md" href="/">Home</a>
+      <a class="text-white font-label-md text-label-md" href="/tours">Tours</a>
+      <a class="text-primary font-label-md text-label-md" href="/cultures">Culture</a>
+      <a class="text-white font-label-md text-label-md" href="/about">About Us</a>
+      <a class="text-white font-label-md text-label-md" href="/contact">Contact</a>
+      {% if user %}
+      <a class="text-white font-label-md text-label-md" href="/my-bookings">My Bookings</a>
+      {% endif %}
+      {% if user and user.is_admin %}
+      <a class="text-white font-label-md text-label-md" href="/admin/dashboard">Admin</a>
+            {% endif %}
     </div>
   </nav>
 
-  <!-- HEADER -->
-  <header class="bg-primary text-white text-center py-5">
-    <div class="container">
-      <h1 class="display-4">
-        {{ header_title or "East Africa Cultural Tour Bank" }}
-      </h1>
-      <p class="lead">
-        {{ header_subtitle or "Discover food, dance, dress and traditions across East Africa – curated by MMONDO Adventures." }}
-      </p>
-    </div>
-  </header>
-
-  <main class="container my-5">
-
-    <!-- FILTERS (all options come from backend) -->
-    <section class="filter-container mb-5 text-center">
-      <div class="row g-3 justify-content-center">
-
-        <!-- Country filter -->
-        <div class="col-md-3">
-          <label for="countryFilter" class="form-label">
-            <i class="bi bi-geo-alt"></i> Country:
-          </label>
-          <select id="countryFilter" class="form-select" onchange="filterRegions()">
-            <option value="all">All Countries</option>
-            {# if backend passes 'country_options': list of {slug, name} #}
-            {% if country_options %}
-              {% for c in country_options %}
-                <option value="{{ c.slug }}">{{ c.name }}</option>
-              {% endfor %}
-            {% else %}
-              {# fallback: build from regions list dynamically #}
-              {% set seen = [] %}
-              {% for r in regions %}
-                {% if r.country_slug not in seen %}
-                  <option value="{{ r.country_slug }}">{{ r.country_name or r.name }}</option>
-                  {% set _ = seen.append(r.country_slug) %}
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-          </select>
-        </div>
-
-        <!-- Interest filter -->
-        <div class="col-md-3">
-          <label for="interestFilter" class="form-label">
-            <i class="bi bi-star"></i> Interest:
-          </label>
-          <select id="interestFilter" class="form-select" onchange="filterRegions()">
-            <option value="all">All Interests</option>
-            {% if interests %}
-              {% for i in interests %}
-                <option value="{{ i.slug }}">{{ i.label }}</option>
-              {% endfor %}
-            {% endif %}
-          </select>
-        </div>
-
-        <!-- Keyword search -->
-        <div class="col-md-4">
-          <label for="keywordSearch" class="form-label">
-            <i class="bi bi-search"></i> Search:
-          </label>
-          <input
-            type="text"
-            id="keywordSearch"
-            class="form-control"
-            placeholder="Search by food, tribe, dress..."
-            onkeyup="filterRegions()"
-          />
-        </div>
-      </div>
-    </section>
-
-    <!-- MAP SECTION (destinations come from backend) -->
-    <section id="map-section" class="mb-5">
-      <h2 class="mb-3">Interactive Map</h2>
-      <p class="text-muted">Click a marker to jump to cultural highlights or explore tours for that destination.</p>
-      <div id="map" class="rounded shadow"></div>
-    </section>
-
-    <!-- CULTURE REGIONS / COUNTRIES -->
-    <section id="regions" class="mb-5">
-      <h2 class="text-center mb-4">Cultural Highlights</h2>
-
-      {% if regions and regions|length > 0 %}
-        {% for region in regions %}
+  <main class="w-full">
+    <div class="flex flex-col w-full relative overflow-x-hidden bg-background" id="culture-content">
+      <!-- Hero -->
+      <div class="relative w-full h-[560px] md:h-[720px] overflow-hidden group">
         <div
-          class="region card shadow mb-5 border-0 rounded-4 overflow-hidden"
-          id="{{ region.slug }}"
-          data-country="{{ region.country_slug }}"
-          data-interests="{{ region.interests|join(',') if region.interests }}"
-        >
-          <div class="row g-0">
+          class="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-[20s] ease-out group-hover:scale-105"
+          style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD2QlcyhQDXPvxOpKtc1VX7SccQSibo_mwuLUy5JNlNdp82wkCM_eql4XfT7zt8Og-3GvCW8nK8BobjuPpoUG3rpih9HjG-GCxq_yrGGwBpe0zfPgS6jDefA78ytFW8aLukffvzIvgMnwE3DSHeyBBN_YJd8CyCDBYXdFgVIBVgCkNGqHbG-FwaGCiIGgH0TY2CIt8JL-HSGDm6Z1ajsHIWhZH7W2MEjo6t5f6R1uM4gPvYfrr6pmwR')">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent"></div>
+        <div
+          class="absolute inset-0 flex flex-col justify-end pb-16 md:pb-24 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto z-10">
+          <span class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-[0.2em] mb-6 flex items-center gap-4">
+            <span class="w-12 h-[1px] bg-primary-fixed-dim block"></span>
+            Cultural Immersion
+          </span>
+          <h1 class="font-bold text-[28px] md:text-[36px] text-white max-w-4xl mb-6">
+            The Soul of Uganda: A Journey Through Heritage
+          </h1>
+          <p class="font-body-lg text-body-lg text-surface-container-highest max-w-2xl">
+            Beyond the wildlife lies a profound human tapestry. Discover fifty-six distinct indigenous tribes, forty
+            living languages, and a ten-thousand-year-old rhythm that beats in the heart of Uganda.
+          </p>
+        </div>
+        </div>
 
-            <!-- IMAGE SLIDER -->
-            <div class="col-md-5">
-              <div class="slider position-relative">
-                {% if region.images and region.images|length > 0 %}
-                  <div class="slider-container">
-                    {% for image in region.images %}
-                      <img
-                        src="{{ image.url }}"
-                        alt="{{ image.alt or region.name }}"
-                        class="img-fluid"
-                        loading="lazy"
-                      />
-                    {% endfor %}
+      <!-- Heritage in numbers -->
+      <div class="w-full relative bg-charcoal text-white py-16 md:py-20">
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8" data-animate-group>
+            <div class="flex flex-col items-start relative group">
+              <div
+                class="text-[120px] leading-none font-bold text-white/5 absolute -top-8 -left-4 transition-transform duration-700 group-hover:-translate-y-4">
+                56+
+              </div>
+              <div class="relative z-10 flex flex-col gap-4">
+                <span class="font-bold text-[28px] text-primary-fixed-dim">56+</span>
+                <h3 class="font-headline-sm text-headline-sm text-white">Indigenous Tribes</h3>
+                <p class="font-body-md text-body-md text-surface-dim/80 max-w-sm">
+                  A kaleidoscope of distinct cultural identities, from the pastoralist Karamojong in the northeast to
+                  the agrarian Baganda in the central region.
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-col items-start relative group">
+              <div
+                class="text-[120px] leading-none font-bold text-white/5 absolute -top-8 -left-4 transition-transform duration-700 group-hover:-translate-y-4">
+                40+
+              </div>
+              <div class="relative z-10 flex flex-col gap-4">
+                <span class="font-bold text-[28px] text-primary-fixed-dim">40+</span>
+                <h3 class="font-headline-sm text-headline-sm text-white">Living Languages</h3>
+                <p class="font-body-md text-body-md text-surface-dim/80 max-w-sm">
+                  Rooted in Bantu, Nilotic, and Central Sudanic linguistic families, preserving ancient oral traditions
+                  and storytelling lineages.
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-col items-start relative group">
+              <div
+                class="text-[120px] leading-none font-bold text-white/5 absolute -top-8 -left-4 transition-transform duration-700 group-hover:-translate-y-4">
+                10k
+              </div>
+              <div class="relative z-10 flex flex-col gap-4">
+                <span class="font-bold text-[28px] text-primary-fixed-dim">10k</span>
+                <h3 class="font-headline-sm text-headline-sm text-white">Years of History</h3>
+                <p class="font-body-md text-body-md text-surface-dim/80 max-w-sm">
+                  Continuous human habitation dating back to the late Stone Age, evidenced by ancient rock art and
+                  deeply rooted traditional governance systems.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Immersive encounters -->
+      <div class="w-full py-16 md:py-20 relative bg-surface">
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop mb-12 md:mb-16">
+          <div class="max-w-3xl">
+            <span class="font-data-mono text-primary uppercase tracking-[0.2em] mb-5 block">Living Traditions</span>
+            <h2 class="font-bold text-[28px] md:text-[36px] text-charcoal mb-5">Immersive Encounters
+            </h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant">
+              A closer look at three traditions that shape everyday life in Uganda: where they come from, who keeps them
+              alive, and what a respectful visit looks like.
+            </p>
+          </div>
+        </div>
+
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter" data-animate-group>
+            <!-- Kasubi Tombs -->
+            <div
+              class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
+              <div class="w-full h-72 relative overflow-hidden">
+                <img alt="The domed, thatched Kasubi Royal Tombs in Kampala"
+                  class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7eVn8XDUtlbGLkBWVUxUqW-xNUju9gv52czi6jKpo1Ao_JXx7x-RfkUD6p3NOmOQN8wZrAXkToyFsuJBnDNstExAyrwB5XSjfhA21gei9OIUmHxWNf33c5MGBECaiBxj3VxJL7ZwnP2AFmuYvr7wKpLjFK7pVVrbWaILUhi3qqX4l5OkTVOBAnnHqRDJCBv1SRpKIP9J6k6jf6oiMNS_bbNbhciLYB83Et1BH9o3mV2UEYDXeY6uF" />
+                <div
+                  class="absolute top-4 left-4 bg-tertiary-fixed-dim/90 backdrop-blur-sm text-on-tertiary-fixed-variant px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-wider">
+                  UNESCO Site
+                </div>
+              </div>
+              <div class="p-6 flex flex-col flex-grow bg-white">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="material-symbols-outlined text-outline text-[18px]">location_on</span>
+                  <span class="font-label-md text-label-md text-outline">Kampala Region</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-charcoal mb-3">The Royal Tombs of Kasubi</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                  The burial grounds of four Kabakas (Kings) of Buganda. Built entirely from wood, thatch and reed, it
+                  is a masterpiece of Ganda architecture and remains a living spiritual centre for the Baganda people.
+                </p>
+                <div class="mt-auto pt-5 border-t border-surface-container-high grid grid-cols-2 gap-4">
+                  <div class="flex flex-col">
+                    <span class="font-data-mono text-outline uppercase text-[11px] mb-1">Custodians</span>
+                    <span class="font-label-md text-label-md text-charcoal">Buganda Kingdom</span>
                   </div>
-                  {% if region.images|length > 1 %}
-                  <div class="slider-nav">
-                    {% for _ in region.images %}
-                      <span class="slider-dot {% if loop.first %}active{% endif %}"></span>
-                    {% endfor %}
+                  <div class="flex flex-col">
+                    <span class="font-data-mono text-outline uppercase text-[11px] mb-1">Recognised</span>
+                    <span class="font-label-md text-label-md text-charcoal">UNESCO, 2001</span>
                   </div>
-                  {% endif %}
-                {% else %}
-                  {# Fallback image if no images set yet #}
-                  <img
-                    src="/static/img/default-culture.jpg"
-                    alt="{{ region.name }}"
-                    class="img-fluid"
-                    loading="lazy"
-                  />
-                {% endif %}
+                </div>
               </div>
             </div>
 
-            <!-- TEXT CONTENT -->
-            <div class="col-md-7">
-              <div class="card-body p-4">
-                <h3 class="card-title d-flex align-items-center">
-                  {% if region.badge_label %}
-                    <span
-                      class="badge me-2"
-                      style="background-color: {{ region.badge_color or '#0d6efd' }};"
-                    >
-                      {{ region.badge_label }}
-                    </span>
-                  {% endif %}
-                  {{ region.name }}
-                </h3>
-
-                {% if region.food %}
-                <p>
-                  <strong>Food:</strong>
-                  {# support both list and string #}
-                  {% if region.food is iterable and region.food is not string %}
-                    {{ region.food|join(', ') }}
-                  {% else %}
-                    {{ region.food }}
-                  {% endif %}
+            <!-- Batwa Trail -->
+            <div
+              class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
+              <div class="w-full h-72 relative overflow-hidden">
+                <img alt="A Batwa elder in the misty Mgahinga forest"
+                  class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj4TfxvcZVkQuZpNgwTLetSLF75EG2Ct9M9BEtyZDsGoLhzeHhJzTKegbBWVJvf85aF5HfIbkBfU0JE_Gk0TiEPt8t2BA8xFkPw17i8rjMCzcOr0gBlCtjQ96_ZFR9H9g0Toi-xSKk81UkQ-nyypU5mWcCp2Jxny6ctvkH98TkLAH40HKXGb5oQC8Fp79XMzaHdg3GcjIXGA72fwodSsaxazZAbf7dX--osnDUg7ddAVWvFil6ZvF5" />
+                <div
+                  class="absolute top-4 left-4 bg-surface-variant/90 backdrop-blur-sm text-on-surface-variant px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-wider">
+                  Indigenous Heritage
+                </div>
+              </div>
+              <div class="p-6 flex flex-col flex-grow bg-white">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="material-symbols-outlined text-outline text-[18px]">location_on</span>
+                  <span class="font-label-md text-label-md text-outline">Mgahinga Forest</span>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-charcoal mb-3">The Batwa and the Forest</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                  The Batwa were the forest's first inhabitants. Their botanical knowledge, hunting techniques and
+                  musical traditions carry thousands of years of life beneath the canopy of Mgahinga.
                 </p>
-                {% endif %}
-
-                {% if region.dress %}
-                <p><strong>Dress:</strong> {{ region.dress }}</p>
-                {% endif %}
-
-                {% if region.traditions %}
-                <p><strong>Traditions:</strong> {{ region.traditions }}</p>
-                {% endif %}
-
-                {% if region.tour_themes %}
-                <p><strong>Top tour themes:</strong> {{ region.tour_themes }}</p>
-                {% endif %}
-
-                <!-- DYNAMIC YOUTUBE VIDEO -->
-                {% if region.video_url %}
-                  {% if "youtube.com" in region.video_url or "youtu.be" in region.video_url %}
-                    {% set embed_url = region.video_url
-                        |replace("watch?v=", "embed/")
-                        |replace("youtu.be/", "youtube.com/embed/") %}
-                  {% else %}
-                    {% set embed_url = region.video_url %}
-                  {% endif %}
-                  <div class="video-preview mt-3">
-                    <iframe
-                      class="region-video"
-                      src="{{ embed_url }}"
-                      allowfullscreen
-                      loading="lazy"
-                    ></iframe>
-                    {% if region.video_credit %}
-                    <div class="video-credit text-end">
-                      <small class="text-muted">Video credit: {{ region.video_credit }}</small>
+                <div class="mt-auto pt-5 border-t border-surface-container-high grid grid-cols-2 gap-4">
+                  <div class="flex flex-col">
+                    <span class="font-data-mono text-outline uppercase text-[11px] mb-1">Custodians</span>
+                    <span class="font-label-md text-label-md text-charcoal">Batwa communities</span>
                     </div>
-                    {% endif %}
+                  <div class="flex flex-col">
+                    <span class="font-data-mono text-outline uppercase text-[11px] mb-1">Passed down</span>
+                    <span class="font-label-md text-label-md text-charcoal">Orally, for millennia</span>
                   </div>
-                {% endif %}
-
-                {% if region.testimonial %}
-                <blockquote class="blockquote mt-3">
-                  <i class="bi bi-quote text-primary"></i> {{ region.testimonial }}
-                </blockquote>
-                {% endif %}
-
-                <!-- ACTION BUTTONS (links come from backend) -->
-                <div class="mt-3 d-flex flex-wrap gap-2">
-                  {% if region.tours_url %}
-                  <a href="{{ region.tours_url }}" class="btn btn-primary btn-sm">
-                    View tours
-                  </a>
-                  {% endif %}
-                  {% if region.itinerary_url %}
-                  <a href="{{ region.itinerary_url }}" class="btn btn-outline-primary btn-sm">
-                    Build custom itinerary
-                  </a>
-                  {% endif %}
                 </div>
               </div>
             </div>
 
+            <!-- Basketry -->
+            <div
+              class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full md:col-span-2 lg:col-span-1">
+              <div class="w-full h-72 relative overflow-hidden">
+                <img alt="Hands weaving a traditional Ugandan basket from dyed raffia"
+                  class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjd2aoKxsxerV3Dt480hopx7N23T9KNeNWmWP2BO84nLJD7cKNCWHgui0AosAIVW5q7CItVL3yELduXkJp2NifzsRv7KkgIWOnjFSU9S1P3Ihrb2YRhZXrlURxLHclcysgE0TIAwX2D9i-uK5xfQz03rK2AHvzlTP9j_ov4LBgIzUp7AHTGaZf9sBWa3GIi492iMq74Hi3rITpRYNyfoQnlSIYlygHb9kUNcTUsfpnFhC2i2pjZ3SY" />
+                <div
+                  class="absolute top-4 left-4 bg-surface-variant/90 backdrop-blur-sm text-on-surface-variant px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-wider">
+                  Living Craft
           </div>
         </div>
-        {% endfor %}
-      {% else %}
-        <div class="text-center text-muted py-5">
-          <h5>No cultural content available yet. Please check back soon.</h5>
+              <div class="p-6 flex flex-col flex-grow bg-white">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="material-symbols-outlined text-outline text-[18px]">location_on</span>
+                  <span class="font-label-md text-label-md text-outline">Fort Portal</span>
         </div>
-      {% endif %}
-    </section>
-
-    <!-- FESTIVALS -->
-    <section id="festivals" class="mb-5">
-      <h2 class="mb-4">Festival Calendar</h2>
-      <div class="row">
-        {% if festivals and festivals|length > 0 %}
-          {% for f in festivals %}
-          <div class="col-md-4 mb-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <h4 class="card-title">{{ f.name }}</h4>
-                <p class="card-text">
-                  {% if f.date_label %}
-                    <i class="bi bi-calendar"></i> {{ f.date_label }}
-                  {% endif %}
-                  {% if f.location_label %}
-                    | <i class="bi bi-geo-alt"></i> {{ f.location_label }}
-                  {% endif %}
+                <h3 class="font-headline-sm text-headline-sm text-charcoal mb-3">The Art of Basketry</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                  Master weavers in rural cooperatives work complex geometry and cultural symbolism into every coil —
+                  patterns that record clan, occasion and place.
                 </p>
-                <p class="card-text">{{ f.description }}</p>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        {% else %}
-          <p class="text-muted text-center">No festivals added yet.</p>
-        {% endif %}
-      </div>
-    </section>
-
-    <!-- STORIES -->
-    <section id="stories" class="mb-5">
-      <h2 class="mb-4">Traditional Stories</h2>
-      <div class="row">
-        {% if stories and stories|length > 0 %}
-          {% for s in stories %}
-          <div class="col-md-6 mb-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <h4 class="card-title">{{ s.title }}</h4>
-                <p class="card-text">
-                  {% if s.region_label %}
-                    <strong>{{ s.region_label }}</strong> –
-                  {% endif %}
-                  {{ s.summary }}
-                </p>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        {% else %}
-          <p class="text-muted text-center">No stories added yet.</p>
-        {% endif %}
-      </div>
-    </section>
-
-    <!-- LOCALS -->
-    <section id="locals" class="mb-5">
-      <h2 class="mb-4">Meet the Locals</h2>
-      <div class="row">
-        {% if locals and locals|length > 0 %}
-          {% for l in locals %}
-          <div class="col-md-6 mb-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex">
-                  <i class="bi bi-person-circle fs-1 me-3 text-primary"></i>
-                  <div>
-                    <h5 class="card-title">
-                      {{ l.name }}
-                      {% if l.location %} – {{ l.location }}{% endif %}
-                    </h5>
-                    <p class="card-text">"{{ l.quote }}"</p>
+                <div class="mt-auto pt-5 border-t border-surface-container-high grid grid-cols-2 gap-4">
+                  <div class="flex flex-col">
+                    <span class="font-data-mono text-outline uppercase text-[11px] mb-1">Custodians</span>
+                    <span class="font-label-md text-label-md text-charcoal">Women's cooperatives</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-data-mono text-outline uppercase text-[11px] mb-1">Materials</span>
+                    <span class="font-label-md text-label-md text-charcoal">Raffia &amp; banana fibre</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {% endfor %}
-        {% else %}
-          <p class="text-muted text-center">No local hosts added yet.</p>
-        {% endif %}
+        </div>
       </div>
-    </section>
 
+      <!-- Artisan spotlight: bark cloth -->
+      <div class="w-full py-16 md:py-20 bg-surface-container-high relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-outline-variant/10 rounded-l-full blur-3xl -z-10"></div>
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5 flex flex-col relative z-10">
+              <span class="font-data-mono text-primary uppercase tracking-[0.2em] mb-5">Artisan Spotlight</span>
+              <h2 class="font-bold text-[28px] md:text-[36px] text-charcoal mb-6 leading-tight">
+                The Legacy of <br /><span class="italic font-light">Bark Cloth</span>
+              </h2>
+              <div class="bg-surface p-6 md:p-8 rounded-xl shadow-sm mb-6 relative">
+                <div class="absolute -left-3 top-8 w-1 h-12 bg-primary"></div>
+                <p class="font-body-lg text-body-lg text-on-surface-variant mb-5">
+                  Recognized by UNESCO as a Masterpiece of the Oral and Intangible Heritage of Humanity, bark cloth
+                  making is an ancient craft of the Baganda people, predating the invention of weaving.
+                </p>
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                  The process involves harvesting the inner bark of the Mutuba tree without destroying it — an early
+                  masterclass in sustainable harvesting. The bark is meticulously beaten with wooden mallets to create a
+                  soft, terracotta-colored fabric historically reserved for royalty.
+                </p>
+              </div>
+              <div class="w-fit flex items-start gap-3 border-l-2 border-primary pl-4">
+                <span class="material-symbols-outlined text-primary">verified</span>
+                <span class="font-label-md text-label-md text-charcoal leading-relaxed">
+                  Inscribed on the UNESCO list of Intangible Cultural Heritage in 2005
+                </span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-7 relative">
+              <div class="grid grid-cols-2 gap-5 relative z-10">
+                <div class="flex flex-col gap-5 mt-10">
+                  <div class="w-full h-[320px] md:h-[380px] rounded-xl overflow-hidden shadow-lg relative">
+                    <img alt="A craftsman beating Mutuba bark with a grooved wooden mallet"
+                      class="absolute inset-0 w-full h-full object-cover"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkLleMH05eF5cHqmzgUINrKSLMYbWNjza1RXz8pJAi-aspyMD0Nsp57RtcGux4I_XNq8haWnXMGZacob3Odp0xEnROJffru-bGeLN8sfXuU2RoEBO8u9VZOIQy6fwgR7HsJVEbOuFgaMohvoQxi8YBrUV7ROsBffVP84aljZYcWHWj-r_Ni0eUGDo6kbXUlx-5fwiBFdMeKab6d6iHN-M-lV5N7oa40_fVipEqf8plmNMtDjOa2KFW" />
+                  </div>
+                  <div class="bg-primary-container p-5 rounded-xl flex items-start gap-4">
+                    <span class="material-symbols-outlined text-on-primary-container">eco</span>
+                    <p class="font-label-md text-label-md text-on-primary-container leading-relaxed">
+                      100% regenerative process. The Mutuba tree regrows its bark within a year, sustaining the craft
+                      indefinitely.
+                    </p>
+          </div>
+      </div>
+                <div class="flex flex-col gap-5">
+                  <div class="w-full h-[400px] md:h-[470px] rounded-xl overflow-hidden shadow-xl relative">
+                    <img alt="A modern garment crafted from traditional Ugandan bark cloth"
+                      class="absolute inset-0 w-full h-full object-cover"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcA0t3ZWKyp7lM1APFXgPzO27SX57hve6ZgWhcrfqxpCdnFerHEV9X7b_zQ31L3LYht7o71XyS5bT0EcxMW0cHKDmK4qKkMVM35ciXZR1Sb1llELUtl1HMvu5WHTwEmKB4VbaGt6LZVMUhwwh7F_Srr0TJsinnF7NbpiqXaSs7UTXxRTkBQXrsja0_4fh8_VEQRXd-nzLKm4ffxC8H1AQHG7KZTmrACRabKGEelz266d_Opv78a6JY" />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="absolute -bottom-10 -left-10 font-headline-sm text-surface-variant [writing-mode:vertical-rl] tracking-widest hidden xl:block">
+                UNESCO INTANGIBLE HERITAGE
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Traveling with respect -->
+      <div class="w-full py-16 md:py-20 bg-charcoal text-white relative">
+        <div class="absolute inset-0 opacity-5"
+          style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;">
+        </div>
+        <div class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop text-center mb-12 relative z-10">
+          <span class="material-symbols-outlined text-primary-fixed-dim text-[48px] mb-5">handshake</span>
+          <h2 class="font-bold text-[28px] md:text-[36px] text-white mb-5">Traveling with Respect
+          </h2>
+          <p class="font-body-lg text-body-lg text-surface-dim/80">
+            Engaging with communities is a privilege. Mmondo promotes a model of cultural exchange built on dignity,
+            mutual respect, and economic equity.
+          </p>
+        </div>
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-animate-group>
+            <div
+              class="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-xl flex flex-col items-start hover:bg-white/10 transition-colors">
+              <div class="w-12 h-12 bg-primary/30 rounded-full flex items-center justify-center mb-5">
+                <span class="font-data-mono text-primary-fixed-dim">01</span>
+              </div>
+              <h4 class="font-headline-sm text-headline-sm text-white mb-3">Photography Protocol</h4>
+              <p class="font-body-md text-body-md text-surface-dim/70">
+                Always seek explicit permission before photographing individuals, particularly elders and children. Put
+                the camera away first; connect human-to-human before documenting.
+              </p>
+            </div>
+            <div
+              class="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-xl flex flex-col items-start hover:bg-white/10 transition-colors">
+              <div class="w-12 h-12 bg-primary/30 rounded-full flex items-center justify-center mb-5">
+                <span class="font-data-mono text-primary-fixed-dim">02</span>
+              </div>
+              <h4 class="font-headline-sm text-headline-sm text-white mb-3">Economic Equity</h4>
+              <p class="font-body-md text-body-md text-surface-dim/70">
+                Support local artisans directly. We discourage bargaining heavily for crafts, as these pieces represent
+                hours of skilled labor and primary livelihoods.
+              </p>
+            </div>
+            <div
+              class="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-xl flex flex-col items-start hover:bg-white/10 transition-colors">
+              <div class="w-12 h-12 bg-primary/30 rounded-full flex items-center justify-center mb-5">
+                <span class="font-data-mono text-primary-fixed-dim">03</span>
+              </div>
+              <h4 class="font-headline-sm text-headline-sm text-white mb-3">Dress &amp; Decorum</h4>
+              <p class="font-body-md text-body-md text-surface-dim/70">
+                When visiting rural communities or sacred sites, conservative attire is appreciated. Observe local
+                greetings and gestures as guided by your Mmondo expert.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
-  <!-- Back to top -->
-  <a href="#" class="back-to-top btn btn-primary rounded-circle" id="backToTop">
-    <i class="bi bi-arrow-up"></i>
-  </a>
-
-  <!-- FOOTER -->
-  <footer class="bg-dark text-white py-4">
-    <div class="container text-center">
-      <p class="mb-0">&copy; {{ current_year or 2025 }} MMONDO ADVENTURES</p>
+  <!-- Footer -->
+  <footer class="bg-charcoal text-white">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-14 w-full max-w-[1440px] mx-auto border-t border-primary">
+      <div>
+        <div class="font-headline-sm text-headline-sm font-bold text-white mb-6">Mmondo Adventures</div>
+        <p class="font-body-md text-body-md text-surface-variant mb-6">
+          Authentic Ugandan adventures crafted for the sophisticated explorer.
+        </p>
+        <div class="flex gap-4">
+          <a class="text-surface-variant hover:text-white transition-colors" href="/cultures"><span
+              class="material-symbols-outlined">language</span></a>
+          <a class="text-surface-variant hover:text-white transition-colors" href="/about"><span
+              class="material-symbols-outlined">public</span></a>
+          <a class="text-surface-variant hover:text-white transition-colors" href="/contact"><span
+              class="material-symbols-outlined">alternate_email</span></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-label-md text-label-md text-primary mb-6 uppercase tracking-wider">Platform</h4>
+        <ul class="space-y-4">
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/tours">Tours</a></li>
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/cultures">Culture</a></li>
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/contact">Apply as Guide</a></li>
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/about">Verification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-label-md text-label-md text-primary mb-6 uppercase tracking-wider">Support</h4>
+        <ul class="space-y-4">
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/contact">Help Center</a></li>
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/contact">Contact</a></li>
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/my-bookings">Cancellations</a></li>
+          <li><a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md"
+              href="/about">Trust &amp; Safety</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-label-md text-label-md text-primary mb-6 uppercase tracking-wider">Newsletter</h4>
+        <p class="font-body-md text-body-md text-surface-variant mb-4">
+          Get expedition updates and travel insights.
+        </p>
+        {% if user and user.newsletter_subscribed %}
+        <form action="/user/unsubscribe_newsletter" class="m-0" method="post">
+          <p class="font-body-md text-body-md text-tertiary-fixed-dim mb-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base">check_circle</span> You're subscribed
+          </p>
+          <button
+            class="w-full border border-white/20 text-surface-variant rounded-lg py-2.5 font-label-md text-label-md hover:bg-white/5 transition-colors"
+            type="submit">Unsubscribe</button>
+        </form>
+        {% elif user %}
+        <form action="/subscribe_newsletter" class="m-0" method="post">
+          <p class="font-body-md text-[14px] text-surface-variant/70 mb-3">Sent to {{ user.email }}</p>
+          <button
+            class="w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md hover:bg-primary-container transition-colors"
+            type="submit">Subscribe</button>
+        </form>
+        {% else %}
+        <a class="block text-center w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md hover:bg-primary-container transition-colors"
+          href="/login">Log in to subscribe</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="border-t border-white/10 py-8 px-margin-mobile md:px-margin-desktop">
+      <div
+        class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-surface-variant opacity-60">
+        <span class="font-label-md text-label-md">© 2025 Mmondo Adventures. All rights reserved.</span>
+        <div class="flex gap-8">
+          <a class="font-label-md text-label-md hover:text-white transition-colors" href="/about">Privacy Policy</a>
+          <a class="font-label-md text-label-md hover:text-white transition-colors" href="/about">Terms of Service</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <script>
-    // Destinations (for map markers) come directly from backend
-    // Example of each item in `destinations`:
-    // {
-    //   "slug": "uganda",
-    //   "name": "Kampala & Central Region",
-    //   "country_name": "Uganda",
-    //   "lat": 0.34,
-    //   "lng": 32.58,
-    //   "tours_url": "/tours?country=uganda"
-    // }
-    const destinations = {{ destinations | default([]) | tojson | safe }};
-
-    const map = L.map('map').setView([0.5, 34], 5);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    destinations.forEach(dest => {
-      const marker = L.marker([dest.lat, dest.lng]).addTo(map);
-
-      let popupHtml = `<strong>${dest.name}</strong><br/>`;
-      if (dest.country_name) {
-        popupHtml += `<span class="text-muted small">${dest.country_name}</span><br/>`;
-      }
-
-      popupHtml += `
-        <button class="btn btn-sm btn-primary mt-2" onclick="scrollToRegion('${dest.slug}')">
-          View culture
-        </button>
-      `;
-
-      if (dest.tours_url) {
-        popupHtml += `
-          <a href="${dest.tours_url}" class="btn btn-sm btn-outline-primary mt-2 ms-1">
-            View tours
-          </a>
-        `;
-      }
-
-      marker.bindPopup(popupHtml);
+    // Navigation menus
+    document.getElementById('mobile-menu-button')?.addEventListener('click', function () {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
     });
 
-    // Scroll page to region card
-    window.scrollToRegion = function (slug) {
-      const el = document.getElementById(slug);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const userMenu = document.getElementById('user-menu');
+    const userMenuPanel = document.getElementById('user-menu-panel');
+    document.getElementById('user-menu-button')?.addEventListener('click', function (event) {
+      event.stopPropagation();
+      userMenuPanel.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function (event) {
+      if (userMenuPanel && !userMenu.contains(event.target)) {
+        userMenuPanel.classList.add('hidden');
       }
-    };
+    });
 
-    // Filter logic: country + interest + keyword
-    window.filterRegions = function () {
-      const countryValue = document.getElementById('countryFilter').value;
-      const interestValue = document.getElementById('interestFilter').value;
-      const keyword = document.getElementById('keywordSearch').value.toLowerCase();
+    // Reveal the card rows as they scroll into view
+    document.addEventListener('DOMContentLoaded', function () {
+      const groups = document.querySelectorAll('[data-animate-group]');
+      if (!groups.length || !('IntersectionObserver' in window)) return;
 
-      document.querySelectorAll('.region').forEach(region => {
-        const regionCountry = region.getAttribute('data-country');
-        const regionInterests = (region.getAttribute('data-interests') || '').split(',');
-        const textContent = region.innerText.toLowerCase();
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          entry.target.classList.remove('opacity-0', 'translate-y-8');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.1 });
 
-        let visible = true;
-
-        if (countryValue !== 'all' && regionCountry !== countryValue) {
-          visible = false;
-        }
-
-        if (interestValue !== 'all' && !regionInterests.includes(interestValue)) {
-          visible = false;
-        }
-
-        if (keyword && !textContent.includes(keyword)) {
-          visible = false;
-        }
-
-        region.style.display = visible ? 'block' : 'none';
+      groups.forEach(function (group) {
+        Array.from(group.children).forEach(function (card, index) {
+          card.style.transitionDelay = `${index * 100}ms`;
+          card.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-8');
+          observer.observe(card);
+        });
       });
-    };
-
-    // Back-to-top button
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 200) backToTop.classList.add('show');
-      else backToTop.classList.remove('show');
     });
   </script>
 </body>
 
 </html>
-

@@ -10,7 +10,7 @@ async def test_read_root():
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         response = await ac.get("/")
     assert response.status_code == 200
-    assert "Pearl Tours" in response.text
+    assert "Mmondo Adventures" in response.text
 
 
 @pytest.mark.asyncio
@@ -37,7 +37,7 @@ async def test_show_cultures():
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         response = await ac.get("/cultures")
     assert response.status_code == 200
-    assert "Central Region" in response.text  # Content from hardcoded `regions`
+    assert "The Soul of Uganda" in response.text  # Static content from culture.html
 
 
 # Add more endpoint tests here for routes that do not require auth/db

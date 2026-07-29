@@ -1,377 +1,613 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us - MMONDO</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link href="/static/css/index.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>About Us - Mmondo Adventures</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;family=Outfit:wght@100..900&amp;family=Geist:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#f8f9fb",
+            "tertiary-fixed-dim": "#67de7b",
+            "charcoal": "#1E1E1E",
+            "outline": "#8c7165",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "on-tertiary-fixed-variant": "#00531e",
+            "primary-fixed": "#ffdbcb",
+            "on-primary-fixed": "#341100",
+            "secondary-container": "#e2dfde",
+            "surface-container": "#edeef0",
+            "ink": "#212121",
+            "on-surface": "#191c1e",
+            "surface-dim": "#d9dadc",
+            "surface-tint": "#9f4200",
+            "primary": "#9f4200",
+            "secondary-fixed-dim": "#c8c6c5",
+            "secondary-fixed": "#e5e2e1",
+            "on-secondary-container": "#636262",
+            "on-secondary-fixed-variant": "#474746",
+            "on-background": "#191c1e",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed": "#002108",
+            "primary-fixed-dim": "#ffb692",
+            "white": "#FFFFFF",
+            "surface-container-high": "#e7e8ea",
+            "on-tertiary-container": "#003410",
+            "on-error": "#ffffff",
+            "tertiary-fixed": "#84fb94",
+            "surface-variant": "#e1e2e4",
+            "on-tertiary": "#ffffff",
+            "secondary": "#5f5e5e",
+            "inverse-primary": "#ffb692",
+            "on-surface-variant": "#584237",
+            "inverse-surface": "#2e3132",
+            "on-primary-container": "#4e1c00",
+            "primary-container": "#ee6c1a",
+            "inverse-on-surface": "#f0f1f3",
+            "slate-gray": "#6B7280",
+            "surface-container-highest": "#e1e2e4",
+            "surface": "#f8f9fb",
+            "on-primary-fixed-variant": "#793000",
+            "outline-variant": "#e0c0b2",
+            "tertiary-container": "#2ba84d",
+            "on-secondary": "#ffffff",
+            "surface-bright": "#f8f9fb",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#006e2a",
+            "on-secondary-fixed": "#1b1b1c",
+            "surface-container-low": "#f3f4f6",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "32px",
+            "section-gap": "80px",
+            "base": "4px",
+            "gutter": "24px",
+            "margin-mobile": "16px"
+          },
+          "fontFamily": {
+            "headline-sm": ["\"Source Serif 4\""],
+            "display-lg": ["\"Source Serif 4\""],
+            "headline-md": ["\"Source Serif 4\""],
+            "display-lg-mobile": ["\"Source Serif 4\""],
+            "data-mono": ["JetBrains Mono"],
+            "body-md": ["Outfit"],
+            "label-md": ["Geist"],
+            "body-lg": ["Outfit"]
+          },
+          "fontSize": {
+            "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+            "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "700" }],
+            "data-mono": ["13px", { "lineHeight": "1.0", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --primary-color: #EA580C;
-      --primary-light: #FDBA74;
-      --primary-dark: #C2410C;
-      --navbar-bg: #1a1a1a;
-      --footer-bg: #1a1a1a;
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
     }
 
-    body {
-      padding-top: 76px;
+    .material-symbols-outlined {
+      vertical-align: middle;
     }
 
-    .navbar-custom {
-      background-color: var(--navbar-bg) !important;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      border-bottom: 3px solid var(--primary-color);
+    ::-webkit-scrollbar {
+      width: 6px;
     }
 
-    .navbar-custom .navbar-nav .nav-link {
-      color: rgba(255, 255, 255, 0.9) !important;
-      transition: all 0.3s ease;
-    }
-
-    .navbar-custom .navbar-nav .nav-link:hover,
-    .navbar-custom .navbar-nav .nav-link.active {
-      color: white !important;
-      background-color: rgba(234, 88, 12, 0.2);
-      border-radius: 5px;
-    }
-
-    .navbar-custom .navbar-brand {
-      color: white !important;
-      font-weight: 700;
-      font-size: 1.5rem;
-    }
-
-    .navbar-custom .navbar-brand:hover {
-      color: var(--primary-light) !important;
-    }
-
-    .navbar-custom .btn-outline-light {
-      border-color: rgba(255, 255, 255, 0.3);
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .navbar-custom .btn-outline-light:hover {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white !important;
-    }
-
-    .navbar-custom .btn-light {
-      background-color: var(--primary-color);
-      color: white !important;
-      border: 1px solid var(--primary-color);
-    }
-
-    .navbar-custom .btn-light:hover {
-      background-color: var(--primary-dark);
-      border-color: var(--primary-dark);
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(234, 88, 12, 0.5);
-    }
-
-    .navbar-custom .dropdown-menu {
-      background-color: #2c2c2c;
-      border: 1px solid rgba(234, 88, 12, 0.2);
-    }
-
-    .navbar-custom .dropdown-item {
-      color: #ddd;
-    }
-
-    .navbar-custom .dropdown-item:hover {
-      background-color: rgba(234, 88, 12, 0.2);
-      color: white;
-    }
-
-    .page-hero {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-      color: white;
-      padding: 4rem 0;
-      text-align: center;
-    }
-
-    .section-narrow {
-      padding: 60px 0;
-    }
-
-    .section-title {
-      font-size: 2.2rem;
-      margin-bottom: 1.5rem;
-      color: var(--primary-dark);
-    }
-
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: var(--primary-color);
-    }
-
-    .profile-circle {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--primary-color);
-    }
-
-    .footer {
-      background-color: var(--footer-bg);
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      border-top: 4px solid var(--primary-color);
-    }
-
-    .footer-link {
-      color: #ddd !important;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      display: inline-block;
-      padding: 3px 0;
-    }
-
-    .footer-link:hover {
-      color: var(--primary-light) !important;
-      padding-left: 5px;
-    }
-
-    .social-icon {
-      display: inline-block;
-      width: 36px;
-      height: 36px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      text-align: center;
-      line-height: 36px;
-      margin-right: 10px;
-      color: white;
-      transition: all 0.3s ease;
-    }
-
-    .social-icon:hover {
-      background-color: var(--primary-color);
-      transform: translateY(-3px);
-    }
-
-    .footer .btn-info {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: white;
-    }
-
-    .footer .btn-info:hover {
-      background-color: var(--primary-dark);
-      border-color: var(--primary-dark);
+    ::-webkit-scrollbar-thumb {
+      background: #e0c0b2;
+      border-radius: 10px;
     }
   </style>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-lg">
-    <div class="container">
-      <a class="navbar-brand" href="/"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav gap-3">
-          <li class="nav-item">
-            <a class="nav-link" href="/"><i class="bi bi-house-door-fill me-1"></i>Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cultures"><i class="bi bi-people-fill me-1"></i>Cultures</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/tours"><i class="bi bi-map me-1"></i>Tours</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/about"><i class="bi bi-info-circle-fill me-1"></i>About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact"><i class="bi bi-envelope-fill me-1"></i>Contact</a>
-          </li>
-          {% if user %}
-          <li class="nav-item">
-            <a class="nav-link" href="/my-bookings"><i class="bi bi-journal-check me-1"></i>My Bookings</a>
-          </li>
-          {% endif %}
-          {% if user and user.is_admin %}
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/dashboard"><i class="bi bi-speedometer2 me-1"></i>Admin</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-
-      <div class="d-flex align-items-center gap-2">
+<body class="bg-surface font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+  <!-- TopNavBar -->
+  <nav class="bg-charcoal sticky top-0 z-50 border-b border-primary">
+    <div
+      class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1440px] mx-auto">
+      <a class="font-headline-sm text-headline-sm font-bold text-white tracking-tight" href="/">
+        Mmondo Adventures
+      </a>
+      <div class="hidden md:flex items-center space-x-8">
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/">Home</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/tours">Tours</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/cultures">Culture</a>
+        <a aria-current="page" class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md"
+          href="/about">About Us</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/contact">Contact</a>
         {% if user %}
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            {% if user.picture %}
-            <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
-            {% else %}
-            <i class="bi bi-person-circle me-2" style="color: var(--primary-light);"></i>
-            {% endif %}
-            {{ user.full_name }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
-            <li><a class="dropdown-item" href="/my-bookings"><i class="bi bi-calendar-check me-2"></i>My Bookings</a></li>
-            <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
-            <li><a class="dropdown-item text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-          </ul>
-        </div>
-        {% else %}
-        <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-        <a class="btn btn-light btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/my-bookings">My Bookings</a>
+        {% endif %}
+        {% if user and user.is_admin %}
+        <a class="text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+          href="/admin/dashboard">Admin</a>
         {% endif %}
       </div>
+      <div class="flex items-center gap-4">
+        {% if user %}
+        <div class="relative" id="user-menu">
+          <button class="flex items-center gap-2 text-white font-label-md text-label-md hover:opacity-80 transition-all"
+            id="user-menu-button" type="button">
+            {% if user.picture %}
+            <img alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-primary"
+              src="{{ user.picture }}" />
+            {% else %}
+            <span class="material-symbols-outlined text-primary-fixed-dim">account_circle</span>
+            {% endif %}
+            <span class="hidden sm:inline">{{ user.full_name }}</span>
+            <span class="material-symbols-outlined text-base">expand_more</span>
+          </button>
+          <div
+            class="hidden absolute right-0 mt-2 w-56 bg-charcoal border border-white/10 rounded-lg shadow-xl overflow-hidden"
+            id="user-menu-panel">
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/profile">
+              <span class="material-symbols-outlined text-base">person</span>My Profile
+            </a>
+            <a class="flex items-center gap-2 px-4 py-3 text-white font-label-md hover:bg-white/5 transition-colors"
+              href="/my-bookings">
+              <span class="material-symbols-outlined text-base">calendar_month</span>My Bookings
+            </a>
+            {% if user.newsletter_subscribed %}
+            <form action="/user/unsubscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-primary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications_off</span>Unsubscribe
+              </button>
+            </form>
+            {% else %}
+            <form action="/subscribe_newsletter" class="m-0" method="post">
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-tertiary-fixed-dim font-label-md hover:bg-white/5 transition-colors"
+                type="submit">
+                <span class="material-symbols-outlined text-base">notifications</span>Subscribe
+              </button>
+            </form>
+            {% endif %}
+            <a class="flex items-center gap-2 px-4 py-3 text-error-container font-label-md hover:bg-white/5 transition-colors border-t border-white/10"
+              href="/logout">
+              <span class="material-symbols-outlined text-base">logout</span>Logout
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <a class="text-white font-label-md text-label-md hover:text-primary transition-colors" href="/login">Log in</a>
+        <a class="bg-primary text-white font-label-md text-label-md px-6 py-2 rounded-lg hover:bg-primary-container transition-all active:scale-95"
+          href="/signup">Sign up</a>
+        {% endif %}
+        <button class="md:hidden text-white" id="mobile-menu-button" type="button" aria-label="Toggle navigation">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="hidden md:hidden border-t border-white/10 px-margin-mobile py-4 flex flex-col gap-4" id="mobile-menu">
+      <a class="text-white font-label-md text-label-md" href="/">Home</a>
+      <a class="text-white font-label-md text-label-md" href="/tours">Tours</a>
+      <a class="text-white font-label-md text-label-md" href="/cultures">Culture</a>
+      <a class="text-primary font-label-md text-label-md" href="/about">About Us</a>
+      <a class="text-white font-label-md text-label-md" href="/contact">Contact</a>
+      {% if user %}
+      <a class="text-white font-label-md text-label-md" href="/my-bookings">My Bookings</a>
+      {% endif %}
+      {% if user and user.is_admin %}
+      <a class="text-white font-label-md text-label-md" href="/admin/dashboard">Admin</a>
+      {% endif %}
     </div>
   </nav>
 
-  <main>
-    <section class="page-hero">
-      <div class="container">
-        <h1 class="display-5 fw-bold">About MMONDO</h1>
-        <p class="lead mb-0">Connecting East African adventures with travelers worldwide</p>
-      </div>
-    </section>
+  <main class="w-full">
+    <div class="flex flex-col w-full">
+      <!-- Hero -->
+      <section class="relative w-full h-[520px] md:h-[640px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center"
+          style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5u9DhUKVW0cXjzq-sHfLiS1Grxuj0WQaHgcqn_-32ukkwSAGwUe7dsCTsespk2MICK_CZSqk7FKjqHGnyCxT2hdYzRO4b4VVIj_BZSzMSyVr86pUnvdeLI55t4LyxZhwD9MUXSCq2A-jfFqFO8vfrOYwUdWYaCM-xZiS37tMSjRuAiUND8H6KgPOeb7DSZRWsYBA90It3qjDOUGjTKTxomWU5vUSDW-H0mnShkeDsPalIRYgmmxqL')">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-transparent"></div>
+        <div
+          class="relative z-10 w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-start gap-5">
+          <span
+            class="font-label-md text-label-md text-tertiary-fixed-dim uppercase tracking-[0.2em] [writing-mode:vertical-rl] absolute -left-2 top-1/2 -translate-y-1/2 hidden xl:block">Origins</span>
+          <h1 class="font-bold text-[28px] md:text-[36px] text-white max-w-3xl drop-shadow-lg">
+            Our Mission: Connecting You to the Heart of Uganda<span class="text-primary-fixed-dim">.</span>
+          </h1>
+          <p class="font-body-lg text-body-lg text-surface-dim max-w-2xl opacity-90">
+            We are more than a booking platform. We bring Ugandan tour operators and travellers together, working
+            with trusted local guides to deliver authentic, well-organised adventures.
+          </p>
+        </div>
+      </section>
 
-    <section class="section-narrow">
-      <div class="container">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-6">
-            <h2 class="section-title">Our Story</h2>
-            <p class="lead text-muted">
-              MMONDO is a platform that allows travelers to browse tours and discover unforgettable experiences across East Africa.
-            </p>
-            <p class="text-muted">
-              We connect East African tour operators with customers in the European market, bridging the gap and opening new opportunities in the international tourism sector. Our team works with trusted local guides to deliver authentic, well-organized adventures.
-            </p>
-            <a href="/tours" class="btn btn-primary btn-lg mt-2">Explore Our Tours</a>
+      <!-- Our story -->
+      <section
+        class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-20 relative">
+        <div
+          class="absolute top-0 right-0 w-64 h-64 bg-primary-fixed/20 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2">
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div class="lg:col-span-5 relative">
+            <div class="aspect-[4/5] rounded-xl overflow-hidden shadow-xl">
+              <img alt="A Mmondo guide in the field" class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDE26FgCKHPsjFiQI-0kuNFBaDjWlw7d-jSAiQyQ5QXPsvrkrDO45cr90y9xOoFzJDZbM8hyJ71gCI6rQa_6EtdxTKDpibsiVqr4SdrsOzuPXB4Gr0-AhK-Og1re4zTYzrREudkS9UhCOW8z2Lfc1EA5hb7OmxesTNl87SzZun-ay8aTWdtfAyJcbnqkuTT8osHkhO8yPMo0Uc3B0GjVfiMk64CyAixG0WfzdXzwjJLgysQtw1si4c" />
+            </div>
+            <div
+              class="absolute -bottom-8 -right-4 xl:-right-8 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-md max-w-[280px] hidden md:block">
+              <span class="font-bold text-[28px] text-primary block mb-2">15+</span>
+              <span class="font-label-md text-label-md text-charcoal uppercase tracking-wider">Years of local
+                expertise</span>
+            </div>
           </div>
-          <div class="col-lg-6">
-            <div class="card border-0 shadow-sm">
-              <div class="card-body p-4">
-                <h3 class="h5 mb-3" style="color: var(--primary-dark);">What We Stand For</h3>
-                <ul class="list-unstyled mb-0">
-                  <li class="mb-3"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary-color);"></i>Authentic East African experiences</li>
-                  <li class="mb-3"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary-color);"></i>Trusted local operators and guides</li>
-                  <li class="mb-3"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary-color);"></i>Secure booking and flexible payments</li>
-                  <li><i class="bi bi-check-circle-fill me-2" style="color: var(--primary-color);"></i>Dedicated support before, during, and after your trip</li>
-                </ul>
+
+          <div class="lg:col-span-7 flex flex-col gap-6 lg:pl-12">
+            <div class="flex items-center gap-4">
+              <div class="h-px w-12 bg-outline"></div>
+              <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Our
+                Story</span>
+            </div>
+            <h2 class="font-headline-md text-headline-md text-charcoal">
+              Born from a profound respect for our homeland.
+            </h2>
+            <div class="space-y-5 text-on-surface-variant font-body-md text-body-md">
+              <p>
+                Mmondo Adventures began with a simple realisation: the true essence of Uganda wasn't reaching the
+                world. Founded by local experts who grew up exploring these trails, tracking the gorillas, and
+                navigating the mighty Nile, we set out to change that.
+              </p>
+              <p>
+                We connect Ugandan tour operators with travellers in the European market, bridging the gap and
+                opening new opportunities in international tourism. Every itinerary is delivered with trusted local
+                guides, so your journey leaves a positive, lasting impact on the communities and ecosystems we cherish.
+              </p>
+              <p class="font-body-lg text-body-lg text-charcoal italic pt-2">
+                "To travel with Mmondo is to walk alongside the custodians of the land."
+              </p>
+            </div>
+            <a class="w-fit bg-primary hover:bg-primary-container text-on-primary px-8 py-3.5 rounded-lg font-label-md text-label-md transition-all flex items-center gap-2"
+              href="/tours">
+              Explore our tours
+              <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- What we stand for -->
+      <section class="w-full bg-surface-container py-16 md:py-20">
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col gap-12">
+          <div class="max-w-2xl">
+            <h2 class="font-headline-md text-headline-md text-charcoal mb-4">The Pillars of Our Promise</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              The principles that guide every itinerary we list and every interaction we have.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+            <div
+              class="bg-surface rounded-xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              </div>
+              <div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center mb-5 text-primary">
+                <span class="material-symbols-outlined text-[28px]">explore</span>
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-charcoal mb-3 relative z-10">Authentic Experiences</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant relative z-10">
+                We bypass the tourist traps. Our listings dive into the cultural fabric of Uganda, offering
+                unscripted encounters and genuine hospitality.
+              </p>
+            </div>
+
+            <div
+              class="bg-surface rounded-xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-tertiary-fixed/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              </div>
+              <div
+                class="w-12 h-12 bg-tertiary-fixed rounded-lg flex items-center justify-center mb-5 text-on-tertiary-fixed-variant">
+                <span class="material-symbols-outlined text-[28px]">handshake</span>
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-charcoal mb-3 relative z-10">Trusted Local Operators
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant relative z-10">
+                Every operator and guide on Mmondo is verified before they can list a tour. Your money stays in the
+                region, supporting the families who make your journey possible.
+              </p>
+            </div>
+
+            <div
+              class="bg-surface rounded-xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-outline-variant/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              </div>
+              <div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center mb-5 text-charcoal">
+                <span class="material-symbols-outlined text-[28px]">verified_user</span>
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-charcoal mb-3 relative z-10">Secure Booking &amp; Support
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant relative z-10">
+                Flexible payments, clear cancellation terms, and a team that answers before, during, and after your
+                trip.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Meet the team -->
+      <section class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-20">
+        <div class="flex flex-col gap-10 md:gap-12">
+          <div class="text-center max-w-2xl mx-auto">
+            <h2 class="font-headline-md text-headline-md text-charcoal mb-4">Meet the Experts</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              The passionate professionals behind your perfect trip. Born locally, trained globally.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+            <div class="group">
+              <div class="aspect-[3/4] rounded-xl overflow-hidden mb-5 bg-surface-container-high">
+                <img alt="Mr. Kyamuwendo Oscar"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="/static/img/IMG_1274s.PNG" />
+              </div>
+              <h4 class="font-headline-sm text-headline-sm text-charcoal">Mr. Kyamuwendo Oscar</h4>
+              <span class="font-label-md text-label-md text-primary uppercase tracking-wider block mt-1">Destination
+                Expert</span>
+            </div>
+
+            <div class="group">
+              <div class="aspect-[3/4] rounded-xl overflow-hidden mb-5 bg-surface-container-high">
+                <img alt="Mr. Lubega Rhyan"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="/static/img/IMG_1511.jpg" />
+              </div>
+              <h4 class="font-headline-sm text-headline-sm text-charcoal">Mr. Lubega Rhyan</h4>
+              <span class="font-label-md text-label-md text-primary uppercase tracking-wider block mt-1">Customer
+                Support</span>
+            </div>
+
+            <div class="group">
+              <div class="aspect-[3/4] rounded-xl overflow-hidden mb-5 bg-surface-container-high">
+                <img alt="Mr. Mutale George"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="/static/img/IMG_9193%20(1).jpg" />
+              </div>
+              <h4 class="font-headline-sm text-headline-sm text-charcoal">Mr. Mutale George</h4>
+              <span class="font-label-md text-label-md text-primary uppercase tracking-wider block mt-1">Operations
+                Manager</span>
+            </div>
+
+            <div class="group">
+              <div class="aspect-[3/4] rounded-xl overflow-hidden mb-5 bg-surface-container-high">
+                <img alt="Mr. Onyango Boaz"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="/static/img/bib.jpg" />
+              </div>
+              <h4 class="font-headline-sm text-headline-sm text-charcoal">Mr. Onyango Boaz</h4>
+              <span class="font-label-md text-label-md text-primary uppercase tracking-wider block mt-1">Wildlife
+                Consultant</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- By the numbers -->
+      <section class="w-full bg-charcoal text-white py-16 md:py-20 relative overflow-hidden" id="stats">
+        <div
+          class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent -skew-x-12 transform origin-top-right">
+        </div>
+        <div
+          class="absolute bottom-0 left-0 w-64 h-64 bg-tertiary-fixed/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4">
+        </div>
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="flex flex-col gap-6">
+              <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full w-fit backdrop-blur-md">
+                <span class="material-symbols-outlined text-tertiary-fixed-dim text-[18px]">insights</span>
+                <span class="font-label-md text-label-md text-white uppercase tracking-wider">Mmondo by the
+                  numbers</span>
+              </div>
+              <h2 class="font-bold text-[28px] md:text-[36px] text-white">Travel that gives back.
+              </h2>
+              <p class="font-body-lg text-body-lg text-surface-dim opacity-90">
+                We measure our success not just by the travellers we guide, but by what stays behind: work for local
+                operators, income for guides, and a reason for communities to keep their traditions alive.
+              </p>
+              <a class="bg-primary hover:bg-primary-container text-white px-8 py-4 rounded-lg font-label-md text-label-md transition-all w-fit mt-2 flex items-center gap-2"
+                href="/tours">
+                Browse our tours
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </a>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col items-start gap-3">
+                <span class="font-bold text-[28px] text-tertiary-fixed-dim stat-number">10000</span>
+                <span class="font-label-md text-label-md text-surface-dim uppercase tracking-wider">Happy clients</span>
+              </div>
+              <div
+                class="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col items-start gap-3 md:mt-8">
+                <span class="font-bold text-[28px] text-primary-fixed-dim stat-number">150</span>
+                <span class="font-label-md text-label-md text-surface-dim uppercase tracking-wider">Tour packages</span>
+              </div>
+              <div
+                class="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col items-start gap-3 md:-mt-8">
+                <span class="font-bold text-[28px] text-secondary-fixed stat-number">50</span>
+                <span class="font-label-md text-label-md text-surface-dim uppercase tracking-wider">Destinations</span>
+              </div>
+              <div class="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-xl flex flex-col items-start gap-3">
+                <span class="font-bold text-[28px] text-outline-variant stat-number">15</span>
+                <span class="font-label-md text-label-md text-surface-dim uppercase tracking-wider">Years
+                  experience</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="stats" class="bg-light section-narrow">
-      <div class="container">
-        <h2 class="text-center section-title">MMONDO by the Numbers</h2>
-        <div class="row text-center g-4">
-          <div class="col-6 col-md-3">
-            <div class="stat-number">10000</div>
-            <p class="text-muted">Happy Clients</p>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="stat-number">150</div>
-            <p class="text-muted">Tour Packages</p>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="stat-number">50</div>
-            <p class="text-muted">Destinations</p>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="stat-number">15</div>
-            <p class="text-muted">Years Experience</p>
+      <!-- Partners -->
+      <section class="w-full bg-surface py-14 border-b border-surface-container-high">
+        <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-8">
+          <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">
+            Working with
+          </span>
+          <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            {% for partner in ['Serena Hotels', 'Mweya Safari Lodge', 'Protea Hotel'] %}
+            {% if not loop.first %}
+            <span class="h-8 w-px bg-surface-container-high hidden md:block"></span>
+            {% endif %}
+            <span
+              class="font-headline-sm text-headline-sm text-charcoal opacity-60 hover:opacity-100 transition-opacity">{{ partner }}</span>
+            {% endfor %}
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="team" class="section-narrow">
-      <div class="container">
-        <h2 class="text-center section-title">Our Team</h2>
-        <p class="text-center lead mb-4">Meet the passionate professionals behind your perfect trip</p>
-        <div class="row g-4 justify-content-center">
-          <div class="col-md-4 col-lg-3 text-center">
-            <img src="/static/img/IMG_1274s.PNG" class="profile-circle mb-3" alt="Mr. Kyamuwendo Oscar" />
-            <h4>Mr. Kyamuwendo Oscar</h4>
-            <p class="text-muted">Destination Expert</p>
-          </div>
-          <div class="col-md-4 col-lg-3 text-center">
-            <img src="/static/img/IMG_1511.jpg" class="profile-circle mb-3" alt="Mr. Lubega Rhyan" />
-            <h4>Mr. Lubega Rhyan</h4>
-            <p class="text-muted">Customer Support</p>
-          </div>
-          <div class="col-md-4 col-lg-3 text-center">
-            <img src="/static/img/IMG_9193 (1).jpg" class="profile-circle mb-3" alt="Mr. Mutale George" />
-            <h4>Mr. Mutale George</h4>
-            <p class="text-muted">Operations Manager</p>
-          </div>
-          <div class="col-md-4 col-lg-3 text-center">
-            <img src="/static/img/bib.jpg" class="profile-circle mb-3" alt="Mr. Onyango Boaz" />
-            <h4>Mr. Onyango Boaz</h4>
-            <p class="text-muted">Wildlife Consultant</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
-  <footer class="footer text-white pt-5 pb-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 mb-4">
-          <h4 class="fw-bold"><i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO</h4>
-          <p>Explore Uganda's culture, nature, and wildlife with our curated tours.</p>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Quick Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="/" class="footer-link"><i class="bi bi-house-door-fill me-1"></i>Home</a></li>
-            <li><a href="/cultures" class="footer-link"><i class="bi bi-people-fill me-1"></i>Cultures</a></li>
-            <li><a href="/tours" class="footer-link"><i class="bi bi-map me-1"></i>Tours</a></li>
-            <li><a href="/about" class="footer-link"><i class="bi bi-info-circle me-1"></i>About Us</a></li>
-            <li><a href="/contact" class="footer-link"><i class="bi bi-envelope me-1"></i>Contact</a></li>
+  <!-- Footer -->
+  <footer class="w-full bg-charcoal pt-16 pb-10 border-t border-primary">
+    <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
+        <div class="space-y-5">
+          <span class="font-headline-sm text-headline-sm font-bold text-white">Mmondo Adventures</span>
+          <p class="font-body-md text-body-md text-white/70 max-w-[240px]">
+            Authentic Ugandan adventures crafted for the sophisticated explorer.
+          </p>
+          <ul class="space-y-2 font-body-md text-body-md text-white/70">
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px] text-primary-fixed-dim">call</span>
+              +256 700 123 456
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px] text-primary-fixed-dim">mail</span>
+              info@mmondo.ug
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px] text-primary-fixed-dim">location_on</span>
+              Kampala, Uganda
+            </li>
           </ul>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Partners</h5>
-          <ul class="list-unstyled">
-            <li><a href="#" class="footer-link"><i class="bi bi-building me-1"></i>Serena Hotels</a></li>
-            <li><a href="#" class="footer-link"><i class="bi bi-building me-1"></i>Mweya Safari Lodge</a></li>
-            <li><a href="#" class="footer-link"><i class="bi bi-building me-1"></i>Protea Hotel</a></li>
+
+        <div>
+          <h4 class="font-label-md text-label-md text-white mb-4 uppercase tracking-wider">Platform</h4>
+          <ul class="space-y-3">
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/tours">Tours</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/cultures">Culture</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/contact">Apply as Guide</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/about">Verification</a></li>
           </ul>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="fw-semibold">Contact</h5>
-          <p><i class="bi bi-telephone-fill me-2"></i>+256 700 123 456</p>
-          <p><i class="bi bi-envelope-fill me-2"></i>info@mmondo.ug</p>
-          <p><i class="bi bi-geo-alt-fill me-2"></i>Kampala, Uganda</p>
-          <a href="/subscribe" class="btn btn-info w-100 mt-3">Subscribe to Updates</a>
+
+        <div>
+          <h4 class="font-label-md text-label-md text-white mb-4 uppercase tracking-wider">Support</h4>
+          <ul class="space-y-3">
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/contact">Help Center</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/contact">Contact</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/my-bookings">Cancellations</a></li>
+            <li><a class="font-body-md text-body-md text-white/70 hover:text-primary-fixed-dim transition-colors"
+                href="/about">Trust &amp; Safety</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-label-md text-label-md text-white mb-4 uppercase tracking-wider">Newsletter</h4>
+          <p class="font-body-md text-body-md text-white/70 mb-4">Get expedition updates and travel insights.</p>
+          {% if user and user.newsletter_subscribed %}
+          <form action="/user/unsubscribe_newsletter" class="m-0" method="post">
+            <p class="font-body-md text-body-md text-tertiary-fixed-dim mb-3 flex items-center gap-2">
+              <span class="material-symbols-outlined text-base">check_circle</span> You're subscribed
+            </p>
+            <button
+              class="w-full border border-white/20 text-white/70 rounded-lg py-2.5 font-label-md text-label-md hover:bg-white/5 transition-colors"
+              type="submit">Unsubscribe</button>
+          </form>
+          {% elif user %}
+          <form action="/subscribe_newsletter" class="m-0" method="post">
+            <p class="font-body-md text-[14px] text-white/50 mb-3">Sent to {{ user.email }}</p>
+            <button
+              class="w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md hover:bg-primary-container transition-colors"
+              type="submit">Subscribe</button>
+          </form>
+          {% else %}
+          <a class="block text-center w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md hover:bg-primary-container transition-colors"
+            href="/login">Log in to subscribe</a>
+          {% endif %}
         </div>
       </div>
-      <div class="text-center border-top pt-3 mt-4" style="border-color: rgba(255, 255, 255, 0.1) !important;">
-        <small>&copy; 2025 MMONDO. All rights reserved.</small>
+
+      <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <span class="font-body-md text-body-md text-white/70">© 2025 Mmondo Adventures. All rights reserved.</span>
+        <div class="flex gap-8">
+          <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors"
+            href="/about">Privacy Policy</a>
+          <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors" href="/about">Terms of
+            Service</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('mobile-menu-button')?.addEventListener('click', function () {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    const userMenu = document.getElementById('user-menu');
+    const userMenuPanel = document.getElementById('user-menu-panel');
+    document.getElementById('user-menu-button')?.addEventListener('click', function (event) {
+      event.stopPropagation();
+      userMenuPanel.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function (event) {
+      if (userMenuPanel && !userMenu.contains(event.target)) {
+        userMenuPanel.classList.add('hidden');
+      }
+    });
+  </script>
   <script src="/static/js/about.js"></script>
 </body>
 

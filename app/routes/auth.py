@@ -1,19 +1,47 @@
 import uuid
 import os
 import secrets
+import json
 from urllib.parse import urlencode
 import httpx
 from authlib.integrations.starlette_client import OAuth
 from authlib.oauth2.rfc6749 import OAuth2Token
 from datetime import datetime, timedelta
-from fastapi import APIRouter, Request, Depends, HTTPException, status, Form
+from fastapi import APIRouter, Request, Depends, HTTPException, status, Form, File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from app.models import User
-from app.utils import get_current_user, create_session, delete_session, verify_password, hash_password, send_email,is_superadmin
+from app.utils import get_current_user, create_session, delete_session, verify_password, hash_password, send_email,is_superadmin, safe_next_path
 from app.database import get_db
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import func
+
+
+def _load_preferences(user: User) -> dict:
+    """Parse travel preferences stored as JSON in user.bio."""
+    defaults = {
+        "country": "Uganda",
+        "dietary": [],
+        "pace": "moderate",
+        "two_factor": False,
+        "passport_expiry": "",
+        "has_passport": False,
+    }
+    if not user.bio:
+        return defaults
+    try:
+        data = json.loads(user.bio)
+        if isinstance(data, dict) and data.get("_profile_prefs"):
+            defaults.update({k: v for k, v in data.items() if k != "_profile_prefs"})
+            return defaults
+    except (json.JSONDecodeError, TypeError):
+        pass
+    return defaults
+
+
+def _save_preferences(user: User, prefs: dict) -> None:
+    payload = {"_profile_prefs": True, **prefs}
+    user.bio = json.dumps(payload)
 
 
 router = APIRouter()
@@ -67,9 +95,17 @@ async def debug_config():
     }
 
 @router.get("/auth/google")
-async def google_login(request: Request):
+async def google_login(request: Request, next: str = None):
     """Initiate Google OAuth flow"""
     try:
+        # Google does not round-trip a state param here, so the post-login
+        # destination rides along in the session instead.
+        destination = safe_next_path(next)
+        if destination:
+            request.session["post_login_next"] = destination
+        else:
+            request.session.pop("post_login_next", None)
+
         # Check if configuration is set
         if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
             return RedirectResponse("/login?error=Google+OAuth+not+configured")
@@ -210,7 +246,11 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
         
         # Create session
         session_id = create_session(db, user.id)
-        response = RedirectResponse(url="/tours?just_logged_in=true", status_code=status.HTTP_302_FOUND)
+        destination = safe_next_path(request.session.pop("post_login_next", None))
+        response = RedirectResponse(
+            url=destination or "/tours?just_logged_in=true",
+            status_code=status.HTTP_302_FOUND,
+        )
         response.set_cookie(
             key="auth_session_id", 
             value=session_id, 
@@ -313,8 +353,11 @@ temporary_reset_tokens = {}
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
 @router.get("/signup", response_class=HTMLResponse)
-async def get_signup(request: Request):
-    return templates.TemplateResponse("signup.html", {"request": request})
+async def get_signup(request: Request, next: str = None):
+    return templates.TemplateResponse(
+        "signup.html",
+        {"request": request, "next": safe_next_path(next) or ""},
+    )
 
 @router.post("/signup", response_class=HTMLResponse)
 async def signup(request: Request, db: Session = Depends(get_db)):
@@ -337,22 +380,32 @@ async def signup(request: Request, db: Session = Depends(get_db)):
     return RedirectResponse(url="/login", status_code=status.HTTP_302_FOUND)
 
 @router.get("/login", response_class=HTMLResponse)
-async def get_login(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+async def get_login(request: Request, next: str = None):
+    return templates.TemplateResponse(
+        "login.html",
+        {"request": request, "next": safe_next_path(next) or ""},
+    )
 
 @router.post("/login", response_class=HTMLResponse)
 async def login(request: Request, db: Session = Depends(get_db)):
     form = await request.form()
     email = form.get("email")
     password = form.get("password")
+    next_path = safe_next_path(form.get("next"))
     
     user = db.query(User).filter(User.email == email).first()
     
     if not user or not verify_password(password, user.hashed_password):
-        return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid email or password"})
+        return templates.TemplateResponse("login.html", {
+            "request": request,
+            "error": "Invalid email or password",
+            "next": next_path or "",
+        })
     
     session_id = create_session(db, user.id)
-    if user.is_superadmin:
+    if next_path:
+        redirect_url = next_path
+    elif user.is_superadmin:
         redirect_url = "/superadmin/dashboard"
     elif user.is_admin:
         redirect_url = "/admin/dashboard"  # if you have one
@@ -525,18 +578,186 @@ async def reset_password_post(
     
 @router.get("/profile", response_class=HTMLResponse)
 async def profile(request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    """User profile page"""
+    """Tourist profile page"""
     if not current_user:
-        return RedirectResponse("/login")
-    
+        return RedirectResponse("/login", status_code=303)
+
+    if is_superadmin(current_user):
+        return RedirectResponse(url="/superadmin/dashboard", status_code=303)
+
+    success = request.session.pop("success", None)
+    error = request.session.pop("error", None)
+
     return templates.TemplateResponse("profile.html", {
         "request": request,
-        "user": current_user
-    })   
-     # ✅ Redirect super admin
-    if is_superadmin(current_user):
-         return RedirectResponse(url="/superadmin/dashboard", status_code=HTTP_302_FOUND) 
-    
+        "user": current_user,
+        "preferences": _load_preferences(current_user),
+        "success": success,
+        "error": error,
+    })
+
+
+@router.post("/profile/update", response_class=HTMLResponse)
+async def update_tourist_profile(
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+    full_name: str = Form(...),
+    email: str = Form(...),
+    phone: str = Form(""),
+    country: str = Form("Uganda"),
+):
+    if not current_user:
+        return RedirectResponse("/login", status_code=303)
+
+    try:
+        email = email.strip().lower()
+        existing = db.query(User).filter(User.email == email, User.id != current_user.id).first()
+        if existing:
+            request.session["error"] = "Email already in use"
+            return RedirectResponse(url="/profile#profile", status_code=303)
+
+        current_user.full_name = full_name.strip()
+        current_user.email = email
+        current_user.phone = phone.strip() or None
+
+        prefs = _load_preferences(current_user)
+        prefs["country"] = country
+        _save_preferences(current_user, prefs)
+
+        db.commit()
+        request.session["success"] = "Profile updated successfully"
+    except Exception as e:
+        db.rollback()
+        request.session["error"] = f"Error updating profile: {str(e)}"
+
+    return RedirectResponse(url="/profile#profile", status_code=303)
+
+
+@router.post("/profile/change-password", response_class=HTMLResponse)
+async def change_tourist_password(
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+    current_password: str = Form(...),
+    new_password: str = Form(...),
+):
+    if not current_user:
+        return RedirectResponse("/login", status_code=303)
+
+    try:
+        if not current_user.hashed_password:
+            request.session["error"] = "Password change is not available for this account"
+            return RedirectResponse(url="/profile#security", status_code=303)
+
+        if not verify_password(current_password, current_user.hashed_password):
+            request.session["error"] = "Current password is incorrect"
+            return RedirectResponse(url="/profile#security", status_code=303)
+
+        if len(new_password) < 8:
+            request.session["error"] = "New password must be at least 8 characters long"
+            return RedirectResponse(url="/profile#security", status_code=303)
+
+        current_user.hashed_password = hash_password(new_password)
+        db.commit()
+        request.session["success"] = "Password updated successfully"
+    except Exception as e:
+        db.rollback()
+        request.session["error"] = f"Error changing password: {str(e)}"
+
+    return RedirectResponse(url="/profile#security", status_code=303)
+
+
+@router.post("/profile/preferences", response_class=HTMLResponse)
+async def update_tourist_preferences(
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user:
+        return RedirectResponse("/login", status_code=303)
+
+    try:
+        form = await request.form()
+        prefs = _load_preferences(current_user)
+
+        dietary_raw = form.getlist("dietary") if hasattr(form, "getlist") else []
+        if not dietary_raw:
+            single = form.get("dietary", "")
+            dietary_raw = [d.strip() for d in str(single).split(",") if d.strip()] if single else []
+
+        prefs["dietary"] = [d.lower() for d in dietary_raw if d]
+        prefs["pace"] = form.get("pace") or prefs.get("pace", "moderate")
+        prefs["country"] = form.get("country") or prefs.get("country", "Uganda")
+        prefs["two_factor"] = form.get("two_factor") in ("1", "on", "true", "True")
+        prefs["passport_expiry"] = form.get("passport_expiry") or ""
+        has_passport = form.get("has_passport")
+        if has_passport is not None:
+            prefs["has_passport"] = has_passport in ("1", "on", "true", "True")
+        if prefs["passport_expiry"]:
+            prefs["has_passport"] = True
+
+        _save_preferences(current_user, prefs)
+        db.commit()
+        request.session["success"] = "Preferences saved"
+    except Exception as e:
+        db.rollback()
+        request.session["error"] = f"Error saving preferences: {str(e)}"
+
+    # Prefer the section the user was on
+    referer = request.headers.get("referer", "/profile")
+    anchor = "#preferences"
+    if "#security" in referer:
+        anchor = "#security"
+    elif "#documents" in referer:
+        anchor = "#documents"
+    return RedirectResponse(url=f"/profile{anchor}", status_code=303)
+
+
+@router.post("/profile/upload-picture")
+async def upload_tourist_picture(
+    request: Request,
+    picture: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user:
+        return RedirectResponse("/login", status_code=303)
+
+    try:
+        if not picture.content_type or not picture.content_type.startswith("image/"):
+            request.session["error"] = "File must be an image"
+            return RedirectResponse(url="/profile", status_code=303)
+
+        upload_dir = "static/uploads/profile_pictures"
+        os.makedirs(upload_dir, exist_ok=True)
+
+        file_ext = os.path.splitext(picture.filename or "")[1] or ".jpg"
+        filename = f"{uuid.uuid4()}{file_ext}"
+        file_path = os.path.join(upload_dir, filename)
+
+        contents = await picture.read()
+        with open(file_path, "wb") as f:
+            f.write(contents)
+
+        if current_user.picture and current_user.picture.startswith("/static/uploads/profile_pictures/"):
+            old_path = current_user.picture.lstrip("/")
+            if os.path.exists(old_path):
+                try:
+                    os.remove(old_path)
+                except OSError:
+                    pass
+
+        current_user.picture = f"/static/uploads/profile_pictures/{filename}"
+        db.commit()
+        request.session["success"] = "Profile picture updated"
+    except Exception as e:
+        db.rollback()
+        request.session["error"] = f"Error uploading picture: {str(e)}"
+
+    return RedirectResponse(url="/profile", status_code=303)
+
+
 # Add this debug endpoint to help troubleshoot
 @router.get("/auth/debug/config")
 async def debug_config():

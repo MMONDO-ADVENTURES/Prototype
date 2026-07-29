@@ -103,7 +103,7 @@ class Booking(Base):
     is_private = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     payment_method = Column(String(20))
-    payment_id = Column(String(50))
+    payment_id = Column(String(100))
     payment_status = Column(String)
     status = Column(String(20), default='pending')
     deleted_at = Column(DateTime, nullable=True)
@@ -137,51 +137,6 @@ class WishlistEntry(Base):
 
     tour = relationship("Tour", back_populates="wishlist_entries")
     user = relationship("User", back_populates="wishlist_entries")
-
-
-class Country(Base):
-    """
-    Stores East African culture information for the Mmondo Adventures
-    cultural bank page.
-    """
-    __tablename__ = "countries"
-    id = Column(Integer, primary_key=True, index=True)
-    slug = Column(String(50), unique=True, index=True)
-    name = Column(String(100), nullable=False)
-    description = Column(String(1000), nullable=True)
-    food = Column(String(1000), nullable=True)
-    dress = Column(String(1000), nullable=True)
-    traditions = Column(String(1500), nullable=True)
-    tour_themes = Column(String(1000), nullable=True)
-    video_url = Column(String(300), nullable=True)
-    video_credit = Column(String(200), nullable=True)
-    testimonial = Column(String(1500), nullable=True)
-    badge_label = Column(String(50), nullable=True)
-    badge_color = Column(String(50), nullable=True)
-    
-    # Relationship to culture images
-    images = relationship(
-        "CountryImage",
-        back_populates="country",
-        cascade="all, delete-orphan"
-    )
-
-
-class CountryImage(Base):
-    """
-    Image table for countries on the culture page.
-    """
-    __tablename__ = "country_images"
-    id = Column(Integer, primary_key=True, index=True)
-    country_id = Column(Integer, ForeignKey("countries.id"), index=True)
-    image_url = Column(String(300), nullable=False)
-    alt_text = Column(String(200), nullable=True)
-    is_primary = Column(Boolean, default=False)
-    filename = Column(String(200), nullable=True)
-    filepath = Column(String(500), nullable=True)
-    
-    # Relationship
-    country = relationship("Country", back_populates="images")
 
 
 class Review(Base):

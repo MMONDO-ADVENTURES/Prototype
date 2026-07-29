@@ -13,6 +13,7 @@ from app.database import get_db
 from typing import Optional,List
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from urllib.parse import quote
  
 #Uses the base URL from environment variable or defaults to localhost
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
@@ -64,6 +65,25 @@ def delete_session(db: Session, session_id: str):
     db.query(Session).filter(Session.id == session_id).delete()
     db.commit()
     
+def login_url(next_path: str) -> str:
+    """Build a /login link that returns the visitor to next_path afterwards."""
+    return f"/login?next={quote(next_path, safe='/?=&')}"
+
+
+def safe_next_path(next_path: Optional[str]) -> Optional[str]:
+    """
+    Accept only same-site paths as a post-login destination.
+
+    Anything absolute or protocol relative ("//evil.com") is rejected so the
+    next parameter cannot be used as an open redirect.
+    """
+    if not next_path:
+        return None
+    if not next_path.startswith("/") or next_path.startswith("//"):
+        return None
+    return next_path
+
+
 def get_user_initials(user: User) -> str:
     if user.full_name:
         names = user.full_name.split()

@@ -18,6 +18,9 @@ templates = Jinja2Templates(directory="app/templates", auto_reload=True)
 async def wishlist_form(
     request: Request,
     tour_id: int,
+    preferred_date: Optional[str] = None,
+    adults: Optional[int] = None,
+    message: Optional[str] = None,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
@@ -28,6 +31,13 @@ async def wishlist_form(
     today = datetime.now().date().isoformat()
     submitted = request.query_params.get("submitted") == "1"
 
+    # Values carried over from the "register interest" panel on the tour page
+    if preferred_date:
+        try:
+            datetime.strptime(preferred_date, "%Y-%m-%d")
+        except ValueError:
+            preferred_date = None
+
     return templates.TemplateResponse(
         "wishlist.html",
         {
@@ -36,6 +46,9 @@ async def wishlist_form(
             "user": user,
             "today": today,
             "submitted": submitted,
+            "prefill_date": preferred_date or "",
+            "prefill_adults": adults if adults and adults >= 1 else 1,
+            "prefill_message": message or "",
         },
     )
 

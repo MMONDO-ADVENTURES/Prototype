@@ -5,16 +5,34 @@ from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import or_, and_
 from typing import Optional
 from app.models import User, Tour, Booking
-from app.utils import get_current_user, send_email
+from app.utils import get_current_user, login_url, send_email
 from app.database import get_db
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates", auto_reload=True)
 
-@router.get("/book/{tour_id}")
-async def book_tour(tour_id: int):
-    return RedirectResponse(url=f"/wishlist/{tour_id}", status_code=303)
+@router.get("/book/{tour_id}", response_class=HTMLResponse)
+async def book_tour(
+    request: Request,
+    tour_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    if not user:
+        return RedirectResponse(url=login_url(f"/book/{tour_id}"), status_code=303)
+
+    tour = db.query(Tour).options(joinedload(Tour.images)).filter(Tour.id == tour_id).first()
+    if not tour:
+        return RedirectResponse(url="/tours", status_code=303)
+
+    today = datetime.now().date().isoformat()
+    return templates.TemplateResponse("booking.html", {
+        "request": request,
+        "tour": tour,
+        "user": user,
+        "today": today,
+    })
 
 
 @router.post("/process_booking", response_class=HTMLResponse)
@@ -71,6 +89,11 @@ async def process_booking(
             "special_requirements": special_requirements,  # Store special requirements
             "total_price": float(total_price)
         }
+
+        # The selection is already held in the session, so a visitor who signs in
+        # here lands straight back on the payment step with nothing re-entered.
+        if not user:
+            return RedirectResponse(url=login_url("/payment"), status_code=303)
 
         return RedirectResponse(url="/payment", status_code=303)
 
