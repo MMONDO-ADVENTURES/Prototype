@@ -158,7 +158,7 @@ export default function Home() {
 
   return (
     <div className="bg-surface">
-      <section className="relative min-h-[100dvh] overflow-x-hidden text-white">
+      <section className="relative h-dvh overflow-x-hidden text-white">
         <div className="absolute inset-0 overflow-hidden bg-charcoal">
           {HERO_TILES.map((tile, index) => (
             <img
@@ -168,75 +168,76 @@ export default function Home() {
               src={tile.src}
             />
           ))}
-          <div className="absolute inset-0 z-[2] bg-gradient-to-b from-charcoal/55 via-charcoal/30 to-charcoal/60" />
+          <div className="absolute inset-0 z-[2] bg-gradient-to-b from-charcoal/60 via-charcoal/30 to-charcoal/50" />
         </div>
-        <div className="relative z-10 min-h-[100dvh] max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center justify-center text-center pt-24 pb-16">
-          <p className="text-white/80 text-[14px] md:text-[15px] mb-4">The Pearl of Africa</p>
-          <h1 className="font-display-lg text-[34px] md:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight max-w-3xl">
-            Unforgettable Uganda
-            <br />
-            Safari Experience
-          </h1>
-          <div className="mt-8 w-full relative z-30">
-            <TourSearch />
+        <div className="relative z-10 h-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col pt-20 pb-6 md:pt-20 md:pb-8">
+          <div className="flex-1 flex flex-col items-center justify-center text-center">
+            <p className="text-white/85 text-[13px] md:text-[15px] tracking-wide mb-3 md:mb-4">The Pearl of Africa</p>
+            <h1 className="font-semibold text-[30px] md:text-[44px] lg:text-[52px] leading-[1.12] tracking-tight max-w-4xl">
+              Unforgettable Uganda
+              <br />
+              Safari Experience
+            </h1>
+            <div className="mt-6 md:mt-8 w-full relative z-30">
+              <TourSearch />
+            </div>
           </div>
-        </div>
-      </section>
 
-      <section className="bg-charcoal text-white py-10 md:py-12 px-margin-mobile md:px-margin-desktop">
-        <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-12">
-          <div className="w-full max-w-[320px] shrink-0">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex -space-x-2">
-                {HERO_AVATARS.map((src) => (
-                  <img alt="" className="w-8 h-8 rounded-full object-cover ring-2 ring-white/70" key={src} src={src} />
-                ))}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-12 shrink-0">
+            <div className="bg-white/15 backdrop-blur-md rounded-[28px] p-6 border border-white/20 w-full max-w-[300px] shrink-0 lg:mb-[4.25rem]">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex -space-x-2">
+                  {HERO_AVATARS.map((src) => (
+                    <img alt="" className="w-8 h-8 rounded-full object-cover ring-2 ring-white/70" key={src} src={src} />
+                  ))}
+                </div>
+                <p className="text-[14px] text-white/90">30+ Travellers Joined</p>
               </div>
-              <p className="text-[14px] text-white/90">30+ travellers joined</p>
+              <p className="text-[14px] leading-relaxed text-white/90 mb-6">
+                Travel through savanna landscapes, golden skies, and timeless beauty with expertly guided Uganda tours.
+              </p>
+              <Link
+                className="inline-flex items-center gap-2 bg-white text-charcoal hover:bg-primary hover:text-white transition-colors rounded-full px-5 py-2.5 font-medium text-[14px]"
+                to="/tours#packages"
+              >
+                Book Now
+                <Icon name="arrow_forward" className="text-[18px]" />
+              </Link>
             </div>
-            <p className="text-[15px] leading-relaxed text-white/75 mb-5">
-              Savanna, golden skies, and guided Uganda tours with local operators.
-            </p>
-            <Link
-              className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary-container transition-colors rounded-lg px-5 py-2.5 font-label-md text-[14px]"
-              to="/tours#packages"
-            >
-              Book now
-              <Icon name="arrow_forward" className="text-[18px]" />
-            </Link>
-          </div>
-          <div className="hero-tiles min-w-0 flex-1">
-            <div className="hero-tiles-inner">
-              {HERO_TILES.map((tile, index) => {
-                const active = index === heroIndex;
-                return (
-                  <div className={`hero-tile-card${active ? " is-active" : ""}`} key={tile.alt}>
-                    <button
-                      aria-label={`Show ${tile.alt}`}
-                      aria-pressed={active}
-                      className="block p-0 border-0 bg-transparent"
-                      onClick={() => setHeroIndex(index)}
-                      type="button"
-                    >
-                      <img alt={tile.alt} className="hero-tile" src={tile.src} />
-                    </button>
-                    {tile.title ? (
-                      <div className="mt-3 max-w-[220px]">
-                        <p className="font-medium text-[15px] leading-snug">{tile.title}</p>
-                        <p className="text-[13px] text-white/70 leading-snug mt-1">{tile.text}</p>
-                      </div>
-                    ) : (
-                      <div className="hidden lg:block h-[4.25rem]" />
-                    )}
-                  </div>
-                );
-              })}
+
+            <div className="hero-tiles min-w-0 flex-1">
+              <div className="hero-tiles-inner">
+                {HERO_TILES.map((tile, index) => {
+                  const active = index === heroIndex;
+                  return (
+                    <div className={`hero-tile-card${active ? " is-active" : ""}`} key={tile.alt}>
+                      <button
+                        aria-label={`Show ${tile.alt}`}
+                        aria-pressed={active}
+                        className="block p-0 border-0 bg-transparent"
+                        onClick={() => setHeroIndex(index)}
+                        type="button"
+                      >
+                        <img alt={tile.alt} className="hero-tile" src={tile.src} />
+                      </button>
+                      {tile.title ? (
+                        <div className="mt-3 max-w-[220px]">
+                          <p className="font-medium text-[15px] leading-snug">{tile.title}</p>
+                          <p className="text-[13px] text-white/75 leading-snug mt-1">{tile.text}</p>
+                        </div>
+                      ) : (
+                        <div className="hidden lg:block h-[4.25rem]" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-margin-mobile md:px-margin-desktop overflow-hidden" id="featured-tours">
+      <section className="py-14 px-margin-mobile md:px-margin-desktop overflow-hidden" id="featured-tours">
         <div className="max-w-[1440px] mx-auto mb-8 flex flex-wrap gap-4 justify-between items-end">
           <div>
             <h2 className="font-headline-md text-headline-md text-charcoal">Popular tours right now</h2>
@@ -260,10 +261,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest">
-        <div className="max-w-[1440px] mx-auto mb-10">
-          <h2 className="font-headline-md text-headline-md text-charcoal">Uganda's Big 8</h2>
-          <p className="text-secondary font-body-md mt-2 max-w-[65ch]">The definitive list of flagship experiences</p>
+      <section className="py-14 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest">
+        <div className="max-w-[1440px] mx-auto mb-8 text-center">
+          <h2 className="font-bold text-[28px] md:text-[36px] text-charcoal">Uganda's Big 8</h2>
+          <p className="text-secondary font-body-lg">The definitive list of flagship experiences</p>
         </div>
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[250px]">
           {BIG8.map((item) => (
@@ -286,29 +287,31 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-margin-mobile md:px-margin-desktop bg-surface-container-low">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
-          <h2 className="md:col-span-4 font-headline-md text-headline-md text-charcoal">How it works</h2>
-          <ol className="md:col-span-8 space-y-8">
+      <section className="py-14 px-margin-mobile md:px-margin-desktop bg-surface-container-low">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="font-headline-md text-headline-md text-charcoal">How it works</h2>
+            <div className="w-24 h-1 bg-primary mx-auto mt-4" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
             {[
-              ["travel_explore", "Choose your adventure", "Browse curated tours and safaris from verified local operators."],
-              ["event_available", "Book in minutes", "Lock your dates with transparent pricing and no hidden fees."],
-              ["forest", "Travel with local support", "Guides on the ground and help in Uganda around the clock."],
-            ].map(([icon, title, text], index) => (
-              <li className="flex gap-4 md:gap-6" key={title}>
-                <Icon name={icon} className="text-primary text-[28px] mt-0.5 shrink-0" />
-                <div>
-                  <h3 className="font-headline-sm text-[22px] text-charcoal">{title}</h3>
-                  <p className="text-secondary font-body-md mt-1 max-w-[55ch]">{text}</p>
+              ["travel_explore", "1. Choose your adventure", "Browse hundreds of curated tours and safaris from verified local operators."],
+              ["event_available", "2. Instant booking", "Secure your dates instantly with transparent pricing and no hidden fees."],
+              ["forest", "3. Experience Uganda", "Travel with confidence knowing you have 24/7 local support and verified guides."],
+            ].map(([icon, title, text]) => (
+              <div className="text-center px-4" key={title}>
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-surface-container">
+                  <Icon name={icon} className="text-primary text-3xl" />
                 </div>
-                <span className="sr-only">Step {index + 1}</span>
-              </li>
+                <h4 className="font-headline-sm text-headline-sm text-charcoal mb-4">{title}</h4>
+                <p className="text-secondary font-body-md">{text}</p>
+              </div>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-margin-mobile md:px-margin-desktop">
+      <section className="py-14 px-margin-mobile md:px-margin-desktop">
         <div className="max-w-[1440px] mx-auto">
           <h2 className="font-headline-md text-headline-md text-charcoal mb-8">Trending destinations</h2>
           <div className="grid grid-cols-2 md:grid-cols-6 gap-gutter">
@@ -324,7 +327,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-margin-mobile md:px-margin-desktop bg-surface-container-low" id="stays">
+      <section className="py-14 px-margin-mobile md:px-margin-desktop bg-surface-container-low" id="stays">
         <div className="max-w-[1440px] mx-auto mb-10">
           <h2 className="font-headline-md text-headline-md text-charcoal">Stays included</h2>
           <p className="text-secondary font-body-lg">Premium lodges and boutique camps in the heart of the wild</p>
@@ -376,46 +379,36 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-margin-mobile md:px-margin-desktop bg-white">
-        <div className="max-w-[1440px] mx-auto mb-10 flex flex-wrap gap-4 justify-between items-end">
+      <section className="py-14 px-margin-mobile md:px-margin-desktop bg-white">
+        <div className="max-w-[1440px] mx-auto mb-8 flex flex-wrap gap-4 justify-between items-end">
           <div>
             <h2 className="font-headline-md text-headline-md text-charcoal">Stories from Uganda</h2>
-            <p className="text-secondary font-body-md mt-2">Dive deeper into the Pearl of Africa</p>
+            <p className="text-secondary font-body-md">Dive deeper into the Pearl of Africa</p>
           </div>
-          <Link className="text-primary font-label-md hover:text-primary-container" to="/blogs">Read more</Link>
+          <Link className="bg-charcoal text-white font-label-md px-6 py-2 rounded-lg hover:bg-ink transition-all" to="/blogs">Read more</Link>
         </div>
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-          <article className="lg:col-span-7 group">
-            <Link to="/blogs">
-              <div className="aspect-[16/10] rounded-xl overflow-hidden mb-5">
-                <img alt={STORIES[0].alt} className="w-full h-full object-cover" src={STORIES[0].src} />
-              </div>
-              <p className="text-primary font-label-md text-[13px] mb-2">{STORIES[0].tag}</p>
-              <h3 className="font-headline-sm text-[26px] leading-snug text-charcoal group-hover:text-primary transition-colors">{STORIES[0].title}</h3>
-              <p className="text-secondary font-body-md mt-3 max-w-[60ch]">{STORIES[0].text}</p>
-              <p className="mt-3 text-slate-gray text-[13px]">{STORIES[0].meta.replace(" · ", ", ")}</p>
-            </Link>
-          </article>
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            {STORIES.slice(1).map((story) => (
-              <article className="group flex gap-4" key={story.title}>
-                <Link className="flex gap-4 min-w-0" to="/blogs">
-                  <div className="w-28 sm:w-36 h-24 sm:h-28 rounded-xl overflow-hidden shrink-0">
-                    <img alt={story.alt} className="w-full h-full object-cover" src={story.src} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-primary font-label-md text-[13px] mb-1">{story.tag}</p>
-                    <h3 className="font-headline-sm text-[18px] leading-snug text-charcoal group-hover:text-primary transition-colors">{story.title}</h3>
-                    <p className="mt-2 text-slate-gray text-[13px]">{story.meta.replace(" · ", ", ")}</p>
-                  </div>
-                </Link>
-              </article>
-            ))}
-          </div>
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-gutter">
+          {STORIES.map((story) => (
+            <article className="group" key={story.title}>
+              <Link to="/blogs">
+                <div className="aspect-[16/9] rounded-xl overflow-hidden mb-6">
+                  <img alt={story.alt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={story.src} />
+                </div>
+                <div className="text-xs font-bold text-primary mb-2 uppercase tracking-widest">{story.tag}</div>
+                <h3 className="font-headline-sm text-headline-sm text-charcoal mb-4 group-hover:text-primary transition-colors">{story.title}</h3>
+                <p className="text-secondary font-body-md mb-4 line-clamp-2">{story.text}</p>
+                <div className="flex items-center gap-2 text-slate-gray font-label-md text-xs">
+                  <span>{story.meta.split(" · ")[0]}</span>
+                  <span>•</span>
+                  <span>{story.meta.split(" · ")[1]}</span>
+                </div>
+              </Link>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-margin-mobile md:px-margin-desktop bg-white">
+      <section className="py-14 px-margin-mobile md:px-margin-desktop bg-white">
         <div className="max-w-[1440px] mx-auto">
           <NewsletterSignup />
         </div>
