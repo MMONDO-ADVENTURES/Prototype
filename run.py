@@ -12,12 +12,14 @@ This script will:
 """
 
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent
+BACKEND = ROOT / "backend"
 VENV_DIR = ROOT / "venv"
-REQUIREMENTS = ROOT / "requirements.txt"
+REQUIREMENTS = BACKEND / "requirements.txt"
 HOST = "localhost"
 PORT = 8000
 
@@ -99,30 +101,58 @@ def setup_environment() -> dict[str, str]:
     """Set default environment variables for local development."""
     env = os.environ.copy()
     env.setdefault("BASE_URL", f"http://{HOST}:{PORT}")
+    env.setdefault("FRONTEND_URL", "http://localhost:5173")
     return env
 
 
+def start_frontend(env: dict[str, str]):
+    """Install and start the React Vite dev server if npm is available."""
+    frontend = ROOT / "frontend"
+    if not frontend.exists():
+        return None
+
+    npm = shutil.which("npm")
+    if not npm:
+        print("npm not found. Start the frontend separately with:")
+        print("  cd frontend && npm install && npm run dev")
+        return None
+
+    if not (frontend / "node_modules").exists():
+        print("Installing frontend dependencies...")
+        subprocess.check_call([npm, "install"], cwd=str(frontend))
+
+    print("Starting React frontend at http://localhost:5173")
+    return subprocess.Popen([npm, "run", "dev"], cwd=str(frontend), env=env)
+
+
 def start_app() -> None:
-    """Run the FastAPI application."""
+    """Run the FastAPI application and React frontend."""
+    env = setup_environment()
+    frontend_proc = start_frontend(env)
     url = f"http://{HOST}:{PORT}"
-    print(f"\nStarting MMONDO at {url}")
+    print(f"\nStarting MMONDO API at {url}")
+    print("Open the React app at http://localhost:5173")
     print("Press Ctrl+C to stop.\n")
 
-    subprocess.check_call(
-        [
-            str(venv_python()),
-            "-m",
-            "uvicorn",
-            "app.main:app",
-            "--reload",
-            "--host",
-            HOST,
-            "--port",
-            str(PORT),
-        ],
-        cwd=str(ROOT),
-        env=setup_environment(),
-    )
+    try:
+        subprocess.check_call(
+            [
+                str(venv_python()),
+                "-m",
+                "uvicorn",
+                "app.main:app",
+                "--reload",
+                "--host",
+                HOST,
+                "--port",
+                str(PORT),
+            ],
+            cwd=str(BACKEND),
+            env=env,
+        )
+    finally:
+        if frontend_proc and frontend_proc.poll() is None:
+            frontend_proc.terminate()
 
 
 def main() -> None:

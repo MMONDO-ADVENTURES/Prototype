@@ -38,14 +38,21 @@ if [[ ! -d "venv" ]]; then
     # Resolve venv python
     [[ -f "venv/Scripts/python.exe" ]] && PYTHON="venv/Scripts/python.exe" || PYTHON="venv/bin/python"
     echo "Installing dependencies..."
-    "$PYTHON" -m pip install -r requirements.txt -q
+    "$PYTHON" -m pip install -r backend/requirements.txt -q
 else
     [[ -f "venv/Scripts/python.exe" ]] && PYTHON="venv/Scripts/python.exe"
     [[ -f "venv/bin/python" ]]         && PYTHON="venv/bin/python"
 fi
 
+# Make PYTHON absolute so it still works after cd backend
+case "$PYTHON" in
+    /* | [A-Za-z]:*) ;;
+    *) PYTHON="$(pwd)/$PYTHON" ;;
+esac
+
 echo ""
-echo "Starting MMONDO at http://localhost:8000"
+echo "Starting MMONDO API at http://localhost:8000"
 echo "Press Ctrl+C to stop."
 echo ""
+cd backend
 exec "$PYTHON" -m uvicorn app.main:app --reload --host localhost --port 8000

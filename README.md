@@ -1,183 +1,134 @@
-# MMONDO Web Application
+# Mmondo Adventures
 
-**MMONDO** is a platform that allows users to browse tours and view detailed information about each experience. Administrators can easily manage tour listings, ensuring up-to-date and accurate offerings. Our website connects East African tour operators with customers in the European market, helping bridge the gap and open new opportunities for them in the international tourism sector.
+Mmondo Adventures is a tour-booking platform that connects East African operators with travellers. Customers browse and book Ugandan safaris, operators manage their listings, and superadmins oversee the marketplace.
 
----
-
-## 🛠 Technologies Used
-
-- **Backend:** Python, FastAPI
-- **Frontend:** HTML, CSS, JavaScript, Bootstrap, Tailwind
-- **Database:** MySQL (SQLite for development/testing)
-- **Containerization:** Docker, Docker Compose
-- **CI/CD intergration:** Github Actions for pytesting and deployment
-
+The app is a **React** frontend with **FastAPI** as the JSON API. The UI is built with **Tailwind CSS** and **Bootstrap 5**.
 
 ---
 
-## 📁 Project Structure
+## Brand colors
+
+Use only primary `#ff7900`, secondary `#9f4200`, black, and white. Never use default blue for links, buttons, focus rings, or hover/active states.
+
+| Token | Hex | Tailwind | Use |
+| --- | --- | --- | --- |
+| Primary | `#ff7900` | `primary` | Links, icons, filled buttons, focus rings |
+| Secondary | `#9f4200` | `brand-secondary` / `primary-container` | Hover, active, and darker accents |
+| Soft primary | `#ffe0c2` | `primary-fixed` | Light highlights and selected chips |
+| Charcoal / black | `#1E1E1E` | `charcoal` | Headings, dark surfaces, pressed buttons |
+| White | `#ffffff` | `white` / `surface-container-lowest` | Page backgrounds, cards, text on primary |
+
+CSS variables in `frontend/src/index.css`: `--brand-primary`, `--brand-secondary`, `--brand-black`, `--brand-white`.
+
+---
+
+## Stack
+
+| Layer | Tools |
+| --- | --- |
+| Frontend | React 18, Vite, React Router |
+| Styling | Tailwind CSS, Bootstrap 5 |
+| Backend | Python, FastAPI |
+| Database | SQLite for local development, MySQL in Docker |
+| Payments | Stripe, PayPal |
+| Deploy | Docker, Docker Compose, GitHub Actions |
+
+---
+
+## Project layout
 
 ```
-├── app/                    # Main application folder
-│   ├── templates/          # HTML templates
-│   ├── static/             # Static files (CSS, JS, images)
-│   ├── main.py             # FastAPI application entry point
-│   ├── models.py           # Database models
-│   ├── routes.py           # Application routes
-│   └── ...                 # Other Python modules
-├── static/                 # Public static assets
-├── test.db                 # SQLite database file
-├── .gitignore
-├── Dockerfile              # Docker configuration
-├── docker-compose.yaml     # Docker Compose config
-├── requirements.txt        # Python dependencies
-├── start.sh                # Startup script
-├── Tests/                  # pytest tests
-└── .github/workflows/      # GitHub Actions workflows
+Prototype/
+├── backend/                 FastAPI JSON API
+│   ├── app/                 Routes, models, schemas
+│   ├── alembic/             Database migrations
+│   └── requirements.txt
+├── frontend/                React + Vite app
+│   ├── src/                 Pages and components
+│   └── static/              Images and uploads
+├── Dockerfile
+├── docker-compose.yaml
+├── run.py
+└── run.bat
 ```
 
----
-
-## 👨‍💻 Developers
-
-- **Backend:** Rhyan Lubega
-- **Frontend:** Boaz Onyango
-- **Database & Product Manager:** Oscar Kyamuwendo
-- **Business Role:** George Mutale
+Public files live in `frontend/static` and are served at `/static/...`. Vite serves them in development. FastAPI writes tour and profile uploads into `frontend/static/uploads`.
 
 ---
 
-## 🌟 Special Features
+## Run locally
 
-- Secure payment using bank cards and PayPal
-- Terminal system for secure admin creation
-- Quick tour booking system
-- Tokenized emails for password recovery & support
-- Email system for tour updates and receiving receipts
-- Newsletter integration
-- Live AI-powered chatbot
+You need **Python 3.10+**, **Node.js 18+**, and npm.
 
----
+### One command
 
-## ⚙️ Setup and Running the Project
-
-### Prerequisites
-
-- Python 3.8+
-- pip
-- Docker (optional)
-- Docker Compose (optional)
-
----
-## 🔐 Admin & Super Admin Management
-
-MMONDO uses a role-based access system to manage platform permissions.
-
-### User Roles
-
-- Customer: Default role on public registration
-
-- Admin: Manages tours, bookings, newsletters, and platform content
-
-- Super Admin: Creates and manages admin accounts
-
-### Admin Creation
-
-Admins can only be created by a Super Admin via:
-####  /register/admin
-
-This endpoint is protected and cannot be accessed by normal users.
-
-### Super Admin Creation
-
-A Super Admin can be created via:
-####  /superadmin/create
-
-- This route is strictly restricted and intended for:
-
-- Initial system setup
-
-- Terminal-based execution
-
-Secure environment-based access
-## 🚀 Running the App
-
-### ✅ Using Uvicorn (Local)
-
-1. **Start the app:**
+From the repo root:
 
 ```bash
-python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python -m uvicorn app.main:app --reload --host localhost
+python run.py
 ```
 
-2. **Superdmin Sign-In:**
+On Windows you can also use `run.bat`.
 
-Use the following credentials:
+This creates `venv` if needed, installs Python packages, starts FastAPI at http://localhost:8000, and starts the React app at **http://localhost:5173**.
 
-- **Email:** `george.mutale345@stud.th-deg.de`
-- **Password:** `Administer01@#`
+Open **http://localhost:5173**. Vite proxies `/api` and `/auth` to FastAPI.
 
+### Two terminals
 
-3. **Admin Sign-In:**
-
-Use the following credentials:
-
-- **Email:** `mutalegeorge367@gmail.com`
-- **Password:** `Operator02@#`
-
-Alternatively, create a new admin via terminal:
-
-
-4. **Customer Sign-In:**
-
-Use the following credentials:
-
-- **Email:** `george.mutale@stud.th-deg.de`
-- **Password:** `Tourist01@#`
-
----
-
-### 🐳 Using Docker
-
-> Docker creates a separate database. You must manually create admin and customer accounts inside the container.
-
-1. **Build and run the services:**
+Backend:
 
 ```bash
-chmod +x start.sh
-./start.sh
+python -m venv venv
+venv\Scripts\activate
+pip install -r backend/requirements.txt
+cd backend
+python -m uvicorn app.main:app --reload --host localhost --port 8000
 ```
 
-2. **Customer Sign-Up/Login:**  
-   Use the app interface to register and log in.
-
-3. **Stop the services:**
+Frontend:
 
 ```bash
-Ctrl + C
-# Or stop the container manually
-docker ps
-docker stop <container_id>
+cd frontend
+npm install
+npm run dev
 ```
 
----
-
-## 🤝 Contributing
-
-We welcome contributions!
-
-### Steps to Contribute
-
-1. Fork the repository
-2. Create a new feature branch: `git checkout -b feature-name`
-3. Commit your changes: `git commit -m "Description of changes"`
-4. Push to your fork: `git push origin feature-name`
-5. Open a pull request
-
-Please follow standard coding practices and ensure your code passes tests.
+API docs: http://localhost:8000/docs
 
 ---
 
-## 📄 License
+## Demo accounts
 
-Specify the license for the project here. (e.g., MIT, Apache 2.0)
+| Role | Email | Password |
+| --- | --- | --- |
+| Superadmin | `george.mutale345@stud.th-deg.de` | `Administer01@#` |
+| Operator | `mutalegeorge367@gmail.com` | `Operator02@#` |
+| Customer | `george.mutale@stud.th-deg.de` | `Tourist01@#` |
+
+Operator portal: `/operator`  
+
+First superadmin setup: `/superadmin/create`
+
+---
+
+## API
+
+| Prefix | Purpose |
+| --- | --- |
+| `/api/auth` | Login, signup, profile |
+| `/api/tours` | Public tour catalogue |
+| `/api/bookings` | Booking flow |
+| `/api/payment` | Stripe / PayPal checkout |
+| `/api/operator` | Operator dashboard (tour posters) |
+| `/api/superadmin` | Platform admin |
+
+---
+
+## Docker
+
+```bash
+docker compose up --build
+```
+
+The image builds the React app and FastAPI serves the compiled frontend from `/`.

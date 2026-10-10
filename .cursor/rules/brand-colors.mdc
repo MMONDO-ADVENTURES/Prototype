@@ -1,0 +1,23 @@
+---
+description: Always use Mmondo Adventures primary, secondary, black, and white
+alwaysApply: true
+---
+
+# Brand colors
+
+Mmondo Adventures uses primary `#ff7900`, secondary `#9f4200`, black, and white. Do not introduce default Bootstrap/browser blue (`#0d6efd`, `#0a58ca`, `#003087`) for links, buttons, focus rings, hover, or active states.
+
+| Token | Hex | Tailwind |
+| --- | --- | --- |
+| Primary | `#ff7900` | `primary` |
+| Secondary | `#9f4200` | `brand-secondary` / `primary-container` |
+| Charcoal | `#1E1E1E` | `charcoal` |
+| White | `#ffffff` | `white` |
+
+Rules:
+
+- Filled buttons, links, icons, and focus rings use primary `#ff7900`.
+- Hover and active states use secondary `#9f4200`. Pressed can be charcoal.
+- Keep `--bs-primary` and `--bs-link-color` on `#ff7900`, `--bs-link-hover-color` on `#9f4200`.
+- Do not use Tailwind `secondary` (`#5f5e5e`) as a brand accent; that token is muted gray text only.
+- Do not override brand tokens with blue, purple, or other accent palettes.

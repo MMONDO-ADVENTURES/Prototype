@@ -23,6 +23,6 @@ echo Python was not found.
 echo Install Python 3, or create the venv first, then run this file again.
 echo.
 echo   py -3 -m venv venv
-echo   venv\Scripts\pip install -r requirements.txt
+echo   venv\Scripts\pip install -r backend/requirements.txt
 echo   run.bat
 exit /b 1

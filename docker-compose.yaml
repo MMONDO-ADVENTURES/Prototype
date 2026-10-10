@@ -28,6 +28,7 @@ services:
       - "8000:8000"
     environment:
       - BASE_URL=${BASE_URL}
+      - FRONTEND_URL=${BASE_URL:-http://localhost:8000}
       - DATABASE_URL=${DATABASE_URL}
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG}
@@ -38,6 +39,7 @@ services:
       - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}
       - PAYPAL_MODE=${PAYPAL_MODE}
     depends_on:
       db:
