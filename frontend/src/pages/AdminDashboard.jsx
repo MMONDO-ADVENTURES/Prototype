@@ -1,18 +1,32 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import DashboardShell from "../components/DashboardShell";
-import { Icon, splitCsv } from "../utils";
+import { Icon, itineraryDayBadge, parseActivity, parseItineraryDayRange, splitCsv } from "../utils";
 
 const TOUR_TYPE_OPTIONS = ["safari", "cultural", "adventure", "wildlife", "trekking", "community"];
 
 const emptyDay = (day = 1) => ({
   day,
+  day_from: day,
+  day_to: day,
   title: day === 1 ? "Arrival" : `Day ${day}`,
   destination: "",
   accommodation: "",
   duration: "",
   activities: [""],
 });
+
+function nextStopStart(itinerary) {
+  if (!itinerary.length) return 1;
+  const last = itinerary[itinerary.length - 1];
+  return parseItineraryDayRange(last, itinerary.length - 1).to + 1;
+}
+
+function setDayRange(day, fromValue, toValue, index) {
+  const from = Math.max(1, Number(fromValue) || index + 1);
+  const to = Math.max(from, Number(toValue) || from);
+  return { ...day, day: from, day_from: from, day_to: to };
+}
 
 const emptyTour = {
   title: "",
@@ -94,11 +108,16 @@ export default function AdminDashboard() {
     body.append(
       "itinerary",
       JSON.stringify(
-        form.itinerary.map((day, index) => ({
-          ...day,
-          day: index + 1,
-          activities: day.activities.map((item) => item.trim()).filter(Boolean),
-        }))
+        form.itinerary.map((day, index) => {
+          const { from, to } = parseItineraryDayRange(day, index);
+          return {
+            ...day,
+            day: from,
+            day_from: from,
+            day_to: to,
+            activities: day.activities.map((item) => parseActivity(item)).filter((item) => item.title),
+          };
+        })
       )
     );
     Array.from(files).forEach((file) => body.append("images", file));
@@ -119,14 +138,19 @@ export default function AdminDashboard() {
   async function editTour(tour) {
     const details = await api(`/operator/tours/${tour.id}`);
     const itinerary = Array.isArray(details.itinerary) && details.itinerary.length
-      ? details.itinerary.map((day, index) => ({
-          day: day.day || index + 1,
-          title: day.title || `Day ${index + 1}`,
-          destination: day.destination || "",
-          accommodation: day.accommodation || "",
-          duration: day.duration || "",
-          activities: day.activities?.length ? day.activities : [""],
-        }))
+      ? details.itinerary.map((day, index) => {
+          const { from, to } = parseItineraryDayRange(day, index);
+          return {
+            day: from,
+            day_from: from,
+            day_to: to,
+            title: day.title || `Day ${from}`,
+            destination: day.destination || "",
+            accommodation: day.accommodation || "",
+            duration: day.duration || "",
+            activities: day.activities?.length ? day.activities : [""],
+          };
+        })
       : [emptyDay(1)];
     setEditingId(tour.id);
     setForm({
@@ -257,16 +281,19 @@ export default function AdminDashboard() {
             <h3 className="font-headline-sm text-[20px]">Day-by-day itinerary</h3>
             <button
               className="inline-flex items-center gap-1 text-primary font-label-md text-[13px] hover:text-primary-container"
-              onClick={() => setForm({ ...form, itinerary: [...form.itinerary, emptyDay(form.itinerary.length + 1)] })}
+              onClick={() => setForm({ ...form, itinerary: [...form.itinerary, emptyDay(nextStopStart(form.itinerary))] })}
               type="button"
             >
               <Icon name="add" className="text-[18px]" /> Add day
             </button>
           </div>
-          {form.itinerary.map((day, dayIndex) => (
+          {form.itinerary.map((day, dayIndex) => {
+            const { from, to } = parseItineraryDayRange(day, dayIndex);
+            const isRange = to > from;
+            return (
             <div className="rounded-xl border border-surface-container p-4 space-y-2 bg-surface" key={`day-${dayIndex}`}>
-              <div className="flex items-center justify-between">
-                <p className="font-label-md text-charcoal">Day {dayIndex + 1}</p>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="font-label-md text-charcoal">{itineraryDayBadge(day, dayIndex)}</p>
                 {form.itinerary.length > 1 && (
                   <button
                     className="text-error text-[13px] font-label-md"
@@ -277,57 +304,111 @@ export default function AdminDashboard() {
                   </button>
                 )}
               </div>
+              <div className="flex flex-wrap items-end gap-3">
+                <div>
+                  <p className="font-label-md text-[12px] text-secondary mb-1">Day numbering</p>
+                  <div className="inline-flex rounded-lg overflow-hidden border border-outline">
+                    <button
+                      className={`px-3 py-1.5 text-[13px] font-label-md ${isRange ? "bg-white text-charcoal hover:text-primary" : "bg-primary text-white"}`}
+                      onClick={() => updateDay(dayIndex, setDayRange(day, from, from, dayIndex))}
+                      type="button"
+                    >
+                      Single day
+                    </button>
+                    <button
+                      className={`px-3 py-1.5 text-[13px] font-label-md ${isRange ? "bg-primary text-white" : "bg-white text-charcoal hover:text-primary"}`}
+                      onClick={() => updateDay(dayIndex, setDayRange(day, from, Math.max(from + 1, to), dayIndex))}
+                      type="button"
+                    >
+                      Multiple days
+                    </button>
+                  </div>
+                </div>
+                <label className="text-[13px] text-secondary">
+                  {isRange ? "From" : "Day"}
+                  <input
+                    className="ml-2 w-20 px-3 py-2 bg-white rounded-lg"
+                    min={1}
+                    onChange={(e) => updateDay(dayIndex, setDayRange(day, e.target.value, isRange ? to : e.target.value, dayIndex))}
+                    type="number"
+                    value={from}
+                  />
+                </label>
+                {isRange && (
+                  <label className="text-[13px] text-secondary">
+                    To
+                    <input
+                      className="ml-2 w-20 px-3 py-2 bg-white rounded-lg"
+                      min={from}
+                      onChange={(e) => updateDay(dayIndex, setDayRange(day, from, e.target.value, dayIndex))}
+                      type="number"
+                      value={to}
+                    />
+                  </label>
+                )}
+              </div>
               <input className="w-full px-3 py-2 bg-white rounded-lg" onChange={(e) => updateDay(dayIndex, { title: e.target.value })} placeholder="Day title (Arrival, Gorilla trekking)" value={day.title} />
               <div className="grid md:grid-cols-3 gap-2">
                 <input className="px-3 py-2 bg-white rounded-lg" onChange={(e) => updateDay(dayIndex, { destination: e.target.value })} placeholder="Destination" value={day.destination} />
                 <input className="px-3 py-2 bg-white rounded-lg" onChange={(e) => updateDay(dayIndex, { accommodation: e.target.value })} placeholder="Accommodation" value={day.accommodation} />
                 <input className="px-3 py-2 bg-white rounded-lg" onChange={(e) => updateDay(dayIndex, { duration: e.target.value })} placeholder="Duration (Full day, 3 hours)" value={day.duration} />
               </div>
-              <p className="font-label-md text-[12px] text-secondary pt-1">Activities</p>
-              {day.activities.map((activity, activityIndex) => (
-                <div className="flex gap-2" key={`activity-${dayIndex}-${activityIndex}`}>
-                  <input
-                    className="flex-1 px-3 py-2 bg-white rounded-lg"
-                    onChange={(e) => updateActivity(dayIndex, activityIndex, e.target.value)}
-                    placeholder="e.g. Boat safari on the Kazinga Channel"
-                    value={activity}
-                  />
-                  <button
-                    className="text-slate-gray hover:text-error"
-                    onClick={() =>
-                      updateDay(dayIndex, {
-                        activities: day.activities.length > 1 ? day.activities.filter((_, index) => index !== activityIndex) : [""],
-                      })
-                    }
-                    type="button"
-                  >
-                    <Icon name="close" className="text-[18px]" />
-                  </button>
-                </div>
-              ))}
+              <div className="flex items-center justify-between pt-1">
+                <p className="font-label-md text-[12px] text-secondary">Activities</p>
+                <p className="font-label-md text-[12px] text-secondary w-[140px] shrink-0">Duration</p>
+              </div>
+              {day.activities.map((activity, activityIndex) => {
+                const parsed = parseActivity(activity);
+                return (
+                  <div className="flex gap-2" key={`activity-${dayIndex}-${activityIndex}`}>
+                    <input
+                      className="flex-1 px-3 py-2 bg-white rounded-lg"
+                      onChange={(e) => updateActivity(dayIndex, activityIndex, { title: e.target.value })}
+                      placeholder="e.g. Boat safari on the Kazinga Channel"
+                      value={parsed.title}
+                    />
+                    <input
+                      className="w-[140px] shrink-0 px-3 py-2 bg-white rounded-lg"
+                      onChange={(e) => updateActivity(dayIndex, activityIndex, { duration: e.target.value })}
+                      placeholder="e.g. 2 hours"
+                      value={parsed.duration}
+                    />
+                    <button
+                      className="text-slate-gray hover:text-error"
+                      onClick={() =>
+                        updateDay(dayIndex, {
+                          activities: day.activities.length > 1 ? day.activities.filter((_, index) => index !== activityIndex) : [{ title: "", duration: "" }],
+                        })
+                      }
+                      type="button"
+                    >
+                      <Icon name="close" className="text-[18px]" />
+                    </button>
+                  </div>
+                );
+              })}
               <button
                 className="text-primary font-label-md text-[13px] hover:text-primary-container"
-                onClick={() => updateDay(dayIndex, { activities: [...day.activities, ""] })}
+                onClick={() => updateDay(dayIndex, { activities: [...day.activities, { title: "", duration: "" }] })}
                 type="button"
               >
                 Add activity
               </button>
             </div>
-          ))}
-          <div className="grid md:grid-cols-2 gap-3 pt-2">
-            <textarea
-              className="px-3 py-2 bg-white rounded-lg min-h-[110px]"
-              onChange={(e) => setForm({ ...form, meeting_pickup: e.target.value })}
-              placeholder="Meeting and pickup (one point per line)"
-              value={form.meeting_pickup}
-            />
-            <textarea
-              className="px-3 py-2 bg-white rounded-lg min-h-[110px]"
-              onChange={(e) => setForm({ ...form, additional_information: e.target.value })}
-              placeholder="Additional information (one note per line)"
-              value={form.additional_information}
-            />
-          </div>
+            );
+          })}
+          <textarea
+            className="px-3 py-2 bg-white rounded-lg min-h-[110px]"
+            onChange={(e) => setForm({ ...form, meeting_pickup: e.target.value })}
+            placeholder="Meeting and pickup (one note per line)"
+            value={form.meeting_pickup}
+          />
+          <textarea
+            className="px-3 py-2 bg-white rounded-lg min-h-[110px]"
+            onChange={(e) => setForm({ ...form, additional_information: e.target.value })}
+            placeholder="Additional information (one note per line)"
+            value={form.additional_information}
+          />
         </div>
 
         <input className="md:col-span-2" onChange={(e) => setFiles(e.target.files)} type="file" multiple accept="image/*" />

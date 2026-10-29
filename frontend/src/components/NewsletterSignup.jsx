@@ -5,7 +5,7 @@ import { useAuth } from "../AuthContext";
 import { Icon } from "../utils";
 
 const NEWSLETTER_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCYu_TtBryPr_Zx_1zglmcL3uAraW_30Xx1sqihGmyVLdF_YHgD572TayeqSFZoLgO2zBudmAJYo9hxnALFQ_8w-tMGTyBjq0t0Gxr2i8g1i8nci30Qd9xliAyugMAJaEp3SiEYLkolKpuvFTK4NEna8UFOLje7nUfpargr9duB-Mvq7OAesjo_MP3nUc7Rl8Dx5r1oWTnxD9N4U9q7nb939U6KGk9wQyaQfAytbwMxJxUMfoZUsZxY";
+  "https://res.cloudinary.com/yqsld0pd/image/upload/v1793292048/Rwenzori_Mountains__tough_trekking_in_Scenic_Paradise.svg";
 
 export default function NewsletterSignup({ className = "" }) {
   const { user, refresh } = useAuth();

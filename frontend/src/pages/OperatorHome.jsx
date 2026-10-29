@@ -2,44 +2,44 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
-import { Icon } from "../utils";
+import { Icon, joinAddress, joinName } from "../utils";
 
 const HERO_IMAGES = [
   {
     alt: "Mountain gorilla in Bwindi Impenetrable Forest",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCMpb3JBsGnLht1JEdtCHkQme_HYRRhTBsCjgIlA8FVzvdv-odrD0A2m1kzIjhhiUMcVgOUwdho_aiQ6_3dAA3_Z1LGYrrxxzLg0YeFIwYJdmKKA-9uo7tVoocGHfCod8DyT-5Gd5DI3dLbWRtVwG_etlBByt3_UfbD8-SPDo4hdMv3CXiu9XTrgNjH3pKz-i4szyTQVyyjKd7qn_HJPRRNK6ymOBvVDq7ZwlUntncY8Wkp50JkMThM",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391526/gabriel-schumacher-kcKJTpYTdIQ-unsplash.svg",
   },
   {
     alt: "African elephant on a Ugandan safari",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDqMhLL1revPHnMo9ClK5oauq0KKnJP01pgUdsbNnneTDnVzVbJMrds8iaQFSbJQ6jV_G3ehXyVA47X5L8r5aQXez3Sq2JHIJVL4GT2LObExZS0npgPN7uc9yLjequ0LGgUlcQ6A7unjKKyzbxcHRhL249pUTKyhE0m0yJtJNzoYsiUhinsv1KVjiE8stDoPlHKyADMR0ZWarbXoP7u-5YB6WwbXqHjBpPGJ6lMj9a_sHDvJd2viwW1",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391515/pexels-rachel-claire-4577507.svg",
   },
   {
     alt: "Tree-climbing lion in Queen Elizabeth National Park",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBbLjL_99iU6y5ZUE7DeABMYFHb_K8BwNPP1LjZErzjI1GQ1_duQeQy5GBlFUHKGH-KngJLmeTU55HPNL1EI7cBm9tgOP9R2uFBo2ubudM6vioLn_LBdGv1ez6DO24pKEIxBkFnw8i9FmPCOLksOhjzy-Sw2cx-pF37cPCmCasQov2V6LN9W24ERB8aAPJxj4vvn6d9p7Zpiha2DKpCfOI4dZRfJ8pd3UPxVoxMIHlvmLZpDNhiHv7g",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793294407/Tree_climbing_lion_in_Uganda.svg",
   },
   {
     alt: "Sunrise over the Rwenzori Mountains",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCYu_TtBryPr_Zx_1zglmcL3uAraW_30Xx1sqihGmyVLdF_YHgD572TayeqSFZoLgO2zBudmAJYo9hxnALFQ_8w-tMGTyBjq0t0Gxr2i8g1i8nci30Qd9xliAyugMAJaEp3SiEYLkolKpuvFTK4NEna8UFOLje7nUfpargr9duB-Mvq7OAesjo_MP3nUc7Rl8Dx5r1oWTnxD9N4U9q7nb939U6KGk9wQyaQfAytbwMxJxUMfoZUsZxY",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793292048/Rwenzori_Mountains__tough_trekking_in_Scenic_Paradise.svg",
   },
 ];
 
 const HERO_HOLD_MS = 6500;
 
-const SPECIALIZATIONS = [
-  "Wildlife & Gorilla Tracking (Bwindi, Queen Elizabeth)",
-  "Adventure & White-Water Rafting (Jinja / Nile)",
-  "Cultural & Community Tourism",
-  "Multi-Destination Luxury Safaris",
-];
-
 const emptyRegister = {
   company_name: "",
-  full_name: "",
+  first_name: "",
+  last_name: "",
   email: "",
   phone: "",
-  specialization: SPECIALIZATIONS[0],
+  street: "",
+  city: "",
+  district: "",
+  country: "",
   password: "",
 };
+
+const fieldClass =
+  "w-full px-4 py-3 rounded-lg border border-slate-gray/30 bg-surface-container-low text-ink focus:outline-none focus:border-primary focus:border-2";
 
 const ADVANTAGES = [
   {
@@ -145,7 +145,14 @@ export default function OperatorHome() {
     setLoading(true);
     setError("");
     try {
-      await api("/operator/register", { method: "POST", body: registerForm });
+      await api("/operator/register", {
+        method: "POST",
+        body: {
+          ...registerForm,
+          full_name: joinName(registerForm.first_name, registerForm.last_name),
+          address: joinAddress(registerForm),
+        },
+      });
       await refresh();
       navigate("/operator/dashboard");
     } catch (err) {
@@ -304,25 +311,35 @@ export default function OperatorHome() {
 
             {tab === "register" ? (
               <form className="space-y-5" onSubmit={submitRegister}>
+                <label className="space-y-2 block">
+                  <span className="font-label-md text-ink">Agency / Company Name</span>
+                  <input
+                    className={fieldClass}
+                    onChange={(e) => setRegisterForm({ ...registerForm, company_name: e.target.value })}
+                    placeholder="e.g. Pearl Safaris Ltd"
+                    required
+                    value={registerForm.company_name}
+                  />
+                </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                   <label className="space-y-2 block">
-                    <span className="font-label-md text-ink">Agency / Company Name</span>
+                    <span className="font-label-md text-ink">First Name</span>
                     <input
-                      className="w-full px-4 py-3 rounded-lg border border-slate-gray/30 bg-surface-container-low text-ink focus:outline-none focus:border-primary focus:border-2"
-                      onChange={(e) => setRegisterForm({ ...registerForm, company_name: e.target.value })}
-                      placeholder="e.g. Pearl Safaris Ltd"
+                      className={fieldClass}
+                      onChange={(e) => setRegisterForm({ ...registerForm, first_name: e.target.value })}
+                      placeholder="Jane"
                       required
-                      value={registerForm.company_name}
+                      value={registerForm.first_name}
                     />
                   </label>
                   <label className="space-y-2 block">
-                    <span className="font-label-md text-ink">Official Contact Person</span>
+                    <span className="font-label-md text-ink">Last Name</span>
                     <input
-                      className="w-full px-4 py-3 rounded-lg border border-slate-gray/30 bg-surface-container-low text-ink focus:outline-none focus:border-primary focus:border-2"
-                      onChange={(e) => setRegisterForm({ ...registerForm, full_name: e.target.value })}
-                      placeholder="Full Name"
+                      className={fieldClass}
+                      onChange={(e) => setRegisterForm({ ...registerForm, last_name: e.target.value })}
+                      placeholder="Okello"
                       required
-                      value={registerForm.full_name}
+                      value={registerForm.last_name}
                     />
                   </label>
                 </div>
@@ -330,7 +347,7 @@ export default function OperatorHome() {
                   <label className="space-y-2 block">
                     <span className="font-label-md text-ink">Business Email</span>
                     <input
-                      className="w-full px-4 py-3 rounded-lg border border-slate-gray/30 bg-surface-container-low text-ink focus:outline-none focus:border-primary focus:border-2"
+                      className={fieldClass}
                       onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
                       placeholder="partner@pearlsafaris.com"
                       required
@@ -341,7 +358,7 @@ export default function OperatorHome() {
                   <label className="space-y-2 block">
                     <span className="font-label-md text-ink">Phone Number (WhatsApp preferred)</span>
                     <input
-                      className="w-full px-4 py-3 rounded-lg border border-slate-gray/30 bg-surface-container-low text-ink focus:outline-none focus:border-primary focus:border-2"
+                      className={fieldClass}
                       onChange={(e) => setRegisterForm({ ...registerForm, phone: e.target.value })}
                       placeholder="+256 700 000000"
                       required
@@ -350,18 +367,51 @@ export default function OperatorHome() {
                     />
                   </label>
                 </div>
-                <label className="space-y-2 block">
-                  <span className="font-label-md text-ink">Primary Region / Specialization</span>
-                  <select
-                    className="w-full px-4 py-3 rounded-lg border border-slate-gray/30 bg-surface-container-low text-ink focus:outline-none focus:border-primary focus:border-2"
-                    onChange={(e) => setRegisterForm({ ...registerForm, specialization: e.target.value })}
-                    value={registerForm.specialization}
-                  >
-                    {SPECIALIZATIONS.map((item) => (
-                      <option key={item}>{item}</option>
-                    ))}
-                  </select>
-                </label>
+                <div className="space-y-4">
+                  <p className="font-label-md text-ink">Address</p>
+                  <label className="space-y-2 block">
+                    <span className="font-label-md text-[13px] text-slate-gray">Street</span>
+                    <input
+                      className={fieldClass}
+                      onChange={(e) => setRegisterForm({ ...registerForm, street: e.target.value })}
+                      placeholder="Plot 12, Kitooro Road"
+                      required
+                      value={registerForm.street}
+                    />
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
+                    <label className="space-y-2 block">
+                      <span className="font-label-md text-[13px] text-slate-gray">Town / City</span>
+                      <input
+                        className={fieldClass}
+                        onChange={(e) => setRegisterForm({ ...registerForm, city: e.target.value })}
+                        placeholder="Entebbe"
+                        required
+                        value={registerForm.city}
+                      />
+                    </label>
+                    <label className="space-y-2 block">
+                      <span className="font-label-md text-[13px] text-slate-gray">District</span>
+                      <input
+                        className={fieldClass}
+                        onChange={(e) => setRegisterForm({ ...registerForm, district: e.target.value })}
+                        placeholder="Wakiso"
+                        required
+                        value={registerForm.district}
+                      />
+                    </label>
+                    <label className="space-y-2 block">
+                      <span className="font-label-md text-[13px] text-slate-gray">Country</span>
+                      <input
+                        className={fieldClass}
+                        onChange={(e) => setRegisterForm({ ...registerForm, country: e.target.value })}
+                        placeholder="Uganda"
+                        required
+                        value={registerForm.country}
+                      />
+                    </label>
+                  </div>
+                </div>
                 <label className="space-y-2 block">
                   <span className="font-label-md text-ink">Password</span>
                   <input

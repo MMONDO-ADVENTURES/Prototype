@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
-import { CANCELLATION_POLICY, durationDays, formatMoney, Icon, priceUnit, priceUnitPhrase, splitCsv, tourDestinations, tourTypes } from "../utils";
+import { CANCELLATION_POLICY, durationDays, formatMoney, Icon, joinName, priceUnit, priceUnitPhrase, splitCsv, splitName, tourDestinations, tourTypes } from "../utils";
 
 const SAVED_CARDS_KEY = "mmondo.savedCards";
 
@@ -629,10 +629,14 @@ export default function Payment() {
               )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label className="flex flex-col gap-1 text-[13px] text-slate-gray">
-                  Lead traveller
-                  <input className="p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-charcoal text-[14px]" placeholder="Added after you sign in" readOnly value={user?.full_name || ""} />
+                  First name
+                  <input className="p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-charcoal text-[14px]" placeholder="Added after you sign in" readOnly value={splitName(user?.full_name).first_name} />
                 </label>
                 <label className="flex flex-col gap-1 text-[13px] text-slate-gray">
+                  Last name
+                  <input className="p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-charcoal text-[14px]" placeholder="Added after you sign in" readOnly value={splitName(user?.full_name).last_name} />
+                </label>
+                <label className="sm:col-span-2 flex flex-col gap-1 text-[13px] text-slate-gray">
                   Email Address
                   <input className="p-2.5 rounded-lg border border-surface-container-high bg-surface-container-low text-charcoal text-[14px]" placeholder="Added after you sign in" readOnly value={user?.email || ""} />
                 </label>
@@ -652,8 +656,9 @@ export default function Payment() {
                     <div className="rounded-xl border border-surface-container p-3 bg-surface-container-low space-y-2" key={`${person.role}-${index}`}>
                       <p className="font-label-md text-[13px] text-charcoal">{companionLabel(person, index, companions)}</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <input className="p-2.5 rounded-lg bg-white border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => updateCompanion(index, { full_name: e.target.value })} placeholder="Full name" value={person.full_name} />
-                        <input className="p-2.5 rounded-lg bg-white border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => updateCompanion(index, { details: e.target.value })} placeholder="Details (age, diet, passport name)" value={person.details} />
+                        <input className="p-2.5 rounded-lg bg-white border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => updateCompanion(index, { full_name: joinName(e.target.value, splitName(person.full_name).last_name) })} placeholder="First name" value={splitName(person.full_name).first_name} />
+                        <input className="p-2.5 rounded-lg bg-white border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => updateCompanion(index, { full_name: joinName(splitName(person.full_name).first_name, e.target.value) })} placeholder="Last name" value={splitName(person.full_name).last_name} />
+                        <input className="sm:col-span-2 p-2.5 rounded-lg bg-white border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => updateCompanion(index, { details: e.target.value })} placeholder="Details (age, diet, passport name)" value={person.details} />
                       </div>
                     </div>
                   ))}

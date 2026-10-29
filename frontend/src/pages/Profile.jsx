@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
-import { Icon } from "../utils";
+import { Icon, joinName, splitName } from "../utils";
 
 const COUNTRIES = ["Uganda", "Kenya", "Tanzania", "Rwanda", "United Kingdom", "United States", "Germany", "Canada", "Other"];
 const DIETARY = ["Vegetarian", "Vegan", "Gluten-Free"];
@@ -22,7 +22,7 @@ export default function Profile() {
   const { user, preferences, refresh, setPreferences } = useAuth();
   const [params] = useSearchParams();
   const [section, setSection] = useState(params.get("section") || "profile");
-  const [form, setForm] = useState({ full_name: "", email: "", phone: "", country: "Uganda" });
+  const [form, setForm] = useState({ first_name: "", last_name: "", email: "", phone: "", country: "Uganda" });
   const [prefs, setPrefs] = useState(defaultsFrom(preferences));
   const [passwords, setPasswords] = useState({ current_password: "", new_password: "" });
   const [message, setMessage] = useState("");
@@ -36,8 +36,10 @@ export default function Profile() {
   useEffect(() => {
     if (user) {
       const next = defaultsFrom(preferences);
+      const names = splitName(user.full_name);
       setForm({
-        full_name: user.full_name || "",
+        first_name: names.first_name,
+        last_name: names.last_name,
         email: user.email || "",
         phone: user.phone || "",
         country: next.country,
@@ -62,7 +64,10 @@ export default function Profile() {
   async function saveProfile(event) {
     event.preventDefault();
     try {
-      const data = await api("/auth/profile", { method: "PUT", body: form });
+      const data = await api("/auth/profile", {
+        method: "PUT",
+        body: { ...form, full_name: joinName(form.first_name, form.last_name) },
+      });
       flash(data.message);
       await refresh();
     } catch (err) {
@@ -150,8 +155,12 @@ export default function Profile() {
               <p className="font-body-md text-body-md text-secondary mb-8">Manage your personal details and how we contact you.</p>
               <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={saveProfile}>
                 <div className="flex flex-col gap-2">
-                  <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-xs">Full Name</label>
-                  <input className="p-3 bg-surface-bright rounded-lg focus:ring-2 focus:ring-primary" onChange={(e) => setForm({ ...form, full_name: e.target.value })} required value={form.full_name} />
+                  <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-xs">First Name</label>
+                  <input className="p-3 bg-surface-bright rounded-lg focus:ring-2 focus:ring-primary" onChange={(e) => setForm({ ...form, first_name: e.target.value })} placeholder="Jane" required value={form.first_name} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-xs">Last Name</label>
+                  <input className="p-3 bg-surface-bright rounded-lg focus:ring-2 focus:ring-primary" onChange={(e) => setForm({ ...form, last_name: e.target.value })} placeholder="Okello" required value={form.last_name} />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-xs">Email Address</label>

@@ -5,7 +5,7 @@ import { useAuth } from "../AuthContext";
 import { AppleIcon, GoogleIcon, Icon } from "../utils";
 
 const AUTH_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDBXlUF3ATFUDgIk-rVfCiJyJ6j-jYKTBSjci07fnOZzqu1VPwkJy4sLo95ojotuudfm_RJ37-QCf2A2Cd_m-_nH7yJF9mxzWqoXg4kRxt3XYm4ao97TcxWRDRNa3qDmzBr3yhBxhfXdvAiejwSFTj1EgSA7h1Gl4U9uWTaq7lZmKTg8o_7bXmgdGg0IAka2rEYpF4cz-Z_C5sHEY0NEBBfxF_ULYuWIQmNwAkg1zR6URxR-rqRGr-L";
+  "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391526/gabriel-schumacher-kcKJTpYTdIQ-unsplash.svg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ export default function Login() {
   return (
     <div className="flex flex-col md:flex-row w-full h-full min-h-0 overflow-hidden bg-surface-container-low">
       <div className="hidden md:flex md:w-1/2 relative bg-cover bg-center h-full min-h-0" style={{ backgroundImage: `url('${AUTH_IMAGE}')` }}>
-        <div className="absolute inset-0 bg-charcoal/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/55 via-charcoal/35 to-charcoal/70" />
         <div className="absolute inset-0 p-10 flex flex-col items-center justify-center text-center z-10">
           <h2 className="text-white font-headline-sm text-headline-sm mb-2">Discover the Pearl of Africa</h2>
           <p className="text-white/90 font-body-md text-body-md max-w-md">

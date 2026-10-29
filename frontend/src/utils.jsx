@@ -29,6 +29,45 @@ export function titleCase(value) {
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+export function splitName(fullName) {
+  const parts = String(fullName || "").trim().split(/\s+/).filter(Boolean);
+  return { first_name: parts[0] || "", last_name: parts.slice(1).join(" ") };
+}
+
+export function joinName(firstName, lastName) {
+  return [firstName, lastName].map((part) => String(part || "").trim()).filter(Boolean).join(" ");
+}
+
+export function splitAddress(value) {
+  const parts = String(value || "").split(",").map((part) => part.trim());
+  return {
+    street: parts[0] || "",
+    city: parts[1] || "",
+    district: parts[2] || "",
+    country: parts[3] || "",
+  };
+}
+
+export function joinAddress(parts) {
+  return ["street", "city", "district", "country"]
+    .map((key) => String(parts?.[key] || "").trim())
+    .filter(Boolean)
+    .join(", ");
+}
+
+export function parseActivity(activity) {
+  if (activity && typeof activity === "object" && !Array.isArray(activity)) {
+    return {
+      title: String(activity.title || activity.name || activity.text || "").trim(),
+      duration: String(activity.duration || "").trim(),
+    };
+  }
+  const text = String(activity || "").replace(/\s+/g, " ").trim();
+  const match = text.match(/^(.*?)\s*(?:\(|—|-)\s*([^)]*?\b(?:hours?|hrs?|minutes?|mins?|days?|full day|half day)\b[^)]*)\)?$/i);
+  if (match?.[1]) return { title: match[1].trim(), duration: match[2].trim() };
+  return { title: text, duration: "" };
+}
+
 export function isStayPlace(value) {
   return /\b(hotel|lodge|camp|resort|inn|market|guesthouse|guest house)\b/i.test(String(value || ""));
 }
@@ -63,7 +102,7 @@ export function activitiesOf(tour) {
     items.push(text);
   }
   tourItinerary(tour).forEach((day) => {
-    (day.activities || []).forEach(add);
+    (day.activities || []).forEach((activity) => add(parseActivity(activity).title));
   });
   return items;
 }
@@ -89,6 +128,25 @@ export function tourItinerary(tour) {
   return days.filter((day) => day && (day.title || day.destination || day.duration || (day.activities || []).length));
 }
 
+export function parseItineraryDayRange(item, index = 0) {
+  const fallback = index + 1;
+  const fromRaw = item?.day_from ?? item?.day;
+  const toRaw = item?.day_to ?? item?.day_end;
+  const rangeMatch = String(fromRaw ?? "").match(/(\d+)\s*[-–]\s*(\d+)/);
+  if (rangeMatch) {
+    const from = Math.max(1, Number(rangeMatch[1]));
+    return { from, to: Math.max(from, Number(rangeMatch[2])) };
+  }
+  const from = Math.max(1, Number(fromRaw) || fallback);
+  const to = Math.max(from, Number(toRaw) || from);
+  return { from, to };
+}
+
+export function itineraryDayBadge(item, index = 0) {
+  const { from, to } = parseItineraryDayRange(item, index);
+  return from === to ? `Day ${from}` : `Day ${from}-${to}`;
+}
+
 export function tourHighlights(tour, limit = 4) {
   const items = [];
   const seen = new Set();
@@ -105,7 +163,7 @@ export function tourHighlights(tour, limit = 4) {
   if (tour?.reserve_now_pay_later) add("Reserve now, pay later");
   splitCsv(tour?.included).forEach(add);
   tourItinerary(tour).forEach((day) => {
-    (day.activities || []).forEach(add);
+    (day.activities || []).forEach((activity) => add(parseActivity(activity).title));
   });
   return items;
 }
@@ -200,8 +258,10 @@ export function canEditBooking(booking, now = new Date()) {
 export function Icon({ name, className = "", fill = false }) {
   return (
     <span
+      aria-hidden="true"
       className={`material-symbols-outlined ${className}`}
       style={fill ? { fontVariationSettings: "'FILL' 1" } : undefined}
+      translate="no"
     >
       {name}
     </span>

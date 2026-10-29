@@ -53,23 +53,26 @@ export default function About() {
   return (
     <div className="w-full bg-surface">
       <div className="flex flex-col w-full">
-        <section className="relative w-full h-[520px] md:h-[640px] flex items-center justify-center overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage:
-                "url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5u9DhUKVW0cXjzq-sHfLiS1Grxuj0WQaHgcqn_-32ukkwSAGwUe7dsCTsespk2MICK_CZSqk7FKjqHGnyCxT2hdYzRO4b4VVIj_BZSzMSyVr86pUnvdeLI55t4LyxZhwD9MUXSCq2A-jfFqFO8vfrOYwUdWYaCM-xZiS37tMSjRuAiUND8H6KgPOeb7DSZRWsYBA90It3qjDOUGjTKTxomWU5vUSDW-H0mnShkeDsPalIRYgmmxqL')",
-            }}
+        <section className="relative w-full h-screen min-h-[100dvh] overflow-hidden bg-charcoal">
+          <img
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover object-[center_42%]"
+            src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391528/pexels-mike-van-schoonderwalt-1884800-5504224.svg"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-transparent" />
-          <div className="relative z-10 w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-start gap-5">
-            <h1 className="font-display-lg text-[32px] md:text-[44px] leading-[1.15] text-white max-w-3xl">
-              Our Mission: Connecting You to the Heart of Uganda<span className="text-primary-fixed-dim">.</span>
-            </h1>
-            <p className="font-body-lg text-body-lg text-surface-dim max-w-2xl opacity-90">
-              We are more than a booking platform. We bring Ugandan tour operators and travellers together, working
-              with trusted local guides to deliver authentic, well-organised adventures.
-            </p>
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/35 to-charcoal/80" />
+          <div className="absolute inset-0 z-10 flex flex-col justify-end">
+            <div className="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-24 pb-10 md:pb-16">
+              <span className="inline-flex items-center bg-primary text-white font-label-md text-[12px] md:text-[13px] tracking-[0.18em] uppercase px-4 py-1.5 rounded-full mb-4">
+                About us
+              </span>
+              <h1 className="font-display-lg text-[32px] md:text-[48px] lg:text-[52px] leading-[1.1] tracking-tight text-white max-w-3xl">
+                Our Mission: Connecting You to the Heart of Uganda<span className="text-primary">.</span>
+              </h1>
+              <p className="mt-4 font-body-lg text-[16px] md:text-[18px] leading-relaxed text-white/85 max-w-xl">
+                We are more than a booking platform. We bring Ugandan tour operators and travellers together, working
+                with trusted local guides to deliver authentic, well-organised adventures.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -81,7 +84,7 @@ export default function About() {
                 <img
                   alt="A Mmondo guide in the field"
                   className="w-full h-full object-cover"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDE26FgCKHPsjFiQI-0kuNFBaDjWlw7d-jSAiQyQ5QXPsvrkrDO45cr90y9xOoFzJDZbM8hyJ71gCI6rQa_6EtdxTKDpibsiVqr4SdrsOzuPXB4Gr0-AhK-Og1re4zTYzrREudkS9UhCOW8z2Lfc1EA5hb7OmxesTNl87SzZun-ay8aTWdtfAyJcbnqkuTT8osHkhO8yPMo0Uc3B0GjVfiMk64CyAixG0WfzdXzwjJLgysQtw1si4c"
+                  src="https://res.cloudinary.com/yqsld0pd/image/upload/v1793292049/Safari_en_Tanzania_la_aventura_de_tu_vida.svg"
                 />
               </div>
               <div className="absolute -bottom-8 -right-4 xl:-right-8 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-md max-w-[280px] hidden md:block">
@@ -186,7 +189,7 @@ export default function About() {
                   <img
                     alt="Mr. Kyamuwendo Oscar"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="/static/img/IMG_1274s.PNG"
+                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391513/oscar.svg"
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Kyamuwendo Oscar</h4>
@@ -200,7 +203,7 @@ export default function About() {
                   <img
                     alt="Mr. Lubega Rhyan"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="/static/img/IMG_1511.jpg"
+                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391517/rhyan.svg"
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Lubega Rhyan</h4>
@@ -214,7 +217,7 @@ export default function About() {
                   <img
                     alt="Mr. Mutale George"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="/static/img/IMG_9193%20(1).jpg"
+                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391512/george.svg"
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Mutale George</h4>
@@ -228,7 +231,7 @@ export default function About() {
                   <img
                     alt="Mr. Onyango Boaz"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="/static/img/bib.jpg"
+                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391510/boaz.svg"
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Onyango Boaz</h4>

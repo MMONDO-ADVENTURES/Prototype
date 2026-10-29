@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { api } from "../api";
-import { CANCELLATION_POLICY, formatMoney, Icon, priceUnitPhrase, priceUnitSuffix, splitCsv, splitNotes, tourBaseTotal, tourDestinations, tourItinerary, tourTypes } from "../utils";
+import OperatorCard from "../components/OperatorCard";
+import TourCard from "../components/TourCard";
+import { CANCELLATION_POLICY, durationDays, formatMoney, Icon, itineraryDayBadge, parseActivity, parseItineraryDayRange, priceUnitPhrase, priceUnitSuffix, splitCsv, splitNotes, tourDestinations, tourItinerary, tourTypes } from "../utils";
 
 function Stars({ rating, size = "text-[14px]" }) {
   return (
@@ -27,9 +29,9 @@ function formatStartDate(value) {
 
 function BulletList({ items }) {
   return (
-    <ul className="mt-2 space-y-1.5">
+    <ul className="mt-1 space-y-0.5">
       {items.map((item) => (
-        <li className="flex items-start gap-2 text-[14px] leading-relaxed text-charcoal" key={item}>
+        <li className="flex items-start gap-1.5 text-[13px] leading-snug text-charcoal" key={item}>
           <span className="text-slate-gray mt-px shrink-0">›</span>
           <span>{item}</span>
         </li>
@@ -38,21 +40,52 @@ function BulletList({ items }) {
   );
 }
 
-function ItineraryHeading({ title, duration, children }) {
+function ActivityList({ activities, day }) {
+  const items = (activities?.length ? activities : [{ title: `Time in ${day?.destination || "Uganda"}.` }]).map((activity) => parseActivity(activity)).filter((item) => item.title);
   return (
-    <div className="flex items-baseline justify-between gap-3 pb-2 mb-1 border-b border-dotted border-outline-variant">
-      <div className="flex items-baseline gap-2 min-w-0">
-        <Icon fill name="location_on" className="text-primary text-[22px] shrink-0 relative top-[3px]" />
-        <h3 className="font-semibold text-[16px] text-charcoal">
-          {title}
-          {children}
-        </h3>
-      </div>
-      {duration ? (
-        <span className="text-[13px] text-slate-gray shrink-0">Duration: {duration}</span>
-      ) : null}
-    </div>
+    <ul className="mt-1 space-y-0.5">
+      {items.map((item) => (
+        <li className="flex items-start justify-between gap-3 text-[13px] leading-snug text-slate-gray" key={`${item.title}-${item.duration}`}>
+          <span className="min-w-0">{item.title}</span>
+          {item.duration ? <span className="text-[12px] text-slate-gray shrink-0">{item.duration}</span> : null}
+        </li>
+      ))}
+    </ul>
   );
+}
+
+function CheckRow({ included, text }) {
+  return (
+    <p className="flex items-start gap-1.5 text-[13px] leading-snug text-charcoal">
+      <Icon
+        fill
+        name={included ? "check_circle" : "cancel"}
+        className={`${included ? "text-emerald-600" : "text-red-500"} text-[16px] shrink-0 mt-px`}
+      />
+      <span>{text}</span>
+    </p>
+  );
+}
+
+function itineraryWithDayBadges(items) {
+  return items.map((item, index) => {
+    const { from, to } = parseItineraryDayRange(item, index);
+    return { ...item, dayFrom: from, dayTo: to, dayBadge: itineraryDayBadge(item, index) };
+  });
+}
+
+function highlightIcon(text) {
+  const value = String(text || "").toLowerCase();
+  if (/gorilla|wildlife|safari|lion|elephant|chimp/.test(value)) return "pets";
+  if (/boat|cruise|ferry|kazinga|nile/.test(value)) return "directions_boat";
+  if (/train|rail/.test(value)) return "train";
+  if (/city|town|village|kampala|entebbe/.test(value)) return "location_city";
+  if (/lake|water|falls|murchison/.test(value)) return "water";
+  if (/mountain|hike|trek|peak|bwindi|rwenzori/.test(value)) return "terrain";
+  if (/food|meal|chocolate|coffee|tasting/.test(value)) return "restaurant";
+  if (/guide|cultural|community/.test(value)) return "groups";
+  if (/hotel|lodge|stay|overnight/.test(value)) return "hotel";
+  return "landscape";
 }
 
 export default function TourDetails() {
@@ -62,7 +95,6 @@ export default function TourDetails() {
   const [tour, setTour] = useState(null);
   const [today, setToday] = useState("");
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState("overview");
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [shared, setShared] = useState(false);
   const [form, setForm] = useState({
@@ -73,6 +105,7 @@ export default function TourDetails() {
     special_requirements: "",
   });
   const [busy, setBusy] = useState(false);
+  const [related, setRelated] = useState([]);
 
   useEffect(() => {
     api(`/tours/${id}`)
@@ -91,6 +124,14 @@ export default function TourDetails() {
       })
       .catch((err) => setError(err.message));
   }, [id, params]);
+
+  useEffect(() => {
+    api("/tours")
+      .then((data) => {
+        setRelated((data.tours || []).filter((item) => String(item.id) !== String(id)).slice(0, 4));
+      })
+      .catch(() => setRelated([]));
+  }, [id]);
 
   const destinations = useMemo(() => tourDestinations(tour), [tour]);
   const included = useMemo(() => splitCsv(tour?.included), [tour]);
@@ -112,11 +153,6 @@ export default function TourDetails() {
   const operatorName = tour?.creator?.company_name || tour?.creator?.full_name || "Mmondo Tour Operator";
   const photoCount = gallery.length;
   const hero = gallery[0];
-  const sideTop = gallery[1] || gallery[0];
-  const sideBottom = gallery[2] || gallery[1] || gallery[0];
-  const travelers = Number(form.adults || 0) + Number(form.kids || 0);
-  let total = tourBaseTotal(tour, travelers);
-  if (form.donate) total += 10;
 
   function patchForm(patch) {
     setError("");
@@ -162,8 +198,8 @@ export default function TourDetails() {
     }
   }
 
-  if (error && !tour) return <div className="bg-surface min-h-[60vh] p-12 text-center text-error">{error}</div>;
-  if (!tour) return <div className="bg-surface min-h-[60vh] p-12 text-center">Loading tour…</div>;
+  if (error && !tour) return <div className="bg-white min-h-[60vh] p-12 text-center text-error">{error}</div>;
+  if (!tour) return <div className="bg-white min-h-[60vh] p-12 text-center">Loading tour…</div>;
 
   const endPlace = destinations[destinations.length - 1] || "Entebbe";
   const startPlace = destinations[0] || "Entebbe International Airport";
@@ -184,14 +220,45 @@ export default function TourDetails() {
         "Most travellers can participate. See Inclusions for who this tour is not suitable for.",
       ];
   const groupCap = Math.min(Number(tour.max_participants) || 5, 5);
-  const bookLabel = tour.reserve_now_pay_later ? "Reserve now" : "Book now";
-  const tabs = [
-    ["overview", "Overview"],
-    ["itinerary", "Itinerary"],
-    ["reviews", "Reviews"],
-    ["inclusions", "Inclusions"],
-    ["offered-by", "Offered By"],
-  ];
+  const bookLabel = tour.reserve_now_pay_later ? "Reserve now" : "Book This Tour";
+  const dayCount = durationDays(tour.duration) || days.length || destinations.length || 1;
+  const nightCount = Math.max(dayCount - 1, 0);
+  const durationLabel = `${dayCount} ${dayCount === 1 ? "Day" : "Days"}${nightCount ? ` / ${nightCount} ${nightCount === 1 ? "Night" : "Nights"}` : ""}`;
+  const tripType = types[0] || (tour.live_tour_guide ? "Guided Tour" : "Group Tour");
+  const tourCode = `MM-${String(id).padStart(3, "0")}`;
+  const locationLabel = tour.country || destinations[0] || "Uganda";
+  const groupLabel = `2 – ${groupCap} People`;
+  const itineraryDays = itineraryWithDayBadges(
+    days.length
+      ? days
+      : [
+          { day: 1, day_from: 1, day_to: 1, title: "Arrival", destination: startPlace, activities: [{ title: "You'll be collected from the airport." }, { title: "Accommodation before the tour starts can be arranged for an extra cost." }] },
+          ...(destinations.length ? destinations : ["Uganda"]).map((place, index) => ({
+            day: index + 2,
+            day_from: index + 2,
+            day_to: index + 2,
+            title: place,
+            destination: place,
+            activities: [{ title: `Explore ${place}.` }, { title: "Guided activities with your local tour guide." }],
+          })),
+          { day: (destinations.length || 1) + 2, day_from: (destinations.length || 1) + 2, day_to: (destinations.length || 1) + 2, title: "Departure", destination: endPlace, activities: [{ title: `The tour ends in ${endPlace}.` }, { title: "Post-tour accommodation can be arranged for an extra cost." }] },
+        ]
+  );
+  const highlights = [];
+  const seenHighlight = new Set();
+  function addHighlight(title, subtitle) {
+    const key = String(title || "").toLowerCase();
+    if (!title || seenHighlight.has(key) || highlights.length >= 5) return;
+    seenHighlight.add(key);
+    highlights.push({ title, subtitle: subtitle && subtitle !== title ? subtitle : "", icon: highlightIcon(title) });
+  }
+  itineraryDays.forEach((day) => {
+    addHighlight(day.title || day.destination, parseActivity(day.activities?.[0]).title);
+  });
+  destinations.forEach((place) => addHighlight(place, "Destination"));
+  if (tour.live_tour_guide) addHighlight("Expert Guide", languages.length ? languages.join(", ") : "Live tour guide");
+  const galleryThumbs = gallery.slice(0, 5);
+  const activitySummary = highlights.slice(0, 3).map((item) => item.title).join(", ") || tripType;
   const notSuitableFor = [
     "Pregnant travellers",
     "Children under 5 years old",
@@ -203,312 +270,231 @@ export default function TourDetails() {
     "People with a severe fear of heights, water, or enclosed spaces where the itinerary includes those activities",
     "Anyone who cannot travel without daily access to specialised medical care",
   ];
+  const stats = [
+    ["schedule", "Duration", durationLabel],
+    ["location_on", "Location", locationLabel],
+    ["groups", "Group Size", groupLabel],
+    ["map", "Trip Type", tripType],
+    ["tag", "Tour ID", tourCode],
+  ];
 
   return (
-    <div className="bg-surface text-ink">
-      <main className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-6 pb-24 lg:pb-10">
-        <nav className="flex text-slate-gray font-label-md text-label-md mb-4">
-          <ol className="inline-flex items-center flex-wrap gap-y-1">
-            <li><Link className="hover:text-primary" to="/">Home</Link></li>
-            <li><Icon name="chevron_right" className="text-[16px] mx-1" /><Link className="hover:text-primary" to="/tours">Tours</Link></li>
-            {tour.country && <li><Icon name="chevron_right" className="text-[16px] mx-1" /><Link className="hover:text-primary" to="/tours">{tour.country}</Link></li>}
-            <li><Icon name="chevron_right" className="text-[16px] mx-1 text-on-surface-variant" /><span className="text-ink">{tour.title}</span></li>
-          </ol>
-        </nav>
-
-        <section className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
-            <h1 className="font-headline-md text-[28px] md:text-[32px] leading-tight text-charcoal">{tour.title}</h1>
-            <div className="flex items-center gap-4 shrink-0 text-charcoal font-label-md text-[14px]">
-              <Link className="inline-flex items-center gap-1.5 hover:text-primary" to={`/wishlist/${id}`}>
-                <Icon name="favorite" className="text-[20px]" /> Add to wishlist
-              </Link>
-              <button className="inline-flex items-center gap-1.5 hover:text-primary" onClick={shareTour} type="button">
-                <Icon name="ios_share" className="text-[20px]" /> {shared ? "Copied" : "Share"}
-              </button>
-            </div>
+    <div className="bg-white text-ink">
+      <section className="relative bg-charcoal overflow-hidden">
+        {hero ? (
+          <img alt={tour.title} className="absolute inset-0 w-full h-full object-cover" src={hero} />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-white/50">
+            <Icon name="image" className="text-6xl" />
           </div>
-
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px] text-charcoal mb-5">
-            {avgRating >= 4 && (
-              <span className="inline-flex items-center gap-1 font-label-md">
-                <Icon fill name="verified" className="text-primary text-[16px]" /> Top rated
-              </span>
-            )}
-            <span className="inline-flex items-center gap-1">
-              <Icon fill name="star" className="text-primary text-[16px]" />
-              <span className="font-semibold">{avgRating ? avgRating.toFixed(1) : "5.0"}</span>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/50 to-charcoal/20" />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-12 md:pt-24 md:pb-14">
+          <div className="flex items-center justify-end gap-2 mb-3">
+            <Link
+              aria-label="Add to wishlist"
+              className="w-10 h-10 rounded-full bg-white/90 text-charcoal hover:text-primary flex items-center justify-center shadow-sm"
+              to={`/wishlist/${id}`}
+            >
+              <Icon name="favorite" className="text-[20px]" />
+            </Link>
+            <button
+              aria-label="Share tour"
+              className="w-10 h-10 rounded-full bg-white/90 text-charcoal hover:text-primary flex items-center justify-center shadow-sm"
+              onClick={shareTour}
+              type="button"
+            >
+              <Icon name="ios_share" className="text-[20px]" />
+            </button>
+          </div>
+          {avgRating >= 4 && (
+            <span className="inline-flex self-start items-center bg-primary text-white text-[11px] font-semibold tracking-wide uppercase px-3 py-1 rounded-full mb-2">
+              Best Seller
             </span>
-            <span className="text-slate-gray">({reviews.length || 0} review{reviews.length === 1 ? "" : "s"})</span>
-            <span className="text-slate-gray">·</span>
-            <span className="text-slate-gray">Activity provider: <span className="text-charcoal font-medium">{operatorName}</span></span>
+          )}
+          <h1 className="font-headline-md text-[28px] md:text-[36px] leading-tight text-white max-w-3xl">
+            {tour.title}
+          </h1>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-white">
+            <Stars rating={Math.round(avgRating || 5)} size="text-[18px]" />
+            <span className="text-[14px] text-white/90">
+              {avgRating ? avgRating.toFixed(1) : "5.0"} ({reviews.length || 0} {reviews.length === 1 ? "review" : "reviews"})
+            </span>
+            <span className="text-white/50">|</span>
+            <span className="inline-flex items-center gap-1 text-[14px] text-white/90">
+              <Icon name="location_on" className="text-[16px]" />
+              {locationLabel}
+            </span>
+            {shared && <span className="text-[13px] text-white/80">Link copied</span>}
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-6 items-start">
-            <div className="min-w-0">
-              <div className="grid grid-cols-3 grid-rows-2 gap-2 rounded-2xl overflow-hidden h-[280px] md:h-[420px] bg-surface-container-high">
-                <button className="relative col-span-2 row-span-2 overflow-hidden" onClick={() => setGalleryOpen(true)} type="button">
-                  {hero ? (
-                    <img alt={tour.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src={hero} />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-gray"><Icon name="image" className="text-5xl" /></div>
-                  )}
-                </button>
-                <button className="relative overflow-hidden" onClick={() => setGalleryOpen(true)} type="button">
-                  {sideTop ? (
-                    <img alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src={sideTop} />
-                  ) : (
-                    <div className="w-full h-full bg-surface-container flex items-center justify-center text-slate-gray"><Icon name="photo_camera" /></div>
-                  )}
-                </button>
-                <button className="relative overflow-hidden" onClick={() => setGalleryOpen(true)} type="button">
-                  {sideBottom ? (
-                    <img alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src={sideBottom} />
-                  ) : (
-                    <div className="w-full h-full bg-surface-container flex items-center justify-center text-slate-gray"><Icon name="add_photo_alternate" /></div>
-                  )}
-                  <span className="absolute bottom-3 right-3 bg-white text-charcoal font-label-md text-[13px] px-3 py-1.5 rounded-full shadow-sm">
-                    View all
-                  </span>
-                </button>
+      <div className="relative z-10 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop -mt-7 md:-mt-8">
+        <div className="max-w-[1200px] bg-white rounded-2xl shadow-[0_18px_40px_-24px_rgba(30,30,30,0.4)] px-2 py-2 md:py-2.5">
+          <div className="grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-surface-container">
+            {stats.map(([icon, label, value]) => (
+              <div className="flex items-center gap-2.5 px-3 py-1.5 md:py-0" key={label}>
+                <span className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  <Icon name={icon} className="text-[20px]" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[12px] text-slate-gray">{label}</p>
+                  <p className="font-semibold text-[14px] text-charcoal truncate">{value}</p>
+                </div>
               </div>
-
-              <div className="mt-6">
-          <div className="flex overflow-x-auto hide-scrollbar border-b border-surface-variant bg-surface-container">
-            {tabs.map(([target, label]) => {
-              const active = activeTab === target;
-              return (
-                <button
-                  className={`whitespace-nowrap px-4 py-2.5 font-label-md text-[13px] border-r border-surface-variant transition-colors ${
-                    active
-                      ? "bg-white text-primary border-t-2 border-t-primary -mb-px relative z-10"
-                      : "bg-surface-container text-slate-gray hover:text-primary"
-                  }`}
-                  key={target}
-                  onClick={() => setActiveTab(target)}
-                  type="button"
-                >
-                  {label}
-                </button>
-              );
-            })}
+            ))}
           </div>
+        </div>
+      </div>
 
-          <div className="bg-white border border-t-0 border-surface-variant px-4 py-5 md:px-5 md:py-6">
-            {activeTab === "overview" && (
-              <div>
-                <p className="font-body-md text-[15px] text-charcoal leading-relaxed max-w-3xl mb-6">
-                  {tour.description || "Details for this journey are being finalised. Register your interest and our team will share the full itinerary."}
-                </p>
-                <h3 className="font-semibold text-[16px] text-charcoal mb-3">Tour features</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {[
-                    ["schedule", tour.duration || "Flexible", "Duration"],
-                    ["groups", `Max ${groupCap} people`, "Group size"],
-                    languages.length ? ["translate", languages.join(", "), "Languages"] : null,
-                    tour.live_tour_guide ? ["interpreter_mode", "Included", "Live tour guide"] : null,
-                    tour.free_cancellation ? ["event_busy", "Up to 3 days before", "Free cancellation"] : null,
-                    tour.reserve_now_pay_later ? ["payments", "Hold your dates", "Reserve now, pay later"] : null,
-                    types.length ? ["category", types.map((type) => type).join(", "), "Tour types"] : null,
-                    destinations.length ? ["map", `${destinations.length} stop${destinations.length === 1 ? "" : "s"}`, "Destinations"] : null,
-                    accommodations.length ? ["hotel", accommodations[0], "Accommodation"] : null,
-                  ]
-                    .filter(Boolean)
-                    .map(([icon, value, label]) => (
-                    <div className="flex items-start gap-3 p-3 bg-surface rounded-xl border border-surface-container" key={label}>
-                      <Icon name={icon} className="text-primary text-[22px] mt-0.5" />
-                      <div>
-                        <p className="font-label-md text-charcoal text-[13px] capitalize">{value}</p>
-                        <p className="text-slate-gray text-[12px]">{label}</p>
-                      </div>
+      <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-4 pb-10">
+        <div className="max-w-[1200px] grid grid-cols-1 md:grid-cols-[1fr_320px] gap-5 items-start">
+          <div className="min-w-0">
+            <section id="tour-overview">
+              <h2 className="font-semibold text-[18px] text-charcoal mb-1.5">Overview</h2>
+              <p className="text-[14px] text-slate-gray leading-snug">
+                {tour.description || "Details for this journey are being finalised. Register your interest and our team will share the full itinerary."}
+              </p>
+            </section>
+
+            {highlights.length > 0 && (
+              <section className="mt-4">
+                <h2 className="font-semibold text-[18px] text-charcoal mb-2">Trip Highlights</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                  {highlights.map((item) => (
+                    <div className="rounded-xl bg-[#f7f8fa] px-2 py-2.5 text-center" key={item.title}>
+                      <span className="mx-auto mb-1 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                        <Icon name={item.icon} className="text-[18px]" />
+                      </span>
+                      <p className="font-semibold text-[12px] text-charcoal leading-snug">{item.title}</p>
+                      {item.subtitle ? <p className="text-[11px] text-slate-gray mt-0.5 line-clamp-1">{item.subtitle}</p> : null}
                     </div>
                   ))}
                 </div>
-              </div>
+              </section>
             )}
 
-            {activeTab === "itinerary" && (
-              <div className="space-y-8">
-                <p className="flex items-center gap-2 text-[14px] text-charcoal -mt-1">
-                  <Icon name="schedule" className="text-primary text-[20px]" />
-                  <span><span className="font-semibold">Duration:</span> {tour.duration || "Flexible"}</span>
-                </p>
-                {days.length ? (
-                  days.map((day) => (
-                    <div key={`itinerary-${day.day}-${day.title}`}>
-                      <ItineraryHeading duration={day.duration} title={day.title || `Day ${day.day}`} />
-                      {day.destination && <p className="mt-2 text-[14px] font-medium text-charcoal">{day.destination}</p>}
-                      {day.accommodation && <p className="text-[13px] text-slate-gray">Stay: {day.accommodation}</p>}
-                      <BulletList items={day.activities?.length ? day.activities : [`Time in ${day.destination || "Uganda"}.`]} />
-                    </div>
-                  ))
-                ) : (
-                  <>
-                    <div>
-                      <ItineraryHeading duration="Arrival day" title="Arrival" />
-                      <BulletList
-                        items={[
-                          "You'll be collected from the airport.",
-                          "Accommodation before the tour starts can be arranged for an extra cost.",
-                        ]}
-                      />
-                    </div>
-                    {(destinations.length ? destinations : ["Uganda"]).map((place, index) => (
-                      <div key={`${place}-${index}`}>
-                        <ItineraryHeading duration="Full day" title={`Day ${index + 1}`} />
-                        <p className="mt-2 text-[14px] font-medium text-charcoal">{place}</p>
-                        <BulletList items={[`Explore ${place}.`, "Guided activities with your local tour guide."]} />
+            <section className="mt-5" id="tour-itinerary">
+              <h2 className="font-semibold text-[18px] text-charcoal mb-2">Itinerary</h2>
+              <div className="mb-3 pb-3 border-b border-surface-container">
+                <h3 className="font-semibold text-[14px] text-charcoal mb-0.5">Meeting and pickup</h3>
+                <p className="text-[12px] text-slate-gray">Pickup included. Meet your guide at the start of the tour or arrange a hotel/airport transfer.</p>
+                <BulletList items={pickupItems} />
+              </div>
+              <ol>
+                {itineraryDays.map((day, index) => {
+                  const heading = day.title || day.destination || day.dayBadge;
+                  return (
+                    <li className="flex gap-3" key={`day-${day.dayFrom}-${heading}`}>
+                      <div className="flex flex-col items-center">
+                        <span className="w-2 h-2 rounded-full bg-primary shrink-0 mt-2" />
+                        {index < itineraryDays.length - 1 && <span className="w-px flex-1 bg-surface-container my-0.5" />}
                       </div>
-                    ))}
-                    <div>
-                      <ItineraryHeading duration="Departure day" title="Departure" />
-                      <BulletList items={[`The tour ends in ${endPlace}.`, "Post-tour accommodation can be arranged for an extra cost."]} />
-                    </div>
-                  </>
-                )}
-                <div>
-                  <h3 className="font-semibold text-[16px] text-charcoal mb-2">Meeting and pickup</h3>
-                  <p className="text-[13px] text-slate-gray mb-2">Pickup included. Meet your guide at the start of the tour or arrange a hotel/airport transfer.</p>
-                  <BulletList items={pickupItems} />
-                </div>
-              </div>
-            )}
-
-            {activeTab === "reviews" && (
-              <div>
-                {reviews.length ? (
-                  <div className="space-y-4">
-                    {reviews.slice(0, 6).map((review) => (
-                      <article className="border-b border-surface-container pb-4 last:border-0 last:pb-0" key={review.id}>
-                        <div className="flex items-center gap-3 mb-2">
-                          <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                            <span className="font-label-md text-primary text-[14px]">{(review.user?.full_name || "T")[0].toUpperCase()}</span>
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-label-md text-charcoal text-[14px] truncate">{review.user?.full_name || "Traveller"}</p>
-                            <div className="flex items-center gap-2">
-                              <Stars rating={review.rating} />
-                              <span className="font-label-md text-[12px] text-charcoal">{review.rating}/5</span>
-                            </div>
-                          </div>
-                          {review.created_at && (
-                            <span className="text-slate-gray text-[12px] shrink-0">
-                              {new Date(review.created_at).toLocaleDateString(undefined, { month: "short", day: "2-digit", year: "numeric" })}
-                            </span>
+                      <div className={`grid grid-cols-[auto_1fr] gap-x-2 items-start ${index < itineraryDays.length - 1 ? "pb-2.5" : "pb-0"}`}>
+                        <span className="inline-flex items-center justify-center whitespace-nowrap bg-primary text-white text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded mt-0.5">
+                          {day.dayBadge}
+                        </span>
+                        <div>
+                          <h3 className="font-semibold text-[14px] text-charcoal">{heading}</h3>
+                          {day.destination && day.destination !== heading && (
+                            <p className="text-[12px] text-slate-gray">{day.destination}</p>
+                          )}
+                          <ActivityList activities={day.activities} day={day} />
+                          {day.accommodation && (
+                            <p className="mt-1 inline-flex items-center gap-1.5 text-[12px] text-slate-gray">
+                              <Icon name="bed" className="text-[16px] text-primary" />
+                              Overnight in {day.accommodation}
+                            </p>
                           )}
                         </div>
-                        {review.comment && <p className="text-[14px] text-charcoal leading-relaxed">"{review.comment}"</p>}
-                      </article>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="py-6 text-center">
-                    <Icon name="rate_review" className="text-slate-gray text-[36px] mb-2" />
-                    <p className="text-slate-gray text-[14px]">No reviews yet. Be the first to share your experience.</p>
-                  </div>
-                )}
-              </div>
-            )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
 
-            {activeTab === "inclusions" && (
-              <div className="space-y-7">
+            <section className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-5" id="tour-inclusions">
+              <div>
+                <h2 className="font-semibold text-[18px] text-charcoal mb-2">What's Included</h2>
+                <div className="space-y-1.5">
+                  {included.length ? included.map((item) => <CheckRow included key={item} text={item} />) : (
+                    <p className="text-slate-gray text-[14px]">Contact the operator for details.</p>
+                  )}
+                </div>
                 {accommodations.length > 0 && (
-                  <div>
-                    <h3 className="font-semibold text-[15px] text-charcoal mb-2">Accommodations</h3>
+                  <div className="mt-3">
+                    <h3 className="font-semibold text-[14px] text-charcoal mb-1">Accommodations</h3>
                     <BulletList items={accommodations} />
                   </div>
                 )}
-                <div>
-                  <h3 className="font-semibold text-[15px] text-charcoal mb-2">What's included</h3>
-                  {included.length ? (
-                    <BulletList items={included} />
-                  ) : (
-                    <p className="text-slate-gray text-[14px]">Contact the operator for details.</p>
-                  )}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-[15px] text-charcoal mb-2">What's excluded</h3>
-                  {excluded.length ? (
-                    <BulletList items={excluded} />
-                  ) : (
-                    <p className="text-slate-gray text-[14px]">Contact the operator for details.</p>
-                  )}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-[15px] text-charcoal mb-2">Not suitable for</h3>
-                  <p className="text-[14px] text-slate-gray leading-relaxed mb-2">
-                    This journey involves long travel days, walking on uneven ground, and limited medical facilities. It is not a good fit for:
-                  </p>
-                  <BulletList items={notSuitableFor} />
-                  <p className="mt-3 text-[13px] text-slate-gray leading-relaxed">
-                    If you are unsure whether the tour is right for you, contact us before booking. We can advise on fitness, accessibility, and whether a different departure would suit you better.
-                  </p>
-                </div>
               </div>
-            )}
-
-            {activeTab === "offered-by" && (
               <div>
-                <ItineraryHeading title="Offered by" />
-                <p className="mt-3 text-[16px] font-semibold text-charcoal">{operatorName}</p>
-                {tour.creator?.company_name && tour.creator?.full_name && (
-                  <p className="text-[14px] text-slate-gray mt-1">{tour.creator.full_name}</p>
-                )}
-                <BulletList
-                  items={[
-                    "Verified local operator on Mmondo Adventures.",
-                    "Book through Mmondo for secure payment and traveller support.",
-                    tour.creator?.company_link ? `Operator site: ${tour.creator.company_link}` : "Contact us if you need help reaching the operator.",
-                  ]}
-                />
-              </div>
-            )}
-          </div>
-              </div>
-
-          <div className="mt-8 bg-white border border-surface-variant rounded-xl px-4 py-5 md:px-5 md:py-6">
-            <h2 className="font-semibold text-[16px] text-charcoal mb-2">Additional information</h2>
-            <BulletList items={extraItems} />
-          </div>
-            </div>
-
-            <aside className="md:sticky md:top-24">
-              <form className="space-y-3" id="booking-form" onSubmit={book}>
-                <div>
-                  <p className="text-[13px] text-slate-gray">From</p>
-                  <p className="text-[28px] leading-none font-semibold text-charcoal">
-                    ${tour.price ? formatMoney(tour.price) : "—"}
-                    <span className="text-[15px] font-normal text-slate-gray"> {priceUnitPhrase(tour)}</span>
-                  </p>
+                <h2 className="font-semibold text-[18px] text-charcoal mb-2">What's Not Included</h2>
+                <div className="space-y-1.5">
+                  {excluded.length ? excluded.map((item) => <CheckRow included={false} key={item} text={item} />) : (
+                    <p className="text-slate-gray text-[14px]">Contact the operator for details.</p>
+                  )}
                 </div>
+              </div>
+            </section>
 
-                <label className="flex items-center gap-3 border border-surface-container-high rounded-xl px-4 py-3 cursor-pointer">
-                  <Icon name="person" className="text-slate-gray text-[20px]" />
-                  <span className="flex-1 font-medium text-[15px] text-charcoal">Adults × {form.adults}</span>
-                  <input
-                    className="w-16 border-none p-0 text-right focus:ring-0 bg-transparent font-medium text-charcoal"
-                    max={groupCap}
-                    min={1}
-                    onChange={(e) => patchForm({ adults: Number(e.target.value) })}
-                    type="number"
-                    value={form.adults}
-                  />
-                </label>
+            <section className="mt-5" id="tour-reviews">
+              <h2 className="font-semibold text-[18px] text-charcoal mb-2">Reviews</h2>
+              {reviews.length ? (
+                <div className="space-y-3">
+                  {reviews.slice(0, 6).map((review) => (
+                    <article className="border-b border-surface-container pb-3 last:border-0 last:pb-0" key={review.id}>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <span className="font-label-md text-primary text-[14px]">{(review.user?.full_name || "T")[0].toUpperCase()}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-label-md text-charcoal text-[14px] truncate">{review.user?.full_name || "Traveller"}</p>
+                          <div className="flex items-center gap-2">
+                            <Stars rating={review.rating} />
+                            <span className="font-label-md text-[12px] text-charcoal">{review.rating}/5</span>
+                          </div>
+                        </div>
+                        {review.created_at && (
+                          <span className="text-slate-gray text-[12px] shrink-0">
+                            {new Date(review.created_at).toLocaleDateString(undefined, { month: "short", day: "2-digit", year: "numeric" })}
+                          </span>
+                        )}
+                      </div>
+                      {review.comment && <p className="text-[13px] text-charcoal leading-snug">"{review.comment}"</p>}
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-slate-gray text-[14px]">No reviews yet. Be the first to share your experience.</p>
+              )}
+            </section>
 
-                <label className="flex items-center gap-3 border border-surface-container-high rounded-xl px-4 py-3 cursor-pointer">
-                  <Icon name="child_care" className="text-slate-gray text-[20px]" />
-                  <span className="flex-1 font-medium text-[15px] text-charcoal">Children × {form.kids}</span>
-                  <input
-                    className="w-16 border-none p-0 text-right focus:ring-0 bg-transparent font-medium text-charcoal"
-                    max={Math.max(0, groupCap - Number(form.adults || 1))}
-                    min={0}
-                    onChange={(e) => patchForm({ kids: Number(e.target.value) })}
-                    type="number"
-                    value={form.kids}
-                  />
-                </label>
+            <section className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <h2 className="font-semibold text-[18px] text-charcoal mb-1.5">Additional information</h2>
+                <BulletList items={extraItems} />
+              </div>
+              <div>
+                <h2 className="font-semibold text-[18px] text-charcoal mb-1.5">Not suitable for</h2>
+                <BulletList items={notSuitableFor} />
+              </div>
+            </section>
+          </div>
 
-                <label className="relative flex items-center gap-3 border border-surface-container-high rounded-xl px-4 py-3 cursor-pointer">
+          <aside className="md:sticky md:top-20 space-y-2.5">
+            <form
+              className="bg-white rounded-2xl border border-surface-container shadow-[0_18px_40px_-24px_rgba(30,30,30,0.35)] p-4 space-y-2.5"
+              id="booking-form"
+              onSubmit={book}
+            >
+              <h2 className="font-semibold text-[18px] text-charcoal">Book This Tour</h2>
+
+              <label className="block">
+                <span className="block text-[12px] font-medium text-slate-gray mb-1">Departure Date</span>
+                <span className="relative flex items-center gap-3 border border-surface-container-high rounded-lg px-3 py-2 cursor-pointer">
                   <Icon name="calendar_today" className="text-slate-gray text-[20px]" />
                   <span className="flex-1 font-medium text-[15px] text-charcoal">{formatStartDate(form.tour_date)}</span>
                   <Icon name="expand_more" className="text-slate-gray" />
@@ -521,85 +507,189 @@ export default function TourDetails() {
                     type="date"
                     value={form.tour_date}
                   />
-                </label>
+                </span>
+              </label>
 
-                {error && (
-                  <p className="text-error text-sm flex items-start justify-between gap-2">
-                    <span>{error}</span>
-                    <button className="text-error" onClick={() => setError("")} type="button">
-                      <Icon name="close" className="text-[16px]" />
-                    </button>
-                  </p>
-                )}
+              <div>
+                <span className="block text-[12px] font-medium text-slate-gray mb-1">Travelers</span>
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="flex items-center gap-2 border border-surface-container-high rounded-lg px-3 py-2 cursor-pointer">
+                    <span className="flex-1 text-[13px] text-charcoal">Adults</span>
+                    <input
+                      className="w-10 border-none p-0 text-right focus:ring-0 bg-transparent font-medium text-charcoal"
+                      max={groupCap}
+                      min={1}
+                      onChange={(e) => patchForm({ adults: Number(e.target.value) })}
+                      type="number"
+                      value={form.adults}
+                    />
+                  </label>
+                  <label className="flex items-center gap-2 border border-surface-container-high rounded-lg px-3 py-2 cursor-pointer">
+                    <span className="flex-1 text-[13px] text-charcoal">Children</span>
+                    <input
+                      className="w-10 border-none p-0 text-right focus:ring-0 bg-transparent font-medium text-charcoal"
+                      max={Math.max(0, groupCap - Number(form.adults || 1))}
+                      min={0}
+                      onChange={(e) => patchForm({ kids: Number(e.target.value) })}
+                      type="number"
+                      value={form.kids}
+                    />
+                  </label>
+                </div>
+              </div>
 
-                <button className="w-full bg-primary text-white font-label-md text-[16px] py-3.5 rounded-full hover:bg-primary-container transition-colors" disabled={busy} type="submit">
-                  {busy ? "Reserving…" : bookLabel}
-                </button>
+              <textarea
+                className="w-full min-h-[64px] border border-surface-container-high rounded-lg py-2 px-3 text-[13px] text-charcoal bg-white placeholder:text-slate-gray resize-y focus:outline-none focus:border-primary"
+                maxLength={500}
+                onChange={(e) => patchForm({ special_requirements: e.target.value })}
+                placeholder="Special requirements (optional)"
+                rows={2}
+                value={form.special_requirements}
+              />
 
-                <div className="pt-2 space-y-3 text-[14px] text-charcoal">
-                <p className="flex items-start gap-2">
-                    <Icon fill name="check_circle" className="text-primary text-[20px] shrink-0" />
-                    <span>
-                      <span className="font-semibold">Free cancellation</span>
-                      <span className="block text-slate-gray text-[13px]">{tour.cancellation_policy || CANCELLATION_POLICY}</span>
-                    </span>
-                  </p>
-                {tour.reserve_now_pay_later && (
-                  <p className="flex items-start gap-2">
-                    <Icon fill name="check_circle" className="text-primary text-[20px] shrink-0" />
-                    <span>
-                      <span className="font-semibold">Reserve now, pay later</span>
-                      <span className="block text-slate-gray text-[13px]">Hold your dates today. Payment can wait until you are ready.</span>
-                    </span>
-                  </p>
-                )}
-                {tour.live_tour_guide && (
-                  <p className="flex items-start gap-2">
-                    <Icon fill name="check_circle" className="text-primary text-[20px] shrink-0" />
-                    <span>
-                      <span className="font-semibold">Live tour guide</span>
-                      <span className="block text-slate-gray text-[13px]">
-                        {languages.length ? `Guided in ${languages.join(", ")}.` : "An in-person guide leads this tour."}
-                      </span>
-                    </span>
-                  </p>
-                )}
-                  <p className="flex items-start gap-2">
-                    <Icon fill name="check_circle" className="text-primary text-[20px] shrink-0" />
-                    <span>
-                      <span className="font-semibold">Secure booking</span>
-                      <span className="block text-slate-gray text-[13px]">Reserve your spot today. Total ${formatMoney(total, 2)} for {travelers} traveller{travelers === 1 ? "" : "s"}.</span>
-                    </span>
+              <div className="flex items-end justify-between gap-3">
+                <div>
+                  <p className="text-[12px] text-slate-gray">Tour Price</p>
+                  <p className="text-[24px] leading-none font-semibold text-charcoal">
+                    ${tour.price ? formatMoney(tour.price) : "—"}
+                    <span className="text-[14px] font-normal text-slate-gray">/{priceUnitPhrase(tour).replace("per ", "")}</span>
                   </p>
                 </div>
+                <p className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 pb-1">
+                  <Icon fill name="verified" className="text-[16px]" />
+                  Best Price Guarantee
+                </p>
+              </div>
 
-                <label className="flex items-start gap-2 cursor-pointer text-[13px] text-charcoal pt-1">
-                  <input checked={form.donate} className="mt-0.5 rounded border-slate-gray text-primary accent-primary" onChange={(e) => patchForm({ donate: e.target.checked })} type="checkbox" />
-                  Add $10 conservation donation
-                </label>
-                <textarea className="w-full border border-surface-container-high rounded-xl py-2 px-3 font-body-md text-[13px]" maxLength={500} onChange={(e) => patchForm({ special_requirements: e.target.value })} placeholder="Special requirements (optional)" rows={2} value={form.special_requirements} />
+              {error && (
+                <p className="text-error text-sm flex items-start justify-between gap-2">
+                  <span>{error}</span>
+                  <button className="text-error" onClick={() => setError("")} type="button">
+                    <Icon name="close" className="text-[16px]" />
+                  </button>
+                </p>
+              )}
 
-                <div className="rounded-2xl bg-surface-container-low px-4 py-3.5">
-                  <p className="font-semibold text-[15px] text-charcoal flex items-center gap-1.5">
-                    Have booking questions?
-                    <Icon name="info" className="text-primary text-[18px]" />
+              <button className="w-full bg-primary text-white font-label-md text-[15px] py-2.5 rounded-xl hover:bg-primary-container transition-colors" disabled={busy} type="submit">
+                {busy ? "Reserving…" : bookLabel}
+              </button>
+
+              {tour.reserve_now_pay_later && (
+                <p className="text-center text-[13px] text-slate-gray">Secure your spot today. Pay later when you are ready.</p>
+              )}
+
+              <div className="space-y-1">
+                {tour.free_cancellation && (
+                  <p className="flex items-center gap-2 text-[13px] text-slate-gray">
+                    <Icon fill name="check_circle" className="text-emerald-600 text-[16px]" />
+                    Free cancellation
                   </p>
-                  <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[14px]">
-                    <a className="inline-flex items-center gap-1.5 text-charcoal hover:text-primary-container" href="tel:+2568000436640">
-                      <Icon name="call" className="text-primary text-[18px]" />
-                      +256 80004 36640
-                    </a>
-                    <Link className="inline-flex items-center gap-1.5 text-charcoal border-b border-charcoal hover:text-primary-container hover:border-primary-container" to="/contact">
-                      <Icon name="chat" className="text-primary text-[18px]" />
-                      Chat now
-                    </Link>
+                )}
+                <p className="flex items-center gap-2 text-[13px] text-slate-gray">
+                  <Icon fill name="bolt" className="text-emerald-600 text-[16px]" />
+                  Instant confirmation
+                </p>
+                <p className="flex items-center gap-2 text-[13px] text-slate-gray">
+                  <Icon fill name="support_agent" className="text-emerald-600 text-[16px]" />
+                  24/7 customer support
+                </p>
+              </div>
+
+              <label className="flex items-start gap-2 cursor-pointer text-[13px] text-charcoal">
+                <input checked={form.donate} className="mt-0.5 rounded border-slate-gray text-primary accent-primary" onChange={(e) => patchForm({ donate: e.target.checked })} type="checkbox" />
+                Add $10 conservation donation
+              </label>
+            </form>
+
+            <div className="bg-white rounded-2xl border border-surface-container p-4">
+              <h3 className="font-semibold text-[15px] text-charcoal mb-2">Tour Summary</h3>
+              <dl className="space-y-1.5 text-[13px]">
+                {[
+                  ["Duration", durationLabel],
+                  ["Location", locationLabel],
+                  ["Group Size", groupLabel],
+                  ["Trip Type", tripType],
+                  ["Tour ID", tourCode],
+                  ["Activities", activitySummary],
+                  ["Best Time", "Jun – Aug, Dec – Feb"],
+                ].map(([label, value]) => (
+                  <div className="flex items-start justify-between gap-3" key={label}>
+                    <dt className="text-slate-gray shrink-0">{label}</dt>
+                    <dd className="text-charcoal font-medium text-right">{value}</dd>
                   </div>
-                </div>
-              </form>
-            </aside>
+                ))}
+              </dl>
+            </div>
+
+            <section id="tour-offered-by">
+              <h2 className="font-semibold text-[16px] text-charcoal mb-2">Offered By</h2>
+              <OperatorCard
+                landscape
+                operator={{
+                  ...(tour.creator || {}),
+                  name: operatorName,
+                  location: tour.creator?.address || tour.country || destinations[0] || "Uganda",
+                  bio: tour.creator?.bio || "Verified local operator on Mmondo Adventures",
+                }}
+                photos={gallery}
+                toursHref={`/tours?q=${encodeURIComponent(operatorName)}#packages`}
+              />
+            </section>
+          </aside>
+        </div>
+
+        <section className="mt-5" id="tour-gallery">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="font-semibold text-[18px] text-charcoal">Gallery</h2>
+            {photoCount > 0 && (
+              <button className="text-[14px] font-medium text-primary hover:text-primary-container" onClick={() => setGalleryOpen(true)} type="button">
+                All Photos
+              </button>
+            )}
           </div>
+          {galleryThumbs.length ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+              {galleryThumbs.map((url, index) => {
+                const extra = photoCount - galleryThumbs.length;
+                const isLast = index === galleryThumbs.length - 1 && extra > 0;
+                return (
+                  <button
+                    className="relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-high"
+                    key={url}
+                    onClick={() => setGalleryOpen(true)}
+                    type="button"
+                  >
+                    <img alt="" className="w-full h-full object-contain" src={url} />
+                    {isLast && (
+                      <span className="absolute bottom-2 right-2 bg-charcoal/80 text-white text-[11px] font-medium px-2 py-1 rounded-full">
+                        +{extra} photos
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-slate-gray text-[14px]">Photos for this tour will appear here.</p>
+          )}
         </section>
-      </main>
+
+        {related.length > 0 && (
+          <section className="mt-5">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="font-semibold text-[18px] text-charcoal">You May Also Like</h2>
+              <Link className="text-[14px] font-medium text-primary hover:text-primary-container" to="/tours">
+                View All Tours
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {related.map((item) => (
+                <TourCard key={item.id} tour={item} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-surface-variant p-4 z-40 md:hidden flex items-center justify-between">
         <div>
@@ -622,7 +712,9 @@ export default function TourDetails() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {(photoCount ? gallery : []).map((url) => (
-                <img alt={tour.title} className="w-full h-56 object-cover rounded-xl" key={url} src={url} />
+                <div className="bg-charcoal rounded-xl overflow-hidden flex items-center justify-center min-h-[220px]" key={url}>
+                  <img alt={tour.title} className="w-full h-auto max-h-[70vh] object-contain" src={url} />
+                </div>
               ))}
             </div>
           </div>

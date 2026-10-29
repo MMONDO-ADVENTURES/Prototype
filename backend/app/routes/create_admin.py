@@ -20,7 +20,7 @@ async def register_admin(payload: AdminRegisterRequest, db: Session = Depends(ge
         raise HTTPException(status_code=400, detail="Password must be at least 8 characters long")
 
     contact_name = (payload.full_name or payload.company_name or "").strip()
-    specialization = (payload.specialization or "").strip()
+    address = (payload.address or payload.specialization or "").strip()
     new_admin = User(
         email=email,
         hashed_password=hash_password(payload.password),
@@ -28,7 +28,7 @@ async def register_admin(payload: AdminRegisterRequest, db: Session = Depends(ge
         company_name=payload.company_name.strip(),
         company_link=payload.company_link,
         phone=(payload.phone or "").strip() or None,
-        bio=specialization or None,
+        address=address or None,
         is_admin=True,
     )
     db.add(new_admin)

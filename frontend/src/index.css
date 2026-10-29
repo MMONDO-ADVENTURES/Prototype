@@ -81,9 +81,19 @@ a:focus-visible {
   color: var(--brand-secondary);
 }
 
+@font-face {
+  font-family: "Material Symbols Fallback";
+  src: local("Segoe UI"), local("Arial"), local("Helvetica");
+  size-adjust: 0%;
+}
+
 .material-symbols-outlined {
+  font-family: "Material Symbols Outlined", "Material Symbols Fallback";
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-feature-settings: "liga";
+  -webkit-font-feature-settings: "liga";
   vertical-align: middle;
+  overflow: hidden;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

@@ -432,6 +432,16 @@ export default function Tours() {
 
         <div className="sticky top-16 z-[45] -mx-margin-mobile md:-mx-margin-desktop px-margin-mobile md:px-margin-desktop py-3 mb-4 bg-background/95 backdrop-blur-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2 min-h-[2rem]">
+            <p className="font-label-md text-label-md text-secondary mb-0">
+              Showing {filtered.length} tour{filtered.length === 1 ? "" : "s"}
+              {filtered.length !== tours.length ? ` of ${tours.length}` : ""}
+              {query ? ` for “${query}”` : ""}
+              {features.length ? ` · ${features.join(", ")}` : ""}
+              {startDate ? ` on ${startDate}` : ""}
+              {urlMin ? ` from $${formatMoney(urlMin)}` : ""}
+              {urlMax ? ` up to $${formatMoney(urlMax)}` : ""}
+              {partySize > 1 ? ` · ${partySize} travellers` : ""}
+            </p>
             {chips.map((chip) => (
               <Chip key={chip.key} label={chip.label} onClear={() => { chip.clear(); resetPage(); }} />
             ))}
@@ -728,16 +738,6 @@ export default function Tours() {
           </div>
         </div>
 
-        <p className="font-label-md text-label-md text-secondary mb-4">
-          Showing {filtered.length} tour{filtered.length === 1 ? "" : "s"}
-          {filtered.length !== tours.length ? ` of ${tours.length}` : ""}
-          {query ? ` for “${query}”` : ""}
-          {features.length ? ` · ${features.join(", ")}` : ""}
-          {startDate ? ` on ${startDate}` : ""}
-          {urlMin ? ` from $${formatMoney(urlMin)}` : ""}
-          {urlMax ? ` up to $${formatMoney(urlMax)}` : ""}
-          {partySize > 1 ? ` · ${partySize} travellers` : ""}
-        </p>
         {loading ? (
           <p className="text-secondary">Loading tours…</p>
         ) : (

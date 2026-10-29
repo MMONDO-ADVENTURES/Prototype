@@ -1,5 +1,6 @@
 from typing import Any, Optional
 import json
+import re
 
 from app.models import Booking, Review, Tour, TourImage, User, WishlistEntry, normalize_price_unit
 from app.utils import CANCELLATION_POLICY, can_cancel_booking, can_edit_booking, last_free_change_date
@@ -53,19 +54,55 @@ def parse_itinerary(value) -> list[dict[str, Any]]:
         activities = item.get("activities") or []
         if isinstance(activities, str):
             activities = csv_list(activities)
-        else:
-            activities = [str(entry).strip() for entry in activities if str(entry).strip()]
+        parsed_activities = []
+        for entry in activities:
+            if isinstance(entry, dict):
+                title = str(entry.get("title") or entry.get("name") or entry.get("text") or "").strip()
+                duration = str(entry.get("duration") or "").strip()
+            else:
+                title = str(entry).strip()
+                duration = ""
+            if not title:
+                continue
+            parsed_activities.append({"title": title, "duration": duration})
+        day_from, day_to = _day_span(item, index)
         days.append(
             {
-                "day": int(item.get("day") or index),
+                "day": day_from,
+                "day_from": day_from,
+                "day_to": day_to,
                 "title": str(item.get("title") or f"Day {index}").strip(),
                 "destination": str(item.get("destination") or "").strip(),
                 "accommodation": str(item.get("accommodation") or "").strip(),
                 "duration": str(item.get("duration") or "").strip(),
-                "activities": activities,
+                "activities": parsed_activities,
             }
         )
     return days
+
+
+def _positive_int(value) -> Optional[int]:
+    if value is None or value == "":
+        return None
+    try:
+        number = int(str(value).strip())
+    except (TypeError, ValueError):
+        return None
+    return number if number > 0 else None
+
+
+def _day_span(item: dict[str, Any], index: int) -> tuple[int, int]:
+    raw_from = item.get("day_from", item.get("day"))
+    raw_to = item.get("day_to", item.get("day_end"))
+    if isinstance(raw_from, str):
+        match = re.search(r"(\d+)\s*[-–]\s*(\d+)", raw_from.strip())
+        if match:
+            start = int(match.group(1))
+            end = int(match.group(2))
+            return start, max(start, end)
+    start = _positive_int(raw_from) or index
+    end = _positive_int(raw_to) or start
+    return start, max(start, end)
 
 
 def parse_companions(value) -> list[dict[str, Any]]:
@@ -133,6 +170,7 @@ def user_public(user: Optional[User]) -> Optional[dict[str, Any]]:
         "is_operator": bool(user.is_admin),
         "is_superadmin": bool(user.is_superadmin),
         "phone": user.phone,
+        "address": getattr(user, "address", None),
         "bio": user.bio,
         "newsletter_subscribed": bool(user.newsletter_subscribed),
         "company_name": user.company_name,

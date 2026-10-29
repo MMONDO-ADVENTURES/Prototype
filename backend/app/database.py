@@ -78,6 +78,21 @@ def ensure_tour_columns():
         )
 
 
+def ensure_user_columns():
+    if not SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
+        return
+    statements = {
+        "address": "ALTER TABLE users ADD COLUMN address VARCHAR(300)",
+    }
+    with engine.begin() as conn:
+        existing = {row[1] for row in conn.execute(text("PRAGMA table_info(users)"))}
+        if not existing:
+            return
+        for column, sql in statements.items():
+            if column not in existing:
+                conn.execute(text(sql))
+
+
 def ensure_booking_columns():
     if not SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
         return

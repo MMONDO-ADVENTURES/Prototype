@@ -36,7 +36,7 @@ export default function Culture() {
             className="absolute inset-0 w-full h-full bg-cover bg-center"
             style={{
               backgroundImage:
-                "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD2QlcyhQDXPvxOpKtc1VX7SccQSibo_mwuLUy5JNlNdp82wkCM_eql4XfT7zt8Og-3GvCW8nK8BobjuPpoUG3rpih9HjG-GCxq_yrGGwBpe0zfPgS6jDefA78ytFW8aLukffvzIvgMnwE3DSHeyBBN_YJd8CyCDBYXdFgVIBVgCkNGqHbG-FwaGCiIGgH0TY2CIt8JL-HSGDm6Z1ajsHIWhZH7W2MEjo6t5f6R1uM4gPvYfrr6pmwR')",
+                "url('https://res.cloudinary.com/yqsld0pd/image/upload/v1793292632/Instruments.jpg')",
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />

@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
-from app.database import engine, Base, ensure_booking_columns, ensure_tour_columns
+from app.database import engine, Base, ensure_booking_columns, ensure_tour_columns, ensure_user_columns
 from app.paths import FRONTEND_DIST, STATIC_DIR
 from app.routes import (
     auth,
@@ -65,6 +65,7 @@ app.include_router(wishlist.router)
 Base.metadata.create_all(bind=engine)
 ensure_tour_columns()
 ensure_booking_columns()
+ensure_user_columns()
 
 
 @app.get("/api/health")

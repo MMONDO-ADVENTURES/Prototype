@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import DashboardShell from "../components/DashboardShell";
+import { joinName } from "../utils";
 
 export default function SuperadminCreate() {
   const [allowed, setAllowed] = useState(false);
   const [first, setFirst] = useState(false);
-  const [form, setForm] = useState({ email: "", password: "", confirm_password: "", full_name: "", company_name: "", company_link: "" });
+  const [form, setForm] = useState({ email: "", password: "", confirm_password: "", first_name: "", last_name: "", company_name: "", company_link: "" });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -22,7 +23,10 @@ export default function SuperadminCreate() {
     event.preventDefault();
     setError("");
     try {
-      const data = await api("/superadmin/create", { method: "POST", body: form });
+      const data = await api("/superadmin/create", {
+        method: "POST",
+        body: { ...form, full_name: joinName(form.first_name, form.last_name) },
+      });
       setMessage(data.message);
     } catch (err) {
       setError(err.message);
@@ -43,7 +47,10 @@ export default function SuperadminCreate() {
       {message && <p className="text-tertiary mb-3 font-label-md">{message}</p>}
       {error && <p className="text-error mb-3">{error}</p>}
       <form className="max-w-md bg-white rounded-xl p-6 shadow-sm space-y-3" onSubmit={submit}>
-        <input className="w-full px-4 py-2 bg-surface-bright rounded-lg" onChange={(e) => setForm({ ...form, full_name: e.target.value })} placeholder="Full name" required />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input className="w-full px-4 py-2 bg-surface-bright rounded-lg" onChange={(e) => setForm({ ...form, first_name: e.target.value })} placeholder="First name" required value={form.first_name} />
+          <input className="w-full px-4 py-2 bg-surface-bright rounded-lg" onChange={(e) => setForm({ ...form, last_name: e.target.value })} placeholder="Last name" required value={form.last_name} />
+        </div>
         <input className="w-full px-4 py-2 bg-surface-bright rounded-lg" onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Email" required type="email" />
         <input className="w-full px-4 py-2 bg-surface-bright rounded-lg" onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Password" required type="password" />
         <input className="w-full px-4 py-2 bg-surface-bright rounded-lg" onChange={(e) => setForm({ ...form, confirm_password: e.target.value })} placeholder="Confirm password" required type="password" />

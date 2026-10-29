@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../api";
-import { AppleIcon, GoogleIcon, Icon } from "../utils";
+import { AppleIcon, GoogleIcon, Icon, joinName } from "../utils";
 
 const AUTH_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDBXlUF3ATFUDgIk-rVfCiJyJ6j-jYKTBSjci07fnOZzqu1VPwkJy4sLo95ojotuudfm_RJ37-QCf2A2Cd_m-_nH7yJF9mxzWqoXg4kRxt3XYm4ao97TcxWRDRNa3qDmzBr3yhBxhfXdvAiejwSFTj1EgSA7h1Gl4U9uWTaq7lZmKTg8o_7bXmgdGg0IAka2rEYpF4cz-Z_C5sHEY0NEBBfxF_ULYuWIQmNwAkg1zR6URxR-rqRGr-L";
+  "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391515/pexels-rachel-claire-4577507.svg";
 
 export default function Signup() {
   const [params] = useSearchParams();
-  const [form, setForm] = useState({ full_name: "", email: params.get("email") || "", password: "" });
+  const [form, setForm] = useState({ first_name: "", last_name: "", email: params.get("email") || "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,10 @@ export default function Signup() {
     }
     setLoading(true);
     try {
-      await api("/auth/signup", { method: "POST", body: form });
+      await api("/auth/signup", {
+        method: "POST",
+        body: { ...form, full_name: joinName(form.first_name, form.last_name) },
+      });
       navigate(`/login${query}`);
     } catch (err) {
       setError(err.message);
@@ -52,7 +55,7 @@ export default function Signup() {
   return (
     <div className="flex flex-col md:flex-row w-full h-full min-h-0 overflow-hidden bg-surface-container-low">
       <div className="hidden md:flex md:w-1/2 relative bg-cover bg-center h-full min-h-0" style={{ backgroundImage: `url('${AUTH_IMAGE}')` }}>
-        <div className="absolute inset-0 bg-charcoal/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/55 via-charcoal/35 to-charcoal/70" />
         <div className="absolute inset-0 p-10 flex flex-col items-center justify-center text-center z-10">
           <h2 className="text-white font-headline-sm text-headline-sm mb-2">Join the journey</h2>
           <p className="text-white/90 font-body-md text-body-md max-w-md">
@@ -97,13 +100,17 @@ export default function Signup() {
               <form className="space-y-2.5" onSubmit={submit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block font-label-md text-[13px] text-secondary mb-1" htmlFor="full_name">Full Name</label>
-                    <input className="w-full px-3.5 py-2 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary outline-none" id="full_name" maxLength={50} minLength={2} onChange={(e) => { setError(""); setForm({ ...form, full_name: e.target.value }); }} placeholder="Jane Doe" required />
+                    <label className="block font-label-md text-[13px] text-secondary mb-1" htmlFor="first_name">First Name</label>
+                    <input className="w-full px-3.5 py-2 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary outline-none" id="first_name" maxLength={50} minLength={2} onChange={(e) => { setError(""); setForm({ ...form, first_name: e.target.value }); }} placeholder="Jane" required value={form.first_name} />
                   </div>
                   <div>
-                    <label className="block font-label-md text-[13px] text-secondary mb-1" htmlFor="email">Email Address</label>
-                    <input className="w-full px-3.5 py-2 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary outline-none" id="email" onChange={(e) => { setError(""); setForm({ ...form, email: e.target.value }); }} placeholder="name@example.com" required type="email" value={form.email} />
+                    <label className="block font-label-md text-[13px] text-secondary mb-1" htmlFor="last_name">Last Name</label>
+                    <input className="w-full px-3.5 py-2 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary outline-none" id="last_name" maxLength={50} minLength={2} onChange={(e) => { setError(""); setForm({ ...form, last_name: e.target.value }); }} placeholder="Okello" required value={form.last_name} />
                   </div>
+                </div>
+                <div>
+                  <label className="block font-label-md text-[13px] text-secondary mb-1" htmlFor="email">Email Address</label>
+                  <input className="w-full px-3.5 py-2 border border-surface-container-high rounded-lg font-body-md text-[15px] focus:ring-2 focus:ring-primary outline-none" id="email" onChange={(e) => { setError(""); setForm({ ...form, email: e.target.value }); }} placeholder="name@example.com" required type="email" value={form.email} />
                 </div>
                 <div>
                   <label className="block font-label-md text-[13px] text-secondary mb-1" htmlFor="password">Password</label>

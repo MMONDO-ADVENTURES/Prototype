@@ -96,6 +96,7 @@ class AdminRegisterRequest(BaseModel):
     company_link: Optional[str] = None
     full_name: Optional[str] = None
     phone: Optional[str] = None
+    address: Optional[str] = None
     specialization: Optional[str] = None
 
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
+import OperatorCard from "../components/OperatorCard";
 import { Icon } from "../utils";
 
 export default function TourOperators() {
@@ -25,14 +26,27 @@ export default function TourOperators() {
         grouped.set(key, {
           id: key,
           name,
-          link: creator.company_link,
-          image: tour.image_url || tour.images?.[0]?.image_url,
+          full_name: creator.full_name,
+          company_name: creator.company_name,
+          company_link: creator.company_link,
+          email: creator.email,
+          phone: creator.phone,
+          picture: creator.picture,
+          bio: creator.bio,
+          created_at: creator.created_at,
+          address: creator.address,
+          location: creator.address || tour.country || "Uganda",
+          photos: [],
           tours: [],
         });
       }
       const entry = grouped.get(key);
       entry.tours.push(tour);
-      if (!entry.image) entry.image = tour.image_url || tour.images?.[0]?.image_url;
+      if (!entry.picture) entry.picture = creator.picture;
+      if (!entry.phone) entry.phone = creator.phone;
+      if (!entry.location || entry.location === "Uganda") entry.location = creator.address || entry.location || tour.country || "Uganda";
+      const urls = [tour.image_url, ...(tour.images || []).map((image) => image.image_url)].filter(Boolean);
+      entry.photos.push(...urls);
     });
     return [...grouped.values()].sort((a, b) => a.name.localeCompare(b.name));
   }, [tours]);
@@ -44,10 +58,10 @@ export default function TourOperators() {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBDE26FgCKHPsjFiQI-0kuNFBaDjWlw7d-jSAiQyQ5QXPsvrkrDO45cr90y9xOoFzJDZbM8hyJ71gCI6rQa_6EtdxTKDpibsiVqr4SdrsOzuPXB4Gr0-AhK-Og1re4zTYzrREudkS9UhCOW8z2Lfc1EA5hb7OmxesTNl87SzZun-ay8aTWdtfAyJcbnqkuTT8osHkhO8yPMo0Uc3B0GjVfiMk64CyAixG0WfzdXzwjJLgysQtw1si4c')",
+              "url('https://res.cloudinary.com/yqsld0pd/image/upload/v1793285204/roman-derrick-okello-kHzomTLWuAQ-unsplash.svg')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/35 to-charcoal/80" />
         <div className="relative z-10 h-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col justify-end pb-12 md:pb-16">
           <h1 className="font-display-lg text-[32px] md:text-[44px] leading-[1.15] text-white max-w-3xl">Tour operators on Mmondo</h1>
           <p className="font-body-lg text-surface-container-highest max-w-2xl mt-3">
@@ -60,43 +74,17 @@ export default function TourOperators() {
         {loading ? (
           <p className="text-center text-secondary py-16">Loading operators…</p>
         ) : operators.length ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {operators.map((operator) => (
-              <article className="bg-white rounded-2xl overflow-hidden shadow-[0_10px_24px_-12px_rgba(30,30,30,0.18)] flex flex-col" key={operator.id}>
-                <div className="h-40 bg-surface-container-high overflow-hidden">
-                  {operator.image ? (
-                    <img alt="" className="w-full h-full object-cover" src={operator.image} />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-gray">
-                      <Icon name="apartment" className="text-4xl" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <h2 className="font-headline-sm text-[18px] text-charcoal">{operator.name}</h2>
-                  <p className="text-[14px] text-secondary mt-1">
-                    {operator.tours.length} tour{operator.tours.length === 1 ? "" : "s"} on Mmondo
-                  </p>
-                  <div className="mt-4 flex flex-wrap items-center gap-3">
-                    <Link
-                      className="inline-flex items-center gap-1 bg-primary text-white font-label-md text-[13px] px-4 py-2 rounded-full hover:bg-primary-container"
-                      to={`/tours?q=${encodeURIComponent(operator.name)}#packages`}
-                    >
-                      View tours
-                    </Link>
-                    {operator.link && (
-                      <a
-                        className="inline-flex items-center gap-1 text-primary font-label-md text-[13px] hover:text-brand-secondary"
-                        href={operator.link}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        Website <Icon name="open_in_new" className="text-[14px]" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </article>
+              <OperatorCard
+                key={operator.id}
+                operator={{
+                  ...operator,
+                  bio: operator.bio || `${operator.tours.length} tour${operator.tours.length === 1 ? "" : "s"} on Mmondo`,
+                }}
+                photos={operator.photos}
+                toursHref={`/tours?q=${encodeURIComponent(operator.name)}#packages`}
+              />
             ))}
           </div>
         ) : (

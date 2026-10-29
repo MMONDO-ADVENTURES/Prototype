@@ -9,6 +9,7 @@ const links = [
   { to: "/tours#packages", label: "Tours" },
   { to: "/parks", label: "Parks" },
   { to: "/operators", label: "Tour Operators" },
+  { to: "/blogs", label: "Blogs" },
   { to: "/about", label: "About Us" },
 ];
 
@@ -83,7 +84,9 @@ export default function Layout() {
   const navigate = useNavigate();
   const authPages = ["/login", "/signup", "/forgot-password", "/reset-password"];
   const isAuthPage = authPages.includes(location.pathname);
-  const sitsOnHero = ["/", "/about", "/contact", "/blogs", "/careers", "/parks", "/operators", "/operator", "/operator/register"].includes(location.pathname);
+  const sitsOnHero =
+    ["/", "/about", "/contact", "/blogs", "/careers", "/parks", "/operators", "/operator", "/operator/register"].includes(location.pathname) ||
+    location.pathname.startsWith("/tour/");
   const navSolid = !sitsOnHero || scrolled || mobileOpen;
 
   useEffect(() => {
@@ -147,14 +150,16 @@ export default function Layout() {
     <div className={`flex flex-col bg-surface text-ink font-body-md overflow-x-hidden ${isAuthPage ? "h-[100vh] max-h-[100vh] overflow-hidden" : "min-h-screen"}`}>
       <header
         className={`${isAuthPage ? "relative shrink-0" : "fixed inset-x-0 top-0"} z-50 h-16 border-transparent transition-colors duration-300 ${
-          navSolid ? "bg-charcoal/95 backdrop-blur-md shadow-[0_8px_24px_-16px_rgba(30,30,30,0.65)]" : "bg-transparent"
+          navSolid
+            ? "bg-charcoal/95 backdrop-blur-md shadow-[0_8px_24px_-16px_rgba(30,30,30,0.65)]"
+            : "bg-gradient-to-b from-charcoal/80 via-charcoal/40 to-transparent"
         }`}
       >
         <nav className="flex justify-between items-center h-full w-full px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
-          <Link className={`font-headline-sm font-bold text-white tracking-tight ${isAuthPage ? "text-[20px]" : "text-headline-sm"}`} to="/">
+          <Link className={`font-headline-sm font-bold text-white tracking-tight whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,0,0,0.55)] ${isAuthPage ? "text-[20px]" : "text-headline-sm"}`} to="/">
             Mmondo Adventures
           </Link>
-          <div className={`hidden md:flex items-center ${isAuthPage ? "gap-5" : "gap-5 xl:gap-7"}`}>
+          <div className={`hidden md:flex items-center ${isAuthPage ? "gap-4" : "gap-4 lg:gap-5 xl:gap-6"}`}>
             {links.map((link) => (
               <NavLink
                 key={link.to}
@@ -162,8 +167,8 @@ export default function Layout() {
                 end={link.to === "/"}
                 className={({ isActive }) =>
                   isActive
-                    ? "text-primary border-b-2 border-primary pb-1 font-label-md text-label-md"
-                    : "text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors"
+                    ? "text-primary border-b-2 border-primary pb-1 font-label-md text-label-md whitespace-nowrap drop-shadow-[0_1px_8px_rgba(0,0,0,0.55)]"
+                    : "text-white font-label-md text-label-md whitespace-nowrap hover:text-primary-fixed-dim transition-colors drop-shadow-[0_1px_8px_rgba(0,0,0,0.55)]"
                 }
               >
                 {link.label}

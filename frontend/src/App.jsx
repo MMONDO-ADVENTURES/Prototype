@@ -7,7 +7,7 @@ import TourDetails from "./pages/TourDetails";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
-import Culture from "./pages/Culture";
+import Blogs from "./pages/Blogs";
 import Parks from "./pages/Parks";
 import TourOperators from "./pages/TourOperators";
 import Login from "./pages/Login";
@@ -63,7 +63,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/careers" element={<Careers />} />
-        <Route path="/blogs" element={<Culture />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="/cultures" element={<Navigate to="/blogs" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../api";
-import { formatMoney, Icon, priceUnitPhrase } from "../utils";
+import { formatMoney, Icon, joinName, priceUnitPhrase, splitName } from "../utils";
 
 export default function Wishlist() {
   const { id } = useParams();
   const [data, setData] = useState(null);
-  const [form, setForm] = useState({ full_name: "", email: "", phone: "", adults: 1, kids: 0, country: "", preferred_date: "", message: "" });
+  const [form, setForm] = useState({ first_name: "", last_name: "", email: "", phone: "", adults: 1, kids: 0, country: "", preferred_date: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     api(`/wishlist/${id}`).then((payload) => {
       setData(payload);
-      setForm((prev) => ({ ...prev, ...payload.prefill }));
+      const names = splitName(payload.prefill?.full_name);
+      setForm((prev) => ({ ...prev, ...payload.prefill, first_name: names.first_name, last_name: names.last_name }));
     });
   }, [id]);
 
@@ -21,7 +22,10 @@ export default function Wishlist() {
     event.preventDefault();
     setError("");
     try {
-      await api(`/wishlist/${id}`, { method: "POST", body: { ...form, adults: Number(form.adults), kids: Number(form.kids) } });
+      await api(`/wishlist/${id}`, {
+        method: "POST",
+        body: { ...form, full_name: joinName(form.first_name, form.last_name), adults: Number(form.adults), kids: Number(form.kids) },
+      });
       setSubmitted(true);
     } catch (err) {
       setError(err.message);
@@ -68,8 +72,11 @@ export default function Wishlist() {
             ) : (
               <form className="grid grid-cols-1 md:grid-cols-2 gap-5" onSubmit={submit}>
                 {error && <p className="md:col-span-2 text-error">{error}</p>}
-                <label className="flex flex-col gap-2 font-label-md text-label-md">Full Name *
-                  <input className="p-3 bg-surface-bright rounded-lg font-body-md" onChange={(e) => setForm({ ...form, full_name: e.target.value })} required value={form.full_name} />
+                <label className="flex flex-col gap-2 font-label-md text-label-md">First Name *
+                  <input className="p-3 bg-surface-bright rounded-lg font-body-md" onChange={(e) => setForm({ ...form, first_name: e.target.value })} placeholder="Jane" required value={form.first_name} />
+                </label>
+                <label className="flex flex-col gap-2 font-label-md text-label-md">Last Name *
+                  <input className="p-3 bg-surface-bright rounded-lg font-body-md" onChange={(e) => setForm({ ...form, last_name: e.target.value })} placeholder="Okello" required value={form.last_name} />
                 </label>
                 <label className="flex flex-col gap-2 font-label-md text-label-md">Email *
                   <input className="p-3 bg-surface-bright rounded-lg font-body-md" onChange={(e) => setForm({ ...form, email: e.target.value })} required type="email" value={form.email} />

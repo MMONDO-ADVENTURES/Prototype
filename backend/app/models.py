@@ -26,6 +26,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
     phone = Column(String(50), nullable=True)
+    address = Column(String(300), nullable=True)
     bio = Column(Text, nullable=True)
     is_superadmin = Column(Boolean, default=False)
     newsletter_subscribed = Column(Boolean, default=False)

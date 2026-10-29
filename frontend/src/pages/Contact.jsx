@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
-import { Icon } from "../utils";
+import { Icon, joinName, splitName } from "../utils";
 
 const HERO =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDrznXkMVNUgfwpuKFNzOvGofvPLFUrS7A4sku1a-iR9ZiawSb00IT5pkevmJKeARB93J-b6Hc_blDHk5Rm7gsS4R4ZbkqNwfZK3JPVKMkG0fuXF4r3QGor8YCmUwAJdGfZp4eE0Ank2Tthh3BdcumULhpXcAreMqWoCc-0RJY632l1fuy4LKZIrmgVqgcBprOKN8NwiHufrqKgpnxaxfParSXp5HMuEeAhrhkewxy06RJ3DGpZbuAO";
@@ -44,11 +44,6 @@ const FAQS = [
 const inputClass =
   "w-full rounded-full border !border-slate-gray/25 bg-white px-5 py-[11px] text-[14px] text-charcoal placeholder:text-slate-gray/70 focus:outline-none focus:!border-primary focus:ring-1 focus:ring-primary";
 
-function splitName(fullName) {
-  const parts = String(fullName || "").trim().split(/\s+/).filter(Boolean);
-  return { first: parts[0] || "", last: parts.slice(1).join(" ") };
-}
-
 export default function Contact() {
   const { user, preferences, refresh } = useAuth();
   const [firstName, setFirstName] = useState("");
@@ -66,8 +61,8 @@ export default function Contact() {
   useEffect(() => {
     if (!user) return;
     const names = splitName(user.full_name);
-    setFirstName((current) => current || names.first);
-    setLastName((current) => current || names.last);
+    setFirstName((current) => current || names.first_name);
+    setLastName((current) => current || names.last_name);
     setEmail((current) => current || user.email || "");
     setPhone((current) => current || user.phone || "");
     setCountry((current) => current || preferences?.country || "");
@@ -81,7 +76,7 @@ export default function Contact() {
   async function handleSubmit(event) {
     event.preventDefault();
     clearStatus();
-    const fullName = [firstName, lastName].map((part) => part.trim()).filter(Boolean).join(" ");
+    const fullName = joinName(firstName, lastName);
     if (!fullName || !email.trim() || !message.trim()) {
       setError("Please add your name, email, and a message.");
       return;

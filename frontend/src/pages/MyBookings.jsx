@@ -7,7 +7,9 @@ import {
   canCancelBooking,
   canEditBooking,
   lastFreeChangeDate,
+  joinName,
   parseTourDate,
+  splitName,
   startOfDay,
   tourEndDate,
 } from "../utils";
@@ -341,8 +343,9 @@ export default function MyBookings() {
                         )}
                         {editForm.add_companions && editForm.companions.map((person, index) => (
                           <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-2" key={`${person.role}-${index}`}>
-                            <input className="p-2.5 rounded-lg border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => patchEdit({ companions: editForm.companions.map((item, itemIndex) => (itemIndex === index ? { ...item, full_name: e.target.value } : item)) })} placeholder={person.role === "child" ? "Child name" : "Adult name"} value={person.full_name} />
-                            <input className="p-2.5 rounded-lg border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => patchEdit({ companions: editForm.companions.map((item, itemIndex) => (itemIndex === index ? { ...item, details: e.target.value } : item)) })} placeholder="Details (optional)" value={person.details} />
+                            <input className="p-2.5 rounded-lg border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => patchEdit({ companions: editForm.companions.map((item, itemIndex) => (itemIndex === index ? { ...item, full_name: joinName(e.target.value, splitName(item.full_name).last_name) } : item)) })} placeholder="First name" value={splitName(person.full_name).first_name} />
+                            <input className="p-2.5 rounded-lg border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => patchEdit({ companions: editForm.companions.map((item, itemIndex) => (itemIndex === index ? { ...item, full_name: joinName(splitName(item.full_name).first_name, e.target.value) } : item)) })} placeholder="Last name" value={splitName(person.full_name).last_name} />
+                            <input className="sm:col-span-2 p-2.5 rounded-lg border border-surface-container-high text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" onChange={(e) => patchEdit({ companions: editForm.companions.map((item, itemIndex) => (itemIndex === index ? { ...item, details: e.target.value } : item)) })} placeholder="Details (optional)" value={person.details} />
                           </div>
                         ))}
                         <div className="sm:col-span-2 flex flex-wrap gap-2">

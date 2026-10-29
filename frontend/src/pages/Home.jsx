@@ -12,49 +12,49 @@ const BIG8 = [
     subtitle: "King of the Savanna",
     span: "md:col-span-2 md:row-span-2",
     alt: "Tree-climbing lion in Queen Elizabeth National Park",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBbLjL_99iU6y5ZUE7DeABMYFHb_K8BwNPP1LjZErzjI1GQ1_duQeQy5GBlFUHKGH-KngJLmeTU55HPNL1EI7cBm9tgOP9R2uFBo2ubudM6vioLn_LBdGv1ez6DO24pKEIxBkFnw8i9FmPCOLksOhjzy-Sw2cx-pF37cPCmCasQov2V6LN9W24ERB8aAPJxj4vvn6d9p7Zpiha2DKpCfOI4dZRfJ8pd3UPxVoxMIHlvmLZpDNhiHv7g",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793294407/Tree_climbing_lion_in_Uganda.svg",
   },
   {
     title: "Mountain Gorilla",
     subtitle: "Gentle Giants",
     span: "md:col-span-2",
-    alt: "Mountain gorilla mother and infant",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCMpb3JBsGnLht1JEdtCHkQme_HYRRhTBsCjgIlA8FVzvdv-odrD0A2m1kzIjhhiUMcVgOUwdho_aiQ6_3dAA3_Z1LGYrrxxzLg0YeFIwYJdmKKA-9uo7tVoocGHfCod8DyT-5Gd5DI3dLbWRtVwG_etlBByt3_UfbD8-SPDo4hdMv3CXiu9XTrgNjH3pKz-i4szyTQVyyjKd7qn_HJPRRNK6ymOBvVDq7ZwlUntncY8Wkp50JkMThM",
+    alt: "Mountain gorilla mother",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391526/gabriel-schumacher-kcKJTpYTdIQ-unsplash.svg",
   },
   {
     title: "Leopard",
     alt: "Leopard camouflaged in tall grass",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBLAz9P05b9p87Py5vN-eGld69tMHjSH_owDwUQC9oYzMj89saIo5CjDs5qPnbAkYJX_dzjVMHNCrG6HiL9dtGvHgpNEGsyD2z9fxdh3NUqoiZPZFFUVJ9yGdfEPg6cH0AgVBc6IhFRQl-eo9atGbd7_crksmDMsAzkDEYzBm94UkdMokTGFNQEgMwwGYEV_uNHoTi-Xxit8KTiWUVBalykzS8bA4bAPEepMw2kiIjM9zTuE8_OxhDq",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793300224/Yala_rewards_patience_.svg",
   },
   {
     title: "Elephant",
     alt: "African elephant bull in Murchison Falls",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDqMhLL1revPHnMo9ClK5oauq0KKnJP01pgUdsbNnneTDnVzVbJMrds8iaQFSbJQ6jV_G3ehXyVA47X5L8r5aQXez3Sq2JHIJVL4GT2LObExZS0npgPN7uc9yLjequ0LGgUlcQ6A7unjKKyzbxcHRhL249pUTKyhE0m0yJtJNzoYsiUhinsv1KVjiE8stDoPlHKyADMR0ZWarbXoP7u-5YB6WwbXqHjBpPGJ6lMj9a_sHDvJd2viwW1",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391515/pexels-rachel-claire-4577507.svg",
   },
   {
     title: "Rhino",
     alt: "White rhinos at Ziwa sanctuary",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuC4vslHFQAtSCVuTgx20faVdAM-a5sDa6r2is8iczeB6Bllj7QyElxgt1-3coXS6BZXNnW0lazZja3EmagZ6n4yv4WMx-DhEq-JDho-9a-tUp5SrNjaDPtjPjyfE8VNUZ0PaxnjyPztuimj3jzkxVq178PjVh8qgRc6RsOnKA2Akkxeuqg9Qk5p70Cc6KxxhIIxEMpKq0JXUTMZwvF1WofxXjG0kHmAY79iY7Ic0yfbGL9UAA0IXOxq",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793285199/africa_white_rhinos_rhino.svg",
   },
   {
     title: "Chimp",
     alt: "Chimpanzee in Kibale Forest canopy",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAl9WEKyHmZ_ZEd0BHBiver4_5sbLbZfC_KQuPi5C5LOhFNO_TZ3wPG3IHdvyw9ubFy8gdgo94_xppqZOdu3o3AfRKAVkYlsoEc0GvmicKmtDwxLypVzkY5RE2v3rhmeVJ16oJeJ6gu23kX7811aCPFOv9cwi8sRU3OD4fpefcy9aGTLLJnoWvyo3eMDjFiS9QwqA86rHyOXxtiz6xBXQaKGcd8xpJE2QXtgWpBM-wpmdZ3P-LBgigQ",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391520/max-christian-sMjVNtvYkD0-unsplash.svg",
   },
   {
     title: "Buffalo",
     alt: "Cape buffalo in Lake Mburo National Park",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuC-7YRpEFjv9JY3lmXmUN6iTlU2CaRvCbo9y0NvQXpoVaP_5yOAXDo5IzY8fkuk708x4b7Jru54C_PXD5qehQzRvnRFHsEUY-q1_p_dg0_iLRcRbDCMl_mLTV-jsCEr2PZYf0ue1SSqkrCKtezOEnYgYU7uZ7kfRYBGTCIw86rixXKP9-KYnLKHcLJcTq-P31yq1ULCvVTnUD7yFQ-xg_gMkiE-S6oWmUr1WeejfIRIGoBiFkQhLgGQ",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793297801/download_1.jpg",
   },
 ];
 
 const DESTINATIONS = [
-  { name: "Bwindi", alt: "Bwindi Impenetrable Forest", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuApn7rFpt9NbpMfMERtDlpRIu1ZgZtovagTuk9_-KooccfEtgPpjJJM4Csb4z7YxM0G3oSCJkjO2A6_jAZwD_dTM54taOBDob3ZGcWEzfthMvUzaNSWuRCjlvD4UmnMsobWw2ypeibuCrW7QzUPuC4wLl_akk4epyHY2ASppCxDrFLceRzaNhPTff-PJxcCIBYeEfV65H8pqFX2XbANAwhZjWK4m9IheNEuLzFQVjg6PWw1OU450RUM" },
-  { name: "Queen Elizabeth", alt: "Kazinga Channel boat safari", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCAc2PnvLGEF6BJS4c9VOAAHmr_lO25h4nntrjD-Iws3zz2Jw-gaxfWtVpeFuwNTyN7JDD9f15lC6bjxKmdRcVm3UJMULM7A2OJZoSSTnIP29imm1CBtwppTFENrmbLfpXP6rdR4qY1FXuioA-agn4UCUSQXmFwZBcwIjV0G8NvOptyEPqn0FLZLUHH59-vjSWTGkiI2l_iQplpeLcypT90aTDvIZSJMW572E072n8zGHXktq-uV2AL" },
-  { name: "Murchison Falls", alt: "Murchison Falls on the Nile", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCvGcHmyQD7B_W2bCsJ4IjlY0GWjH3b8J1k0gnVrR58gdHyYBwxtzTtYa0e9UvoU1UiYEosEWdPRxgoUGQ-ECHVuNW_oQfkodYU1Zg1uu26LgHgl83acs1NyQ-ABylvMgnYNWd7D9s_MHnrq0Ezx2mBwjVKK7dvKlGf3Baisxcuh1OotsoDC20vM_QT6xW2sgy-CmnG5fUCMW0PWOTWtIJ0H_0wspiitGwBqqwWZ8Biu38RP83iVERx" },
-  { name: "Kibale", alt: "Kibale Forest primate research", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBWJYc9mew16doeOiDGPpG0Kn9CKTsELBcqiD4Jg4dTqvaUqDunwtd5IV0-4zDxNzeD_kPYRwODhN8bKUnv5vxaSevwL5JwLCYSfviJ00TQLYkOJSrH3d_SNi4JONDvAmzyYfs8mt1f6__N4Y92gidihPcn3W0vSFauqgPeCV0-7g88ceOYI1xuTSeVt35CyNivlkdQbh2kMVaXP0qdAxvR7bA2PEaU4bW9Pr7OmvZGKUWdzS4wHseu" },
-  { name: "Ziwa", alt: "Rhino at Ziwa sanctuary", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAoUxU7ionz9ORerfIbwET3Y4_KqJqbtsZh-fzAE2OA2q2MvRJ4NtG6GF0qJo-rTJ7m_XRXSu7Fkb3TOnQZbhMtcQqtNgA3Ta8O7bEGXXYDpBXHZP-f70GpH5tVV-Y4lPxIEDYcXoK1dQ7d7mhOxKIOeC2Oggfppbi2NUKRbbhbKbfH9o8VJtuVqGSAwFGj5M-TkWiCD4sGNRVVl2Cx380DTdRhdhLk0LvxTKNlGIElyd64W2Pb2fe6" },
-  { name: "Jinja", alt: "White-water rafting on the Nile in Jinja", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBYld_0YlnGPfFDSKhSXYlSUvbfxB5mFs31SpXoAd0AL0WYw7wThm3GSx4ltMs7JMQg_hVYw1v8Y90NLAa6tlvGfWh_2aKl6jm6BhKDEhof-z_zPkC-q6732K0_2UEk1Vn7s1WpFchJS9V0onQntMGSWcIuXc7aWuRv3dz-k3_eKPsY1pSnsf_evknpOjvuCyjgyD2nTKQOJVc_6iOVTjpHDYPf3jkRXnWiD7LrtIm2NjGCapmnQ5x" },
+  { name: "Bwindi", alt: "Bwindi Impenetrable Forest", src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391526/gabriel-schumacher-kcKJTpYTdIQ-unsplash.svg" },
+  { name: "Queen Elizabeth", alt: "Kazinga Channel boat safari", src:"https://res.cloudinary.com/yqsld0pd/image/upload/v1793294407/Tree_climbing_lion_in_Uganda.svg" },
+  { name: "Murchison Falls", alt: "Murchison Falls on the Nile", src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391523/jonathan-gohner-I2toBB2sBgc-unsplash.svg" },
+  { name: "Kibale", alt: "Kibale Forest primate research", src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391520/max-christian-sMjVNtvYkD0-unsplash.svg" },
+  { name: "Ziwa", alt: "Rhino at Ziwa sanctuary", src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793292050/Ziwa_Rhino_Sanctuary_Full-Day_Small-Group_Tour_from_Kampala_2026_-_BOOK_NOW.svg" },
+  { name: "Jinja", alt: "White-water rafting on the Nile in Jinja", src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1791391518/jackalope-west-nBNROOkE0W8-unsplash.svg" },
 ];
 
 const STAYS = [
@@ -64,7 +64,7 @@ const STAYS = [
     place: "Bwindi, Uganda",
     query: "Bwindi",
     alt: "Clouds Mountain Gorilla Lodge lounge",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAHQXA2sgdt2AnHvSUcqftqsdTn6mSjTNhxqeYUDQeHC9un7Knqefz3aim-QxuILfBQ5fZcaz3wXmABE5sY9WMp1sdPcm3GgiMAegd-Z26wkcsiHxuC1sMwY0W2rjhe9ecSss-y49uvDEdb6jV-d4P9sSn2ZrI8qr_V0IP2m-n7WcbLTxefuTYSl3bWdqiAHyd3WwTmoWJZRuCzGHN6j-e1q6AX5LfGmWVViI5yEZKz6LS82W7jNEx9",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793285208/aurelie-sgnl-fMdw9JsMetg-unsplash.svg",
   },
   {
     variant: "mid",
@@ -72,7 +72,7 @@ const STAYS = [
     place: "Queen Elizabeth, Uganda",
     query: "Queen Elizabeth",
     alt: "Chobe Safari Lodge infinity pool",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDrznXkMVNUgfwpuKFNzOvGofvPLFUrS7A4sku1a-iR9ZiawSb00IT5pkevmJKeARB93J-b6Hc_blDHk5Rm7gsS4R4ZbkqNwfZK3JPVKMkG0fuXF4r3QGor8YCmUwAJdGfZp4eE0Ank2Tthh3BdcumULhpXcAreMqWoCc-0RJY632l1fuy4LKZIrmgVqgcBprOKN8NwiHufrqKgpnxaxfParSXp5HMuEeAhrhkewxy06RJ3DGpZbuAO",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793285207/uzuri-safaris-tanzania-Ti9XCg6QOn4-unsplash.svg",
   },
   {
     variant: "small",
@@ -80,34 +80,31 @@ const STAYS = [
     place: "Jinja, Uganda",
     query: "Jinja",
     alt: "Wildwaters Lodge boutique safari tents",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAtRULLQGmAhtYoBBLeS8C_-3XBZnCmdSeWfBrvlpcCTFgogyEY_Y05zOf_f5x2L6ATCEMTVnTlvDR6hCZ8YzUZaOHfr-9ANnW-G3avHqqWojR1ZlYzhmyZyJPj9_K6vuql9aaZZcrjGqDVAv6rMKQEknedaAPp0VrEmx_j7N6pb1Bru9tLntwx6YRPAane67asgNfsJP4tmVho5lhF1n5rAHTqb5EnjxLnhZtSdl4W4SCoOWQMXrrb",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793285214/rafael-peier-Gq9DqlF2H7I-unsplash.svg",
   },
 ];
 
-const STORIES = [
+const HIGHLIGHTS = [
   {
-    tag: "Adventure Guide",
-    title: "Climbing the Mountains of the Moon: What to expect",
-    text: "A comprehensive guide to trekking the Rwenzori Mountains, from gear lists to mental preparation for the high-altitude journey.",
-    meta: "Oct 12, 2023 · 8 min read",
+    title: "Rwenzori Mountains",
+    place: "Adventure",
+    text: "What a trek in the Mountains of the Moon is like, from the trail to the altitude.",
     alt: "Sunrise over the Rwenzori Mountains",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCYu_TtBryPr_Zx_1zglmcL3uAraW_30Xx1sqihGmyVLdF_YHgD572TayeqSFZoLgO2zBudmAJYo9hxnALFQ_8w-tMGTyBjq0t0Gxr2i8g1i8nci30Qd9xliAyugMAJaEp3SiEYLkolKpuvFTK4NEna8UFOLje7nUfpargr9duB-Mvq7OAesjo_MP3nUc7Rl8Dx5r1oWTnxD9N4U9q7nb939U6KGk9wQyaQfAytbwMxJxUMfoZUsZxY",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793292048/Rwenzori_Mountains__tough_trekking_in_Scenic_Paradise.svg",
   },
   {
-    tag: "Culture & Food",
-    title: "The taste of Buganda: A journey through Luwombo",
-    text: "Exploring the history and ritual behind Uganda's most iconic royal dish, and where to find the best authentic versions today.",
-    meta: "Sep 28, 2023 · 5 min read",
+    title: "The taste of Luwombo",
+    place: "Culture & food",
+    text: "Uganda’s royal dish, steamed in banana leaves, and where it is still cooked the traditional way.",
     alt: "Traditional Ugandan luwombo meal",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBfzprXzTuTVG3UKUzhoh_heJzxgvOKVifZPzHdIQL46PEXOg71vtB8NGfJuLAIzK35XkWtfFvAqfwXPqosasuBkLKr86VFrx9nUR53CDBfeR6nnIkcJHSjbZzaTlj9tueaxn9ftrD5QzBf1UHSeszB0Fut8awloEOz9bbTEsrX-4-J81j1V_P0Os_BkzX3PNRSoGH_sLc9qnOEO1_OwPjYhAtclCd_nTcKfl606Q1HpCc_nojeej--",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793286282/Luwombo.svg",
   },
   {
-    tag: "Expert Voices",
-    title: "Meet the guides: David's 15 years in Bwindi",
-    text: "An interview with David, one of our most experienced tracking guides, about the changing faces of gorilla conservation.",
-    meta: "Sep 15, 2023 · 12 min read",
+    title: "Guides of Bwindi",
+    place: "People",
+    text: "The trackers who know the forest, and how they keep a gorilla visit respectful and well run.",
     alt: "Local Ugandan forest guide",
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCPpEj3hEx6avTRhM8vf1BZK9_Yj1MiwoWSwMZt0mw6P1-pulAUpkDuNUWtVyTbiWUBzjotIEcTth8Sf2CYrLDm9WgRFdL6GGOPMUBkO-Z_HPUs9o8WzFOJwNaqxboP1L49oxdrTq-3pfVyEGUYfwqS_t_LsDRx6Xgwu6qrS3zP3-NK_rIOBPfzZNboj1dnRaoEnqOwWeANbYqxuXCSJzGlUwyKMm8j544SYaSXDkzi6n_vqkcJ9zQG",
+    src: "https://res.cloudinary.com/yqsld0pd/image/upload/v1793292049/Safari_en_Tanzania_la_aventura_de_tu_vida.svg",
   },
 ];
 
@@ -130,7 +127,7 @@ const HERO_TILES = [
   },
   {
     alt: "Hiker at sunrise over the Rwenzori Mountains",
-    src: STORIES[0].src,
+    src: HIGHLIGHTS[0].src,
   },
 ];
 
@@ -278,7 +275,7 @@ export default function Home() {
             </div>
           ))}
           <Link className="relative group overflow-hidden rounded-xl block" to="/blogs">
-            <img alt="Ugandan marketplace filled with tropical fruits" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz3PtuQZz5W1qDgAYDjKV7NBMo3lB-tb1jcna2h9qpXoogWj0RESVjHBtHNUxxgTY4pN3kwe2JnQOyOvVg8rF09QFG21B8BXt5z0OeOlGLQA94x7HGjfSJol88FYpAJxi9CT8OFttmbrYikspwHH2y2Sn_bdIuIZ5LCv7b5gNIrigAqXTLjpbfqkPu1ZGh7u3ntVQqligS2Ex9mXu2hFBkVhp1gXbhzdBqt6jF2fb4q8ZF9qw4qQY_" />
+            <img alt="Ugandan marketplace filled with tropical fruits" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391521/ivan-sabayuki-2WmVYrCwEKg-unsplash.svg" />
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4">
               <h4 className="text-white font-label-md text-lg">Culture</h4>
@@ -382,28 +379,34 @@ export default function Home() {
       <section className="py-14 px-margin-mobile md:px-margin-desktop bg-white">
         <div className="max-w-[1440px] mx-auto mb-8 flex flex-wrap gap-4 justify-between items-end">
           <div>
-            <h2 className="font-headline-md text-headline-md text-charcoal">Stories from Uganda</h2>
-            <p className="text-secondary font-body-md">Dive deeper into the Pearl of Africa</p>
+            <h2 className="font-headline-md text-headline-md text-charcoal">Blogs from Uganda</h2>
+            <p className="text-secondary font-body-md">Short reads on places, food, and people</p>
           </div>
-          <Link className="bg-charcoal text-white font-label-md px-6 py-2 rounded-lg hover:bg-ink transition-all" to="/blogs">Read more</Link>
+          <Link className="text-primary font-label-md text-[14px] hover:text-brand-secondary inline-flex items-center gap-1" to="/blogs">
+            More blogs
+            <Icon name="arrow_forward" className="text-[16px]" />
+          </Link>
         </div>
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-gutter">
-          {STORIES.map((story) => (
-            <article className="group" key={story.title}>
-              <Link to="/blogs">
-                <div className="aspect-[16/9] rounded-xl overflow-hidden mb-6">
-                  <img alt={story.alt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={story.src} />
-                </div>
-                <div className="text-xs font-bold text-primary mb-2 uppercase tracking-widest">{story.tag}</div>
-                <h3 className="font-headline-sm text-headline-sm text-charcoal mb-4 group-hover:text-primary transition-colors">{story.title}</h3>
-                <p className="text-secondary font-body-md mb-4 line-clamp-2">{story.text}</p>
-                <div className="flex items-center gap-2 text-slate-gray font-label-md text-xs">
-                  <span>{story.meta.split(" · ")[0]}</span>
-                  <span>•</span>
-                  <span>{story.meta.split(" · ")[1]}</span>
-                </div>
-              </Link>
-            </article>
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
+          {HIGHLIGHTS.map((card) => (
+            <Link
+              className="group bg-white rounded-2xl overflow-hidden border border-surface-container shadow-[0_8px_24px_-18px_rgba(30,30,30,0.35)] hover:border-primary/30 transition-colors flex flex-col"
+              key={card.title}
+              to="/blogs"
+            >
+              <div className="aspect-[16/10] overflow-hidden bg-charcoal">
+                <img
+                  alt={card.alt}
+                  className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
+                  src={card.src}
+                />
+              </div>
+              <div className="px-5 pt-4 pb-5 flex flex-col flex-1">
+                <p className="text-[11px] tracking-[0.16em] uppercase text-primary font-label-md">{card.place}</p>
+                <h3 className="font-headline-sm text-[18px] text-charcoal mt-2 leading-snug">{card.title}</h3>
+                <p className="text-[14px] text-secondary mt-2 leading-relaxed">{card.text}</p>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
