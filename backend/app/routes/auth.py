@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
+from app.config import base_url, frontend_url
 from app.database import get_db
 from app.models import User
 from app.paths import disk_from_static_url, static_file
@@ -43,8 +44,8 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 APPLE_CLIENT_ID = os.getenv("APPLE_CLIENT_ID")
 APPLE_CLIENT_SECRET = os.getenv("APPLE_CLIENT_SECRET")
-BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+BASE_URL = base_url()
+FRONTEND_URL = frontend_url()
 
 temporary_reset_tokens = {}
 

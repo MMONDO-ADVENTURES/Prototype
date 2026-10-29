@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from sqlalchemy.orm import Session, joinedload
 
+from app.config import frontend_url
 from app.database import get_db
 from app.models import Booking, Tour, User
 from app.serializers import booking_dict, companions_json, parse_companions, tour_dict
@@ -17,7 +18,7 @@ load_dotenv()
 
 router = APIRouter(prefix="/api/payment", tags=["payment"])
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL = frontend_url()
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
 PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET")
 PAYPAL_MODE = os.getenv("PAYPAL_MODE", "sandbox")

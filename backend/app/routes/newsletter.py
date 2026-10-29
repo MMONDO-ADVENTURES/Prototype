@@ -4,13 +4,14 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
+from app.config import frontend_url
 from app.database import get_db
 from app.models import User
 from app.utils import get_current_user
 import os
 
 router = APIRouter(prefix="/api/newsletter", tags=["newsletter"])
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL = frontend_url()
 
 
 @router.get("/status")

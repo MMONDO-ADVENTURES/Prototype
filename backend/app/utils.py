@@ -14,17 +14,18 @@ from typing import Optional,List
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from urllib.parse import quote
- 
-#Uses the base URL from environment variable or defaults to localhost
-BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
-base = FRONTEND_URL.rstrip('/')
 
+from app.config import base_url, frontend_url
+
+load_dotenv()
+
+BASE_URL = base_url()
+FRONTEND_URL = frontend_url()
+base = FRONTEND_URL.rstrip("/")
 
 SESSION_EXPIRE_MINUTES = 30
 CANCELLATION_POLICY = "Free cancellation up to 3 days before the start date."
 CANCELLATION_NOTICE_DAYS = 3
-load_dotenv()
 
 
 def booking_calendar_date(value):

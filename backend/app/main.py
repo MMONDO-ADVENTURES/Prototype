@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
+from app.config import cors_origins, frontend_url
 from app.database import engine, Base, ensure_booking_columns, ensure_tour_columns, ensure_user_columns
 from app.paths import FRONTEND_DIST, STATIC_DIR
 from app.routes import (
@@ -24,7 +25,7 @@ from app.routes import (
 
 load_dotenv()
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL = frontend_url()
 SECRET_KEY = os.getenv("SECRET_KEY", "your_secret_key")
 
 app = FastAPI(title="Mmondo Adventures API", debug=True)
@@ -36,13 +37,7 @@ app.add_middleware(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        FRONTEND_URL,
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-    ],
+    allow_origins=cors_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -68,12 +63,12 @@ ensure_booking_columns()
 ensure_user_columns()
 
 
-@app.get("/api/health")
+@app.api_route("/api/health", methods=["GET", "HEAD"])
 async def health():
     return {"status": "ok", "service": "mmondo-api"}
 
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root_index():
     index = FRONTEND_DIST / "index.html"
     if index.exists():
