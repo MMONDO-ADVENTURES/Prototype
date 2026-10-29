@@ -16,6 +16,7 @@ from app.routes import (
     admin,
     booking,
     payment,
+    inquiries,
     newsletter,
     create_admin,
     superadmin,
@@ -51,6 +52,7 @@ app.include_router(tours.router)
 app.include_router(admin.router, prefix="/api/operator", tags=["operator"])
 app.include_router(booking.router)
 app.include_router(payment.router)
+app.include_router(inquiries.router)
 app.include_router(newsletter.router)
 app.include_router(create_admin.router, prefix="/api/operator", tags=["operator-register"])
 app.include_router(superadmin.router)

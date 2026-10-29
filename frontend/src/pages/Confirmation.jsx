@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
-import { formatMoney, Icon, parseTourDate } from "../utils";
+import { useLocale } from "../LocaleContext";
+import { Icon, parseTourDate } from "../utils";
 
 const HERO =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuBNj4QY0B_OFbzQ6IeORqfUfOZ0XANBVCysRRVKrc5K1msem8Ihg45IFUTFN1AsXlhSLYtFGHPUpeI2gRsekcFTpnRJPGv3kqm7ccMsc8pN0KgWm6-Om5cguGmW9f34N4FsKDVno89Ky0zCEQdM_rQvn7EAiu-Tai1HaYefY25-a3LLh94BeEbjPpef_jvNgyRVX3OkvRYBlog3Z90rAL0pZqNC9Dk48MxaQvSR81h2SbxEqcJsk4Ik";
 
 export default function Confirmation() {
   const { user } = useAuth();
+  const { formatPrice } = useLocale();
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function Confirmation() {
                 </div>
                 <div>
                   <p className="font-data-mono text-data-mono text-slate-gray mb-0.5 uppercase">Total Paid</p>
-                  <p className="font-headline-sm text-[20px] text-primary-container font-bold tracking-tight">${formatMoney(booking.total_price, 2)}</p>
+                  <p className="font-headline-sm text-[20px] text-primary-container font-bold tracking-tight">{formatPrice(booking.total_price, 2)}</p>
                 </div>
                 <div className="md:col-span-2 bg-white rounded-lg p-3 flex flex-col sm:flex-row gap-3 sm:items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3 min-w-0">

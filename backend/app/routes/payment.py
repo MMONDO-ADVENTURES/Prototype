@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from sqlalchemy.orm import Session, joinedload
 
-from app.config import frontend_url
+from app.config import frontend_url, payments_enabled
 from app.database import get_db
 from app.models import Booking, Tour, User
 from app.serializers import booking_dict, companions_json, parse_companions, tour_dict
@@ -17,6 +17,14 @@ from app.utils import get_current_user, send_email
 load_dotenv()
 
 router = APIRouter(prefix="/api/payment", tags=["payment"])
+CHECKOUT_PAUSED = (
+    "Online checkout is paused. Register your interest on the tour page — this is not a booking."
+)
+
+
+def assert_checkout_enabled():
+    if not payments_enabled():
+        raise HTTPException(status_code=403, detail=CHECKOUT_PAUSED)
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 FRONTEND_URL = frontend_url()
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
@@ -241,7 +249,9 @@ def create_booking_from_payment(
 
 @router.get("/config")
 async def payment_config():
+    enabled = payments_enabled()
     return {
+        "payments_enabled": enabled,
         "paypal_client_id": PAYPAL_CLIENT_ID,
         "stripe_public_key": os.getenv("STRIPE_PUBLIC_KEY"),
         "paypal_env": PAYPAL_MODE or "sandbox",
@@ -258,6 +268,7 @@ async def create_payment_intent(
 ):
     if not user:
         raise HTTPException(status_code=401, detail="Please log in to continue payment")
+    assert_checkout_enabled()
     if not stripe.api_key:
         raise HTTPException(status_code=500, detail="Stripe is not configured")
 
@@ -297,6 +308,7 @@ async def confirm_card_payment(
 ):
     if not user:
         raise HTTPException(status_code=401, detail="Please log in to continue payment")
+    assert_checkout_enabled()
 
     payload = await request.json()
     payment_intent_id = str(payload.get("payment_intent_id") or "").strip()
@@ -335,6 +347,7 @@ async def create_stripe_session(
 ):
     if not user:
         raise HTTPException(status_code=401, detail="Please log in to continue payment")
+    assert_checkout_enabled()
     if not stripe.api_key:
         raise HTTPException(status_code=500, detail="Stripe is not configured")
 
@@ -392,6 +405,7 @@ async def create_paypal_order(
 ):
     if not user:
         raise HTTPException(status_code=401, detail="Please log in to continue payment")
+    assert_checkout_enabled()
 
     try:
         payload = await request.json()
@@ -456,6 +470,8 @@ async def paypal_return(
     user: User = Depends(get_current_user),
 ):
     frontend = FRONTEND_URL.rstrip("/")
+    if not payments_enabled():
+        return RedirectResponse(url=f"{frontend}/payment?error=paused", status_code=303)
     if not user:
         return RedirectResponse(url=f"{frontend}/login?next=/payment", status_code=303)
     if not token:
@@ -546,6 +562,7 @@ async def complete_booking(
 ):
     if not user:
         raise HTTPException(status_code=401, detail="Please log in to complete payment")
+    assert_checkout_enabled()
     try:
         booking_data = request.session.get("booking")
         payment_data = await request.json()

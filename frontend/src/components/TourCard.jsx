@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import { formatMoney, Icon, priceUnitSuffix, tourHighlights } from "../utils";
+import { useLocale } from "../LocaleContext";
+import { Icon, priceUnitSuffix, tourHighlights } from "../utils";
 
 export default function TourCard({ tour, large = false }) {
   const [params] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
   const { user, wishlistIds, toggleWishlist } = useAuth();
+  const { formatPrice } = useLocale();
   const [saving, setSaving] = useState(false);
   const image = tour.images?.[0]?.image_url || tour.image_url;
   const query = params.toString();
@@ -108,7 +110,7 @@ export default function TourCard({ tour, large = false }) {
 
         <div className="mt-auto pt-4 flex items-center justify-between gap-3">
           <p className="mb-0 text-[22px] font-bold text-primary leading-none">
-            ${formatMoney(tour.price)}
+            {formatPrice(tour.price)}
             <span className="text-[13px] font-semibold text-primary">{priceUnitSuffix(tour)}</span>
           </p>
           <Link

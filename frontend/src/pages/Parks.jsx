@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Icon } from "../utils";
 
 const HERO_HOLD_MS = 5500;
 
@@ -136,12 +134,6 @@ export default function Parks() {
                 <p className="text-[13px] text-primary font-label-md">{park.region}</p>
                 <h2 className="font-headline-sm text-[18px] text-charcoal mt-1 leading-snug">{park.name}</h2>
                 <p className="text-[14px] text-secondary mt-2 flex-1">{park.highlight}</p>
-                <Link
-                  className="mt-4 inline-flex items-center gap-1 text-primary font-label-md text-[14px] hover:text-brand-secondary"
-                  to={`/tours?q=${encodeURIComponent(park.query)}#packages`}
-                >
-                  View tours <Icon name="arrow_forward" className="text-[16px]" />
-                </Link>
               </div>
             </article>
           ))}

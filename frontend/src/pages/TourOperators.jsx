@@ -58,7 +58,7 @@ export default function TourOperators() {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://res.cloudinary.com/yqsld0pd/image/upload/v1793285204/roman-derrick-okello-kHzomTLWuAQ-unsplash.svg')",
+              "url('https://res.cloudinary.com/yqsld0pd/image/upload/v1793285201/grue_en_vol.svg')",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/35 to-charcoal/80" />

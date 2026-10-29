@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
+import PhoneField from "../components/PhoneField";
 import { Icon, joinName, splitName } from "../utils";
 
 const COUNTRIES = ["Uganda", "Kenya", "Tanzania", "Rwanda", "United Kingdom", "United States", "Germany", "Canada", "Other"];
@@ -168,7 +169,7 @@ export default function Profile() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-xs">Phone Number</label>
-                  <input className="p-3 bg-surface-bright rounded-lg focus:ring-2 focus:ring-primary" onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+256 700 000000" value={form.phone} />
+                  <PhoneField onChange={(phone) => setForm({ ...form, phone })} value={form.phone} />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-xs">Country of Residence</label>

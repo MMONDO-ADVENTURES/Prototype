@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
-import { CANCELLATION_POLICY, durationDays, formatMoney, Icon, joinName, priceUnit, priceUnitPhrase, splitCsv, splitName, tourDestinations, tourTypes } from "../utils";
+import { useLocale } from "../LocaleContext";
+import { CANCELLATION_POLICY, durationDays, Icon, joinName, priceUnit, priceUnitPhrase, splitCsv, splitName, tourDestinations, tourTypes } from "../utils";
 
 const SAVED_CARDS_KEY = "mmondo.savedCards";
 
@@ -178,6 +179,7 @@ function WalletTile({ selected, onSelect, dashed, children }) {
 const emptyCard = { name: "", number: "", expiry: "", cvv: "" };
 
 export default function Payment() {
+  const { formatPrice } = useLocale();
   const [booking, setBooking] = useState(null);
   const [config, setConfig] = useState(null);
   const [error, setError] = useState("");
@@ -257,7 +259,7 @@ export default function Payment() {
   payStateRef.current = { agreed, addCompanions, companions, user, booking, config };
 
   useEffect(() => {
-    if (wallet !== "paypal" || !config?.paypal_client_id || !paypalButtonsRef.current) return undefined;
+    if (wallet !== "paypal" || !config?.paypal_client_id || config?.payments_enabled === false || !paypalButtonsRef.current) return undefined;
     let buttons;
     let cancelled = false;
     const host = paypalButtonsRef.current;
@@ -410,6 +412,10 @@ export default function Payment() {
   }
 
   async function complete() {
+    if (config && config.payments_enabled === false) {
+      setError("Online checkout is paused. Register your interest on the tour page — this is not a booking.");
+      return;
+    }
     if (!agreed) {
       setTermsError(true);
       return;
@@ -498,6 +504,18 @@ export default function Payment() {
       <div className="max-w-[1120px] mx-auto px-margin-mobile lg:px-margin-desktop py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_340px] gap-8 xl:gap-12 items-start">
           <div className="min-w-0">
+            {config?.payments_enabled === false && (
+              <div className="mb-6 rounded-xl border border-primary/30 bg-primary/5 p-4">
+                <p className="font-label-md text-[14px] text-charcoal">Checkout is paused</p>
+                <p className="text-[13px] text-slate-gray mt-1">This is an expression of interest, not a booking. Card and PayPal stay on this page for later — nothing can be charged now. Register your interest from the tour page.</p>
+                {booking?.tour?.id ? (
+                  <Link className="inline-flex items-center gap-1 mt-2 text-[13px] text-primary hover:text-primary-container" to={`/tour/${booking.tour.id}`}>
+                    Back to tour
+                    <Icon name="arrow_forward" className="text-[16px]" />
+                  </Link>
+                ) : null}
+              </div>
+            )}
             {hasSavedCards ? (
               <>
                 <h2 className="font-headline-sm text-[22px] text-charcoal mb-4">Saved Card</h2>
@@ -679,11 +697,15 @@ export default function Payment() {
               <Link className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-charcoal text-charcoal font-label-md text-[14px] hover:bg-surface-container-low" to={tour.id ? `/tour/${tour.id}` : "/tours"}>
                 <Icon name="arrow_back" className="text-[18px]" /> Back
               </Link>
-              {wallet === "paypal" && config?.paypal_client_id ? (
+              {wallet === "paypal" && config?.paypal_client_id && config?.payments_enabled !== false ? (
                 <div className="w-full sm:w-[280px]" ref={paypalButtonsRef} />
               ) : (
-                <button className="px-8 py-2.5 rounded-lg bg-primary text-white font-label-md text-[15px] hover:bg-primary-container disabled:opacity-60" disabled={busy} onClick={complete} type="button">
-                  {busy ? "Processing…" : `Pay $${formatMoney(booking.total_price, 0)}`}
+                <button className="px-8 py-2.5 rounded-lg bg-primary text-white font-label-md text-[15px] hover:bg-primary-container disabled:opacity-60" disabled={busy || config?.payments_enabled === false} onClick={complete} type="button">
+                  {config?.payments_enabled === false
+                    ? "Checkout paused"
+                    : busy
+                      ? "Processing…"
+                      : `Pay ${formatPrice(booking.total_price, 0)}`}
                 </button>
               )}
             </div>
@@ -743,10 +765,10 @@ export default function Payment() {
                   <div className="flex items-center justify-between">
                     <span className="text-slate-gray">
                       {priceUnit(tour) === "person"
-                        ? `$${formatMoney(booking.base_price || tour.price, 0)} × ${booking.travelers}`
-                        : `$${formatMoney(booking.base_price || tour.price, 0)} ${priceUnitPhrase(tour)}`}
+                        ? `${formatPrice(booking.base_price || tour.price, 0)} × ${booking.travelers}`
+                        : `${formatPrice(booking.base_price || tour.price, 0)} ${priceUnitPhrase(tour)}`}
                     </span>
-                    <span className="text-charcoal">${formatMoney(booking.base_subtotal || booking.total_price, 0)}</span>
+                    <span className="text-charcoal">{formatPrice(booking.base_subtotal || booking.total_price, 0)}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-charcoal">{stay}</span>
@@ -761,13 +783,13 @@ export default function Payment() {
                   {Number(booking.donation) > 0 ? (
                     <div className="flex items-center justify-between">
                       <span className="text-charcoal">Conservation donation</span>
-                      <span className="text-charcoal">${formatMoney(booking.donation, 0)}</span>
+                      <span className="text-charcoal">{formatPrice(booking.donation, 0)}</span>
                     </div>
                   ) : null}
                 </div>
                 <div className="mt-4 pt-4 border-t border-surface-container flex items-center justify-between">
                   <span className="font-bold text-[16px] text-charcoal">Total Amount</span>
-                  <span className="font-bold text-[20px] text-charcoal">${formatMoney(booking.total_price, 0)}</span>
+                  <span className="font-bold text-[20px] text-charcoal">{formatPrice(booking.total_price, 0)}</span>
                 </div>
                 {tour.id ? (
                   <Link className="mt-4 inline-flex items-center gap-1 text-[13px] text-primary hover:text-primary-container" to={`/tour/${tour.id}`}>

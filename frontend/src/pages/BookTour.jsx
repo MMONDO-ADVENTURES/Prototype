@@ -1,25 +1,39 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../api";
-import { formatMoney, Icon, priceUnitPhrase, tourBaseTotal } from "../utils";
+import TourInquiryModal from "../components/TourInquiryModal";
+import { useLocale } from "../LocaleContext";
+import { Icon, priceUnitPhrase, tourBaseTotal } from "../utils";
 
 export default function BookTour() {
+  const { formatPrice } = useLocale();
   const { id } = useParams();
   const [tour, setTour] = useState(null);
   const [form, setForm] = useState({ adults: 1, kids: 0, tour_date: "", donate: false, special_requirements: "" });
   const [error, setError] = useState("");
+  const [paymentsEnabled, setPaymentsEnabled] = useState(false);
+  const [inquiryOpen, setInquiryOpen] = useState(false);
+  const [today, setToday] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     api(`/tours/${id}`).then((data) => {
       setTour(data.tour);
+      setToday(data.today);
       setForm((prev) => ({ ...prev, tour_date: data.today }));
     });
+    api("/payment/config")
+      .then((config) => setPaymentsEnabled(Boolean(config.payments_enabled)))
+      .catch(() => setPaymentsEnabled(false));
   }, [id]);
 
   async function submit(event) {
     event.preventDefault();
     setError("");
+    if (!paymentsEnabled) {
+      setInquiryOpen(true);
+      return;
+    }
     try {
       await api("/bookings", {
         method: "POST",
@@ -45,9 +59,12 @@ export default function BookTour() {
         </Link>
         <div className="bg-white rounded-xl shadow-[0_4px_20px_-2px_rgba(30,30,30,0.08)] overflow-hidden">
           <div className="bg-charcoal p-6 md:p-8 text-white">
-            <p className="font-label-md text-primary-fixed uppercase tracking-wider mb-2">Step 1 of 3 · Details</p>
+            <p className="font-label-md text-primary-fixed uppercase tracking-wider mb-2">{paymentsEnabled ? "Step 1 of 3 · Details" : "Expression of interest"}</p>
             <h1 className="font-headline-sm text-headline-sm mb-2">Book {tour.title}</h1>
-            <p className="text-white/80 font-body-md">${formatMoney(tour.price)} {priceUnitPhrase(tour)}</p>
+            <p className="text-white/80 font-body-md">
+              {formatPrice(tour.price)} {priceUnitPhrase(tour)}
+              {!paymentsEnabled ? ". This is an expression of interest, not a booking. No payment is taken online." : ""}
+            </p>
           </div>
           <form className="p-6 md:p-8 space-y-6" onSubmit={submit}>
             {error && (
@@ -69,19 +86,29 @@ export default function BookTour() {
             </div>
             <label className="flex items-center gap-3 cursor-pointer">
               <input checked={form.donate} onChange={(e) => setForm({ ...form, donate: e.target.checked })} type="checkbox" />
-              <span className="font-body-md">Add $10 conservation donation</span>
+              <span className="font-body-md">Add {formatPrice(10)} conservation donation</span>
             </label>
             <textarea className="w-full p-3 bg-surface-bright rounded-lg" onChange={(e) => setForm({ ...form, special_requirements: e.target.value })} placeholder="Special requirements" rows={3} value={form.special_requirements} />
             <div className="flex items-center justify-between pt-4 border-t border-surface-container">
               <div>
                 <p className="font-data-mono text-[12px] text-slate-gray uppercase">Estimated total</p>
-                <p className="font-headline-sm text-primary">${formatMoney(total, 2)}</p>
+                <p className="font-headline-sm text-primary">{formatPrice(total, 2)}</p>
               </div>
-              <button className="bg-primary text-white px-8 py-3 rounded-lg font-label-md hover:bg-primary-container" type="submit">{tour.reserve_now_pay_later ? "Reserve now" : "Continue to payment"}</button>
+              <button className="bg-primary text-white px-8 py-3 rounded-lg font-label-md hover:bg-primary-container" type="submit">
+                {paymentsEnabled ? (tour.reserve_now_pay_later ? "Reserve now" : "Continue to payment") : "Register interest"}
+              </button>
             </div>
           </form>
         </div>
       </div>
+      <TourInquiryModal
+        minDate={today}
+        onClose={() => setInquiryOpen(false)}
+        open={inquiryOpen}
+        people={Number(form.adults || 0) + Number(form.kids || 0)}
+        preferredDate={form.tour_date}
+        tour={tour}
+      />
     </div>
   );
 }

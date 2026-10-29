@@ -3,10 +3,10 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import NewsletterSignup from "../components/NewsletterSignup";
 import TourCard from "../components/TourCard";
+import { useLocale } from "../LocaleContext";
 import {
   activitiesOf,
   durationDays,
-  formatMoney,
   Icon,
   matchesSearchTerm,
   placesOf,
@@ -106,6 +106,7 @@ function Chip({ label, onClear }) {
 }
 
 export default function Tours() {
+  const { formatPrice } = useLocale();
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [params] = useSearchParams();
@@ -346,7 +347,7 @@ export default function Tours() {
     minRating ? { key: "rating", label: `${minRating}+ rating`, clear: () => setMinRating(0) } : null,
     minPrice > 0 ? {
       key: "min",
-      label: `From $${formatMoney(minPrice)}`,
+      label: `From ${formatPrice(minPrice)}`,
       clear: () => {
         setMinPrice(0);
         if (params.has("min")) patchSearch({ min: "" });
@@ -354,7 +355,7 @@ export default function Tours() {
     } : null,
     maxPrice < priceCap || params.has("max") ? {
       key: "max",
-      label: `Up to $${formatMoney(maxPrice)}`,
+      label: `Up to ${formatPrice(maxPrice)}`,
       clear: () => {
         setMaxPrice(priceCap);
         if (params.has("max")) patchSearch({ max: "" });
@@ -438,8 +439,8 @@ export default function Tours() {
               {query ? ` for “${query}”` : ""}
               {features.length ? ` · ${features.join(", ")}` : ""}
               {startDate ? ` on ${startDate}` : ""}
-              {urlMin ? ` from $${formatMoney(urlMin)}` : ""}
-              {urlMax ? ` up to $${formatMoney(urlMax)}` : ""}
+              {urlMin ? ` from ${formatPrice(urlMin)}` : ""}
+              {urlMax ? ` up to ${formatPrice(urlMax)}` : ""}
               {partySize > 1 ? ` · ${partySize} travellers` : ""}
             </p>
             {chips.map((chip) => (

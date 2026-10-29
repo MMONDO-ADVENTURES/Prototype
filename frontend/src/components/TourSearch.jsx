@@ -2,7 +2,8 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
-import { formatMoney, Icon, titleCase, tourTypes } from "../utils";
+import { useLocale } from "../LocaleContext";
+import { Icon, titleCase, tourTypes } from "../utils";
 
 const DEFAULT_FEATURES = [
   "Safari",
@@ -22,12 +23,19 @@ const DEFAULT_FEATURES = [
 ];
 
 export const BUDGET_OPTIONS = [
-  { key: "any", label: "Any budget", min: 0, max: "" },
-  { key: "under-1000", label: "Under $1,000", min: 0, max: 1000 },
-  { key: "1000-2500", label: "$1,000-$2,500", min: 1000, max: 2500 },
-  { key: "2500-5000", label: "$2,500-$5,000", min: 2500, max: 5000 },
-  { key: "5000-plus", label: "$5,000+", min: 5000, max: "" },
+  { key: "any", min: 0, max: "" },
+  { key: "under-1000", min: 0, max: 1000 },
+  { key: "1000-2500", min: 1000, max: 2500 },
+  { key: "2500-5000", min: 2500, max: 5000 },
+  { key: "5000-plus", min: 5000, max: "" },
 ];
+
+function budgetOptionLabel(option, formatPrice) {
+  if (option.key === "any") return "Any budget";
+  if (option.max === "") return `${formatPrice(option.min)}+`;
+  if (!option.min) return `Under ${formatPrice(option.max)}`;
+  return `${formatPrice(option.min)}–${formatPrice(option.max)}`;
+}
 
 const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
@@ -124,6 +132,7 @@ export default function TourSearch({
   initialMin = 0,
   initialMax = "",
 }) {
+  const { formatPrice } = useLocale();
   const navigate = useNavigate();
   const formRef = useRef(null);
   const popoverRef = useRef(null);
@@ -204,8 +213,8 @@ export default function TourSearch({
   const budgetLabel = !hasBudget
     ? "Budget"
     : budgetOption
-      ? budgetOption.label
-      : `${minPrice ? `$${formatMoney(minPrice)}` : "$0"}${maxPrice === "" || maxPrice == null ? "+" : ` - $${formatMoney(maxPrice)}`}`;
+      ? budgetOptionLabel(budgetOption, formatPrice)
+      : `${minPrice ? formatPrice(minPrice) : formatPrice(0)}${maxPrice === "" || maxPrice == null ? "+" : ` - ${formatPrice(maxPrice)}`}`;
 
   function toggle(panel) {
     setOpen((current) => (current === panel ? null : panel));
@@ -398,7 +407,7 @@ export default function TourSearch({
                     onClick={() => chooseBudget(option)}
                     type="button"
                   >
-                    {option.label}
+                    {budgetOptionLabel(option, formatPrice)}
                   </button>
                 );
               })}

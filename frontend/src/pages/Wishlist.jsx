@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../api";
-import { formatMoney, Icon, joinName, priceUnitPhrase, splitName } from "../utils";
+import PhoneField from "../components/PhoneField";
+import { useLocale } from "../LocaleContext";
+import { Icon, joinName, priceUnitPhrase, splitName } from "../utils";
 
 export default function Wishlist() {
+  const { formatPrice } = useLocale();
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [form, setForm] = useState({ first_name: "", last_name: "", email: "", phone: "", adults: 1, kids: 0, country: "", preferred_date: "", message: "" });
@@ -55,7 +58,7 @@ export default function Wishlist() {
                 <Icon name="location_on" className="text-[18px]" />
                 {tour.country}
                 {tour.duration ? ` · ${tour.duration}` : ""}
-                {` · From $${formatMoney(tour.price)} ${priceUnitPhrase(tour)}`}
+                {` · From ${formatPrice(tour.price)} ${priceUnitPhrase(tour)}`}
               </p>
             </div>
             {submitted ? (
@@ -82,7 +85,7 @@ export default function Wishlist() {
                   <input className="p-3 bg-surface-bright rounded-lg font-body-md" onChange={(e) => setForm({ ...form, email: e.target.value })} required type="email" value={form.email} />
                 </label>
                 <label className="flex flex-col gap-2 font-label-md text-label-md">Phone Number *
-                  <input className="p-3 bg-surface-bright rounded-lg font-body-md" onChange={(e) => setForm({ ...form, phone: e.target.value })} required value={form.phone} />
+                  <PhoneField onChange={(phone) => setForm({ ...form, phone })} required value={form.phone} />
                 </label>
                 <label className="flex flex-col gap-2 font-label-md text-label-md">Country of Residence
                   <input className="p-3 bg-surface-bright rounded-lg font-body-md" onChange={(e) => setForm({ ...form, country: e.target.value })} placeholder="e.g. Germany" value={form.country} />

@@ -78,6 +78,18 @@ class PendingCompanionsRequest(BaseModel):
     companions: List[TravellerDetail] = Field(default_factory=list)
 
 
+class TourInquiryRequest(BaseModel):
+    tour_id: int
+    first_name: str
+    last_name: str = ""
+    email: str
+    phone: Optional[str] = ""
+    preferred_date: str = ""
+    people: int = 1
+    interest_level: str
+    message: Optional[str] = ""
+
+
 class WishlistCreateRequest(BaseModel):
     full_name: str
     email: str

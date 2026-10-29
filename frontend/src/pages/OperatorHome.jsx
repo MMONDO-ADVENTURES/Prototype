@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
+import PhoneField from "../components/PhoneField";
 import { Icon, joinAddress, joinName } from "../utils";
 
 const HERO_IMAGES = [
@@ -357,12 +358,9 @@ export default function OperatorHome() {
                   </label>
                   <label className="space-y-2 block">
                     <span className="font-label-md text-ink">Phone Number (WhatsApp preferred)</span>
-                    <input
-                      className={fieldClass}
-                      onChange={(e) => setRegisterForm({ ...registerForm, phone: e.target.value })}
-                      placeholder="+256 700 000000"
+                    <PhoneField
+                      onChange={(phone) => setRegisterForm({ ...registerForm, phone })}
                       required
-                      type="tel"
                       value={registerForm.phone}
                     />
                   </label>

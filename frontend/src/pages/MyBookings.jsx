@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
+import { useLocale } from "../LocaleContext";
 import {
   CANCELLATION_NOTICE_DAYS,
   Icon,
@@ -66,6 +67,7 @@ function formFromBooking(booking) {
 }
 
 export default function MyBookings() {
+  const { formatPrice } = useLocale();
   const [bookings, setBookings] = useState([]);
   const [now, setNow] = useState(new Date());
   const [message, setMessage] = useState("");
@@ -284,7 +286,7 @@ export default function MyBookings() {
                       )}
                     </div>
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                      <p className="font-headline-sm text-ink">${Number(booking.total_price || 0).toFixed(2)}</p>
+                      <p className="font-headline-sm text-ink">{formatPrice(booking.total_price, 2)}</p>
                       <div className="flex flex-wrap gap-2">
                         {editable && !editing && (
                           <button className="border border-outline px-4 py-2 rounded-lg font-label-md hover:border-primary hover:text-primary" onClick={() => startEdit(booking)} type="button">

@@ -3,7 +3,9 @@ import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { api } from "../api";
 import OperatorCard from "../components/OperatorCard";
 import TourCard from "../components/TourCard";
-import { CANCELLATION_POLICY, durationDays, formatMoney, Icon, itineraryDayBadge, parseActivity, parseItineraryDayRange, priceUnitPhrase, priceUnitSuffix, splitCsv, splitNotes, tourDestinations, tourItinerary, tourTypes } from "../utils";
+import TourInquiryModal from "../components/TourInquiryModal";
+import { useLocale } from "../LocaleContext";
+import { CANCELLATION_POLICY, durationDays, Icon, itineraryDayBadge, parseActivity, parseItineraryDayRange, priceUnitPhrase, priceUnitSuffix, splitCsv, splitNotes, tourDestinations, tourItinerary, tourTypes } from "../utils";
 
 function Stars({ rating, size = "text-[14px]" }) {
   return (
@@ -89,6 +91,7 @@ function highlightIcon(text) {
 }
 
 export default function TourDetails() {
+  const { formatPrice } = useLocale();
   const { id } = useParams();
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -106,6 +109,8 @@ export default function TourDetails() {
   });
   const [busy, setBusy] = useState(false);
   const [related, setRelated] = useState([]);
+  const [paymentsEnabled, setPaymentsEnabled] = useState(false);
+  const [inquiryOpen, setInquiryOpen] = useState(false);
 
   useEffect(() => {
     api(`/tours/${id}`)
@@ -132,6 +137,12 @@ export default function TourDetails() {
       })
       .catch(() => setRelated([]));
   }, [id]);
+
+  useEffect(() => {
+    api("/payment/config")
+      .then((config) => setPaymentsEnabled(Boolean(config.payments_enabled)))
+      .catch(() => setPaymentsEnabled(false));
+  }, []);
 
   const destinations = useMemo(() => tourDestinations(tour), [tour]);
   const included = useMemo(() => splitCsv(tour?.included), [tour]);
@@ -161,8 +172,12 @@ export default function TourDetails() {
 
   async function book(event) {
     event.preventDefault();
-    setBusy(true);
     setError("");
+    if (!paymentsEnabled) {
+      setInquiryOpen(true);
+      return;
+    }
+    setBusy(true);
     try {
       await api("/bookings", {
         method: "POST",
@@ -491,6 +506,9 @@ export default function TourDetails() {
               onSubmit={book}
             >
               <h2 className="font-semibold text-[18px] text-charcoal">Book This Tour</h2>
+              {!paymentsEnabled && (
+                <p className="text-[12px] leading-snug text-slate-gray">This is an expression of interest, not a booking. No payment is taken online.</p>
+              )}
 
               <label className="block">
                 <span className="block text-[12px] font-medium text-slate-gray mb-1">Departure Date</span>
@@ -551,7 +569,7 @@ export default function TourDetails() {
                 <div>
                   <p className="text-[12px] text-slate-gray">Tour Price</p>
                   <p className="text-[24px] leading-none font-semibold text-charcoal">
-                    ${tour.price ? formatMoney(tour.price) : "—"}
+                    {tour.price ? formatPrice(tour.price) : "—"}
                     <span className="text-[14px] font-normal text-slate-gray">/{priceUnitPhrase(tour).replace("per ", "")}</span>
                   </p>
                 </div>
@@ -574,7 +592,7 @@ export default function TourDetails() {
                 {busy ? "Reserving…" : bookLabel}
               </button>
 
-              {tour.reserve_now_pay_later && (
+              {paymentsEnabled && tour.reserve_now_pay_later && (
                 <p className="text-center text-[13px] text-slate-gray">Secure your spot today. Pay later when you are ready.</p>
               )}
 
@@ -587,7 +605,7 @@ export default function TourDetails() {
                 )}
                 <p className="flex items-center gap-2 text-[13px] text-slate-gray">
                   <Icon fill name="bolt" className="text-emerald-600 text-[16px]" />
-                  Instant confirmation
+                  {paymentsEnabled ? "Instant confirmation" : "We'll contact you"}
                 </p>
                 <p className="flex items-center gap-2 text-[13px] text-slate-gray">
                   <Icon fill name="support_agent" className="text-emerald-600 text-[16px]" />
@@ -597,7 +615,7 @@ export default function TourDetails() {
 
               <label className="flex items-start gap-2 cursor-pointer text-[13px] text-charcoal">
                 <input checked={form.donate} className="mt-0.5 rounded border-slate-gray text-primary accent-primary" onChange={(e) => patchForm({ donate: e.target.checked })} type="checkbox" />
-                Add $10 conservation donation
+                Add {formatPrice(10)} conservation donation
               </label>
             </form>
 
@@ -693,13 +711,28 @@ export default function TourDetails() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-surface-variant p-4 z-40 md:hidden flex items-center justify-between">
         <div>
-          <span className="font-headline-sm text-headline-sm text-primary">${tour.price ? formatMoney(tour.price) : "—"}</span>
+          <span className="font-headline-sm text-headline-sm text-primary">{tour.price ? formatPrice(tour.price) : "—"}</span>
           <span className="text-slate-gray text-[13px] font-label-md"> {priceUnitSuffix(tour)}</span>
         </div>
-        <a className="bg-primary text-white font-label-md text-label-md px-8 py-3 rounded-full hover:bg-primary-container" href="#booking-form">
-          {bookLabel}
-        </a>
+        {paymentsEnabled ? (
+          <a className="bg-primary text-white font-label-md text-label-md px-8 py-3 rounded-full hover:bg-primary-container" href="#booking-form">
+            {bookLabel}
+          </a>
+        ) : (
+          <button className="bg-primary text-white font-label-md text-label-md px-8 py-3 rounded-full hover:bg-primary-container" onClick={() => setInquiryOpen(true)} type="button">
+            {bookLabel}
+          </button>
+        )}
       </div>
+
+      <TourInquiryModal
+        minDate={today}
+        onClose={() => setInquiryOpen(false)}
+        open={inquiryOpen}
+        people={Number(form.adults || 0) + Number(form.kids || 0)}
+        preferredDate={form.tour_date}
+        tour={tour}
+      />
 
       {galleryOpen && (
         <div className="fixed inset-0 z-[60] bg-charcoal/95 overflow-y-auto">
@@ -723,3 +756,4 @@ export default function TourDetails() {
     </div>
   );
 }
+

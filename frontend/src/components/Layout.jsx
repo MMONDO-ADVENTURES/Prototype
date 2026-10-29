@@ -2,15 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
+import { useLocale } from "../LocaleContext";
 import { Icon } from "../utils";
+import LocalePickers from "./LocalePickers";
 
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/tours#packages", label: "Tours" },
-  { to: "/parks", label: "Parks" },
-  { to: "/operators", label: "Tour Operators" },
-  { to: "/blogs", label: "Blogs" },
-  { to: "/about", label: "About Us" },
+const NAV_LINKS = [
+  { to: "/", key: "nav.home" },
+  { to: "/tours#packages", key: "nav.tours" },
+  { to: "/parks", key: "nav.parks" },
+  { to: "/operators", key: "nav.operators" },
+  { to: "/blogs", key: "nav.blogs" },
+  { to: "/about", key: "nav.about" },
 ];
 
 function FooterLink({ to, children }) {
@@ -76,6 +78,7 @@ function SocialIcon({ label, to, children }) {
 
 export default function Layout() {
   const { user, refresh } = useAuth();
+  const { t } = useLocale();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -160,7 +163,7 @@ export default function Layout() {
             Mmondo Adventures
           </Link>
           <div className={`hidden md:flex items-center ${isAuthPage ? "gap-4" : "gap-4 lg:gap-5 xl:gap-6"}`}>
-            {links.map((link) => (
+            {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
@@ -171,13 +174,13 @@ export default function Layout() {
                     : "text-white font-label-md text-label-md whitespace-nowrap hover:text-primary-fixed-dim transition-colors drop-shadow-[0_1px_8px_rgba(0,0,0,0.55)]"
                 }
               >
-                {link.label}
+                {t(link.key)}
               </NavLink>
             ))}
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             <button
-              aria-label="Search tours"
+              aria-label={t("nav.search")}
               className="inline-flex items-center justify-center w-9 h-9 text-white hover:text-primary transition-colors"
               onClick={() => {
                 if (location.pathname === "/") {
@@ -191,7 +194,7 @@ export default function Layout() {
               <Icon name="search" className="text-[22px]" />
             </button>
             <Link
-              aria-label="Wishlist"
+              aria-label={t("nav.wishlist")}
               className={`inline-flex items-center justify-center w-9 h-9 transition-colors ${
                 location.pathname.startsWith("/wishlist") ? "text-primary" : "text-white hover:text-primary"
               }`}
@@ -204,7 +207,7 @@ export default function Layout() {
                 <button
                   aria-expanded={menuOpen}
                   aria-haspopup="menu"
-                  aria-label="Account menu"
+                  aria-label={t("nav.account")}
                   className={`inline-flex rounded-full overflow-hidden ring-2 transition-all ${
                     menuOpen ? "ring-primary" : "ring-white/80 hover:ring-primary"
                   }`}
@@ -215,7 +218,7 @@ export default function Layout() {
                 </button>
               ) : (
                 <Link
-                  aria-label="Log In"
+                  aria-label={t("nav.login")}
                   className="inline-flex items-center justify-center w-9 h-9 text-white hover:text-primary transition-colors"
                   to="/login"
                 >
@@ -226,15 +229,15 @@ export default function Layout() {
                 <div className="absolute right-0 top-[calc(100%+12px)] w-[220px] z-50" role="menu">
                   <span className="absolute -top-1.5 right-3 w-3 h-3 bg-white rotate-45 shadow-sm" aria-hidden />
                   <div className="relative bg-white rounded-2xl shadow-[0_12px_40px_-12px_rgba(30,30,30,0.28)] py-2 overflow-hidden">
-                    <AccountMenuLink to="/my-bookings">My trips</AccountMenuLink>
-                    <AccountMenuLink to="/wishlist">Saved</AccountMenuLink>
-                    <AccountMenuLink to="/profile">Profile</AccountMenuLink>
-                    <AccountMenuLink to="/my-bookings">Bookings</AccountMenuLink>
-                    <AccountMenuLink to="/messages">Messages</AccountMenuLink>
-                    <AccountMenuLink to="/profile?section=security">Account info</AccountMenuLink>
+                    <AccountMenuLink to="/my-bookings">{t("account.trips")}</AccountMenuLink>
+                    <AccountMenuLink to="/wishlist">{t("account.saved")}</AccountMenuLink>
+                    <AccountMenuLink to="/profile">{t("account.profile")}</AccountMenuLink>
+                    <AccountMenuLink to="/my-bookings">{t("account.bookings")}</AccountMenuLink>
+                    <AccountMenuLink to="/messages">{t("account.messages")}</AccountMenuLink>
+                    <AccountMenuLink to="/profile?section=security">{t("account.info")}</AccountMenuLink>
                     {(user.is_admin || user.is_operator || user.is_superadmin) && (
                       <AccountMenuLink to={user.is_superadmin ? "/superadmin/dashboard" : "/operator/dashboard"}>
-                        {user.is_superadmin ? "Superadmin" : "Operator dashboard"}
+                        {user.is_superadmin ? t("account.superadmin") : t("account.dashboard")}
                       </AccountMenuLink>
                     )}
                     <button
@@ -242,30 +245,30 @@ export default function Layout() {
                       onClick={logout}
                       type="button"
                     >
-                      Sign out
+                      {t("account.signOut")}
                     </button>
                   </div>
                 </div>
               )}
             </div>
-            <button aria-label="Toggle navigation" className="md:hidden text-white" onClick={() => setMobileOpen((open) => !open)} type="button">
+            <button aria-label={t("nav.menu")} className="md:hidden text-white" onClick={() => setMobileOpen((open) => !open)} type="button">
               <Icon name="menu" />
             </button>
           </div>
         </nav>
         {mobileOpen && (
           <div className="md:hidden border-t border-white/10 px-margin-mobile py-4 flex flex-col gap-4 bg-charcoal/80 backdrop-blur-md">
-            {links.map((link) => (
+            {NAV_LINKS.map((link) => (
               <Link key={link.to} className="text-white font-label-md text-label-md" to={link.to}>
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
             <Link className="text-white font-label-md text-label-md" to="/wishlist">
-              Wishlist
+              {t("nav.wishlist")}
             </Link>
             {!user && (
               <Link className="text-primary font-label-md text-label-md" to="/login">
-                Log In
+                {t("nav.login")}
               </Link>
             )}
           </div>
@@ -274,7 +277,14 @@ export default function Layout() {
       <main className={`flex-1 min-h-0 ${sitsOnHero || isAuthPage ? "" : "pt-16"} ${isAuthPage ? "flex flex-col overflow-hidden" : ""}`}>
         <Outlet />
       </main>
-      {!isAuthPage && (
+      {isAuthPage ? (
+        <footer className="shrink-0 bg-charcoal text-white">
+          <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-white/50 text-[12px]">{t("footer.rights")}</p>
+            <LocalePickers compact />
+          </div>
+        </footer>
+      ) : (
         <footer className="mt-auto bg-charcoal text-white">
           <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-12 pb-6">
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-x-8 gap-y-10">
@@ -285,7 +295,7 @@ export default function Layout() {
                 </Link>
                 <p className="text-[11px] tracking-[0.18em] uppercase text-white/50 -mt-1 mb-4">Adventures</p>
                 <p className="font-headline-sm italic text-[18px] leading-snug text-white mb-5 max-w-[240px]">
-                  Where tours find travellers
+                  {t("footer.motto")}
                 </p>
                 <div className="flex flex-wrap items-center gap-3">
                   <SocialIcon label="Facebook" to="/contact">
@@ -324,20 +334,20 @@ export default function Layout() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <FooterHeading>Quick Links</FooterHeading>
-                <FooterLink to="/about#story">About Us</FooterLink>
-                <FooterLink to="/tours#packages">Packages</FooterLink>
-                <FooterLink to="/parks#parks">Parks</FooterLink>
-                <FooterLink to="/tours#packages">Tours</FooterLink>
-                <FooterLink to="/operators#operators">Tour Operators</FooterLink>
-                <FooterLink to="/blogs#tips">Blogs</FooterLink>
-                <FooterLink to="/contact#inquiry">Contact Us</FooterLink>
-                <FooterLink to="/operator#register-section">Become a Tour Operator</FooterLink>
-                <FooterLink to="/careers#roles">Career</FooterLink>
+                <FooterHeading>{t("footer.quickLinks")}</FooterHeading>
+                <FooterLink to="/about#story">{t("footer.about")}</FooterLink>
+                <FooterLink to="/tours#packages">{t("footer.packages")}</FooterLink>
+                <FooterLink to="/parks#parks">{t("footer.parks")}</FooterLink>
+                <FooterLink to="/tours#packages">{t("footer.tours")}</FooterLink>
+                <FooterLink to="/operators#operators">{t("footer.operators")}</FooterLink>
+                <FooterLink to="/blogs#tips">{t("footer.blogs")}</FooterLink>
+                <FooterLink to="/contact#inquiry">{t("footer.contact")}</FooterLink>
+                <FooterLink to="/operator#register-section">{t("footer.becomeOperator")}</FooterLink>
+                <FooterLink to="/careers#roles">{t("footer.career")}</FooterLink>
               </div>
 
               <div className="flex flex-col gap-2">
-                <FooterHeading>Top Destinations</FooterHeading>
+                <FooterHeading>{t("footer.destinations")}</FooterHeading>
                 <FooterLink to="/parks#park-bwindi">Bwindi</FooterLink>
                 <FooterLink to="/parks#park-queen-elizabeth">Queen Elizabeth</FooterLink>
                 <FooterLink to="/parks#park-murchison">Murchison Falls</FooterLink>
@@ -346,16 +356,16 @@ export default function Layout() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <FooterHeading>Travel Guide</FooterHeading>
-                <FooterLink to="/blogs#tips">Travel Tips</FooterLink>
-                <FooterLink to="/about#visa">Visa Information</FooterLink>
-                <FooterLink to="/contact#faq">FAQs</FooterLink>
-                <FooterLink to="/about#cancellation">Cancellation Policy</FooterLink>
-                <FooterLink to="/about#privacy">Privacy Policy</FooterLink>
+                <FooterHeading>{t("footer.guide")}</FooterHeading>
+                <FooterLink to="/blogs#tips">{t("footer.tips")}</FooterLink>
+                <FooterLink to="/about#visa">{t("footer.visa")}</FooterLink>
+                <FooterLink to="/contact#faq">{t("footer.faqs")}</FooterLink>
+                <FooterLink to="/about#cancellation">{t("footer.cancellation")}</FooterLink>
+                <FooterLink to="/about#privacy">{t("footer.privacy")}</FooterLink>
               </div>
 
               <div className="flex flex-col gap-3">
-                <FooterHeading>Support</FooterHeading>
+                <FooterHeading>{t("footer.support")}</FooterHeading>
                 <a className="inline-flex items-center gap-2 text-white/75 text-[14px] hover:text-primary transition-colors" href="tel:+2568000436640">
                   <Icon name="call" className="text-[16px]" />
                   +256 80004 36640
@@ -366,16 +376,16 @@ export default function Layout() {
                 </a>
                 <Link className="inline-flex items-center gap-2 text-white/75 text-[14px] hover:text-primary transition-colors" to="/contact#inquiry">
                   <Icon name="chat" className="text-[16px]" />
-                  Live Chat Support
+                  {t("footer.chat")}
                 </Link>
                 <p className="inline-flex items-center gap-2 text-white/75 text-[14px]">
                   <Icon name="schedule" className="text-[16px]" />
-                  Mon-Sat: 9:00AM-6:00PM
+                  {t("footer.hours")}
                 </p>
               </div>
 
               <div>
-                <FooterHeading>We Accept</FooterHeading>
+                <FooterHeading>{t("footer.accept")}</FooterHeading>
                 <div className="grid grid-cols-3 gap-2 w-[132px]">
                   <PayLogo label="Visa">
                     <svg aria-hidden="true" className="h-3 w-7" viewBox="0 0 48 16">
@@ -407,11 +417,14 @@ export default function Layout() {
               </div>
             </div>
 
-            <div className="mt-10 pt-5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-white/50 text-[13px]">© 2026 Mmondo Adventures. All Rights Reserved.</p>
-              <div className="flex items-center gap-5">
-                <FooterLink to="/about#terms">Terms & Conditions</FooterLink>
-                <FooterLink to="/about#privacy">Privacy Policy</FooterLink>
+            <div className="mt-10 pt-5 border-t border-white/10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+              <p className="text-white/50 text-[13px]">{t("footer.rights")}</p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                <LocalePickers />
+                <div className="flex items-center gap-5">
+                  <FooterLink to="/about#terms">{t("footer.terms")}</FooterLink>
+                  <FooterLink to="/about#privacy">{t("footer.privacy")}</FooterLink>
+                </div>
               </div>
             </div>
           </div>
