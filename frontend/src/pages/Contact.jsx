@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
 import PhoneField from "../components/PhoneField";
+import { cldHero } from "../cloudinary";
 import { Icon, joinName, splitName } from "../utils";
 
 const HERO =
@@ -196,7 +197,7 @@ export default function Contact() {
   return (
     <div className="w-full bg-charcoal">
       <section className="relative z-10 bg-charcoal min-h-[100svh] lg:h-[100svh] lg:max-h-[100svh] lg:overflow-hidden scroll-mt-16" id="inquiry">
-        <div className="absolute inset-0 bg-cover bg-[center_70%]" style={{ backgroundImage: `url('${HERO}')` }} />
+        <div className="absolute inset-0 bg-cover bg-[center_70%]" style={{ backgroundImage: `url('${cldHero(HERO)}')` }} />
         <div className="absolute inset-0 bg-charcoal/30" />
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/50 via-charcoal/20 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-32 z-[3] bg-gradient-to-t from-charcoal via-charcoal/80 to-transparent pointer-events-none" />
@@ -399,7 +400,7 @@ export default function Contact() {
 
       <section className="relative z-0 w-full bg-charcoal scroll-mt-16" id="faq">
         <div className="relative -mt-px h-[260px] md:h-[320px] overflow-hidden">
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${FAQ_BANNER}')` }} />
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${cldHero(FAQ_BANNER)}')` }} />
           <div className="absolute inset-0 bg-charcoal/35" />
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal from-0% via-charcoal/55 via-45% to-charcoal/55" />
           <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-charcoal to-transparent pointer-events-none" />

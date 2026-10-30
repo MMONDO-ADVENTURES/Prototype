@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
+import { cldCard } from "../cloudinary";
 import { useLocale } from "../LocaleContext";
 import { CANCELLATION_POLICY, durationDays, Icon, joinName, priceUnit, priceUnitPhrase, splitCsv, splitName, tourDestinations, tourTypes } from "../utils";
 
@@ -715,7 +716,7 @@ export default function Payment() {
             <div className="rounded-2xl bg-surface-container-low overflow-hidden">
               {image ? (
                 <div className="relative h-36 bg-surface-container-high">
-                  <img alt={tour.title || "Tour"} className="w-full h-full object-cover" src={image} />
+                  <img alt={tour.title || "Tour"} className="w-full h-full object-cover" decoding="async" src={cldCard(image)} />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/55 to-transparent" />
                   <p className="absolute bottom-3 left-4 right-4 text-white font-headline-sm text-[16px] leading-snug line-clamp-2">{tour.title || "Your tour"}</p>
                 </div>

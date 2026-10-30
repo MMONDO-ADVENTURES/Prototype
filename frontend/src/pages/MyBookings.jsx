@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
+import { cldCard } from "../cloudinary";
 import { useLocale } from "../LocaleContext";
 import {
   CANCELLATION_NOTICE_DAYS,
@@ -263,7 +264,7 @@ export default function MyBookings() {
               <article className="bg-white rounded-xl shadow-[0_4px_20px_-2px_rgba(30,30,30,0.08)] overflow-hidden group hover:shadow-[0_8px_30px_-4px_rgba(30,30,30,0.12)] transition-shadow" key={booking.id}>
                 <div className="flex flex-col lg:flex-row h-full">
                   <div className="lg:w-[300px] h-56 lg:h-auto relative overflow-hidden shrink-0 bg-surface-container-high">
-                    {image ? <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style={{ backgroundImage: `url('${image}')` }} /> : <div className="absolute inset-0 flex items-center justify-center text-slate-gray"><Icon name="image" className="text-5xl" /></div>}
+                    {image ? <div className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style={{ backgroundImage: `url('${cldCard(image)}')` }} /> : <div className="absolute inset-0 flex items-center justify-center text-slate-gray"><Icon name="image" className="text-5xl" /></div>}
                   </div>
                   <div className="flex-1 p-6 flex flex-col justify-between min-w-0">
                     <div>

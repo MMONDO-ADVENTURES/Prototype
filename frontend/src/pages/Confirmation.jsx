@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
+import { cldCard } from "../cloudinary";
 import { useLocale } from "../LocaleContext";
 import { Icon, parseTourDate } from "../utils";
 
@@ -71,7 +72,7 @@ export default function Confirmation() {
                 <div className="md:col-span-2 bg-white rounded-lg p-3 flex flex-col sm:flex-row gap-3 sm:items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="w-10 h-10 bg-surface-container rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
-                      {image ? <img alt={tour?.title} className="w-full h-full object-cover" src={image} /> : <Icon name="explore" className="text-on-surface-variant" />}
+                      {image ? <img alt={tour?.title} className="w-full h-full object-cover" decoding="async" src={cldCard(image)} /> : <Icon name="explore" className="text-on-surface-variant" />}
                     </div>
                     <div className="min-w-0">
                       <p className="font-body-md text-[15px] text-ink font-bold truncate">{tour?.title || "Your Tour"}</p>

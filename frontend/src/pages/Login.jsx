@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
+import { cldHero } from "../cloudinary";
 import { AppleIcon, GoogleIcon, Icon } from "../utils";
 
 const AUTH_IMAGE =
@@ -36,7 +37,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col md:flex-row w-full h-full min-h-0 overflow-hidden bg-surface-container-low">
-      <div className="hidden md:flex md:w-1/2 relative bg-cover bg-center h-full min-h-0" style={{ backgroundImage: `url('${AUTH_IMAGE}')` }}>
+      <div className="hidden md:flex md:w-1/2 relative bg-cover bg-center h-full min-h-0" style={{ backgroundImage: `url('${cldHero(AUTH_IMAGE)}')` }}>
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/55 via-charcoal/35 to-charcoal/70" />
         <div className="absolute inset-0 p-10 flex flex-col items-center justify-center text-center z-10">
           <h2 className="text-white font-headline-sm text-headline-sm mb-2">Discover the Pearl of Africa</h2>

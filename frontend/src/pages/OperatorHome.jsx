@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
 import PhoneField from "../components/PhoneField";
+import { cldCard, cldHero } from "../cloudinary";
 import { Icon, joinAddress, joinName } from "../utils";
 
 const HERO_IMAGES = [
@@ -191,8 +192,11 @@ export default function OperatorHome() {
             <img
               alt={image.alt}
               className={`hero-bg-image${index === heroIndex ? " is-active" : ""}`}
+              decoding="async"
+              fetchPriority={index === 0 ? "high" : "low"}
               key={image.src}
-              src={image.src}
+              loading={index === 0 ? "eager" : "lazy"}
+              src={cldHero(image.src)}
             />
           ))}
           <div className="absolute inset-0 z-[2] bg-charcoal/45" />
@@ -485,7 +489,7 @@ export default function OperatorHome() {
           </header>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
             <article className="lg:col-span-6 relative min-h-[340px] rounded-xl overflow-hidden">
-              <img alt={HERO_IMAGES[1].alt} className="absolute inset-0 w-full h-full object-cover" src={HERO_IMAGES[1].src} />
+              <img alt={HERO_IMAGES[1].alt} className="absolute inset-0 w-full h-full object-cover" decoding="async" loading="lazy" src={cldCard(HERO_IMAGES[1].src)} />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/35 to-transparent" />
               <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-8 text-white">
                 <h3 className="font-headline-sm text-[24px] leading-snug">{ADVANTAGES[0].title}</h3>

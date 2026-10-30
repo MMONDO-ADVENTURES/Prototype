@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
 import OperatorCard from "../components/OperatorCard";
+import { cldHero } from "../cloudinary";
 import { Icon } from "../utils";
 
 export default function TourOperators() {
@@ -57,8 +58,7 @@ export default function TourOperators() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage:
-              "url('https://res.cloudinary.com/yqsld0pd/image/upload/v1793285201/grue_en_vol.svg')",
+            backgroundImage: `url('${cldHero("https://res.cloudinary.com/yqsld0pd/image/upload/v1793285201/grue_en_vol.svg")}')`,
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/35 to-charcoal/80" />

@@ -4,6 +4,7 @@ import { api } from "../api";
 import OperatorCard from "../components/OperatorCard";
 import TourCard from "../components/TourCard";
 import TourInquiryModal from "../components/TourInquiryModal";
+import { cld, cldHero, cldThumb } from "../cloudinary";
 import { useLocale } from "../LocaleContext";
 import { CANCELLATION_POLICY, durationDays, Icon, itineraryDayBadge, parseActivity, parseItineraryDayRange, priceUnitPhrase, priceUnitSuffix, splitCsv, splitNotes, tourDestinations, tourItinerary, tourTypes } from "../utils";
 
@@ -297,7 +298,7 @@ export default function TourDetails() {
     <div className="bg-white text-ink">
       <section className="relative bg-charcoal overflow-hidden">
         {hero ? (
-          <img alt={tour.title} className="absolute inset-0 w-full h-full object-cover" src={hero} />
+          <img alt={tour.title} className="absolute inset-0 w-full h-full object-cover" decoding="async" fetchPriority="high" src={cldHero(hero)} />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-white/50">
             <Icon name="image" className="text-6xl" />
@@ -677,7 +678,7 @@ export default function TourDetails() {
                     onClick={() => setGalleryOpen(true)}
                     type="button"
                   >
-                    <img alt="" className="w-full h-full object-contain" src={url} />
+                    <img alt="" className="w-full h-full object-contain" decoding="async" loading="lazy" src={cldThumb(url)} />
                     {isLast && (
                       <span className="absolute bottom-2 right-2 bg-charcoal/80 text-white text-[11px] font-medium px-2 py-1 rounded-full">
                         +{extra} photos
@@ -746,7 +747,7 @@ export default function TourDetails() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {(photoCount ? gallery : []).map((url) => (
                 <div className="bg-charcoal rounded-xl overflow-hidden flex items-center justify-center min-h-[220px]" key={url}>
-                  <img alt={tour.title} className="w-full h-auto max-h-[70vh] object-contain" src={url} />
+                  <img alt={tour.title} className="w-full h-auto max-h-[70vh] object-contain" decoding="async" src={cld(url, { w: 1600, crop: "limit" })} />
                 </div>
               ))}
             </div>

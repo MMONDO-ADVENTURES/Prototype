@@ -4,6 +4,7 @@ import { api } from "../api";
 import NewsletterSignup from "../components/NewsletterSignup";
 import TourCard from "../components/TourCard";
 import TourSearch from "../components/TourSearch";
+import { cldAvatar, cldCard, cldHero, cldThumb } from "../cloudinary";
 import { Icon } from "../utils";
 
 const BIG8 = [
@@ -161,8 +162,11 @@ export default function Home() {
             <img
               alt=""
               className={`hero-bg-image${index === heroIndex ? " is-active" : ""}`}
+              decoding="async"
+              fetchPriority={index === 0 ? "high" : "low"}
               key={tile.src}
-              src={tile.src}
+              loading={index === 0 ? "eager" : "lazy"}
+              src={cldHero(tile.src)}
             />
           ))}
           <div className="absolute inset-0 z-[2] bg-gradient-to-b from-charcoal/60 via-charcoal/30 to-charcoal/50" />
@@ -185,7 +189,7 @@ export default function Home() {
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex -space-x-2">
                   {HERO_AVATARS.map((src) => (
-                    <img alt="" className="w-8 h-8 rounded-full object-cover ring-2 ring-white/70" key={src} src={src} />
+                    <img alt="" className="w-8 h-8 rounded-full object-cover ring-2 ring-white/70" key={src} src={cldAvatar(src)} />
                   ))}
                 </div>
                 <p className="text-[14px] text-white/90">30+ Travellers Joined</p>
@@ -215,7 +219,7 @@ export default function Home() {
                         onClick={() => setHeroIndex(index)}
                         type="button"
                       >
-                        <img alt={tile.alt} className="hero-tile" src={tile.src} />
+                        <img alt={tile.alt} className="hero-tile" decoding="async" src={cldThumb(tile.src)} />
                       </button>
                       {tile.title ? (
                         <div className="mt-3 max-w-[220px]">
@@ -266,7 +270,7 @@ export default function Home() {
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[250px]">
           {BIG8.map((item) => (
             <div className={`relative group overflow-hidden rounded-xl ${item.span || ""}`} key={item.title}>
-              <img alt={item.alt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src={item.src} />
+              <img alt={item.alt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" decoding="async" loading="lazy" src={cldCard(item.src)} />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent" />
               <div className={item.subtitle ? "absolute bottom-6 left-6" : "absolute bottom-4 left-4"}>
                 <h4 className={item.subtitle ? "text-white font-headline-sm text-headline-sm" : "text-white font-label-md text-lg"}>{item.title}</h4>
@@ -275,7 +279,7 @@ export default function Home() {
             </div>
           ))}
           <Link className="relative group overflow-hidden rounded-xl block" to="/blogs">
-            <img alt="Ugandan marketplace filled with tropical fruits" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391521/ivan-sabayuki-2WmVYrCwEKg-unsplash.svg" />
+            <img alt="Ugandan marketplace filled with tropical fruits" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" decoding="async" loading="lazy" src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1791391521/ivan-sabayuki-2WmVYrCwEKg-unsplash.svg")} />
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4">
               <h4 className="text-white font-label-md text-lg">Culture</h4>
@@ -315,7 +319,7 @@ export default function Home() {
             {DESTINATIONS.map((place) => (
               <Link className="group" key={place.name} to={`/tours?q=${encodeURIComponent(place.name)}#packages`}>
                 <div className="aspect-square rounded-full overflow-hidden mb-4 border-2 border-transparent group-hover:border-primary transition-all">
-                  <img alt={place.alt} className="w-full h-full object-cover" src={place.src} />
+                  <img alt={place.alt} className="w-full h-full object-cover" decoding="async" loading="lazy" src={cldThumb(place.src)} />
                 </div>
                 <p className="text-center font-label-md text-charcoal">{place.name}</p>
               </Link>
@@ -347,7 +351,7 @@ export default function Home() {
                 to={`/tours?q=${encodeURIComponent(stay.query)}#packages`}
               >
                 <div className="stay-card-media">
-                  <img alt={stay.alt} src={stay.src} />
+                  <img alt={stay.alt} decoding="async" loading="lazy" src={cldCard(stay.src)} />
                   {stay.variant !== "small" ? <div className="stay-card-copy">{caption}</div> : null}
                 </div>
                 {stay.variant === "small" ? <div className="stay-card-caption">{caption}</div> : null}
@@ -398,7 +402,9 @@ export default function Home() {
                 <img
                   alt={card.alt}
                   className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
-                  src={card.src}
+                  decoding="async"
+                  loading="lazy"
+                  src={cldCard(card.src)}
                 />
               </div>
               <div className="px-5 pt-4 pb-5 flex flex-col flex-1">

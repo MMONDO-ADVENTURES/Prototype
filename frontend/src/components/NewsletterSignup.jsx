@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../AuthContext";
+import { cldCard } from "../cloudinary";
 import { Icon } from "../utils";
 
 const NEWSLETTER_IMAGE =
@@ -49,7 +50,9 @@ export default function NewsletterSignup({ className = "" }) {
           <img
             alt="Sunrise over the Rwenzori Mountains"
             className="absolute inset-0 w-full h-full object-cover"
-            src={NEWSLETTER_IMAGE}
+            decoding="async"
+            loading="lazy"
+            src={cldCard(NEWSLETTER_IMAGE)}
           />
         </div>
         <div className="bg-[#FFF4E8] flex flex-col justify-center px-6 py-6 md:px-10 lg:px-12">

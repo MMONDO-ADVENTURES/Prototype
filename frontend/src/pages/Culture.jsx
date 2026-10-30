@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { cldHero } from "../cloudinary";
 
 export default function Culture() {
   useEffect(() => {
@@ -35,8 +36,7 @@ export default function Culture() {
           <div
             className="absolute inset-0 w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage:
-                "url('https://res.cloudinary.com/yqsld0pd/image/upload/v1793292632/Instruments.jpg')",
+              backgroundImage: `url('${cldHero("https://res.cloudinary.com/yqsld0pd/image/upload/v1793292632/Instruments.jpg")}')`,
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />

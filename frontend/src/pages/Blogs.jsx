@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { cldCard, cldHero } from "../cloudinary";
 
 export default function Blogs() {
   useEffect(() => {
@@ -35,8 +36,7 @@ export default function Blogs() {
           <div
             className="absolute inset-0 w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage:
-                "url('https://res.cloudinary.com/yqsld0pd/image/upload/v1791391514/pexels-nasasira-ivan-10473285-13885709.svg')",
+              backgroundImage: `url('${cldHero("https://res.cloudinary.com/yqsld0pd/image/upload/v1791391514/pexels-nasasira-ivan-10473285-13885709.svg")}')`,
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/30 to-charcoal/80" />
@@ -115,7 +115,9 @@ export default function Blogs() {
                   <img
                     alt="The domed, thatched Kasubi Royal Tombs in Kampala"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1793292042/Kasubi_Tombs.svg"
+                    decoding="async"
+                    loading="lazy"
+                    src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1793292042/Kasubi_Tombs.svg")}
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow bg-white">
@@ -146,7 +148,9 @@ export default function Blogs() {
                   <img
                     alt="A Batwa elder in the misty Mgahinga forest"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1793292057/Bwindi_Impenetrable_National_Park_Wallpaper.svg"
+                    decoding="async"
+                    loading="lazy"
+                    src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1793292057/Bwindi_Impenetrable_National_Park_Wallpaper.svg")}
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow bg-white">
@@ -177,7 +181,9 @@ export default function Blogs() {
                   <img
                     alt="Hands weaving a traditional Ugandan basket from dyed raffia"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1793292058/download.svg"
+                    decoding="async"
+                    loading="lazy"
+                    src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1793292058/download.svg")}
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow bg-white">
@@ -242,7 +248,9 @@ export default function Blogs() {
                       <img
                         alt="A craftsman beating Mutuba bark with a grooved wooden mallet"
                         className="absolute inset-0 w-full h-full object-cover"
-                        src="https://res.cloudinary.com/yqsld0pd/image/upload/v1793297029/Barktex.svg"
+                        decoding="async"
+                        loading="lazy"
+                        src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1793297029/Barktex.svg")}
                       />
                     </div>
                     <div className="bg-primary-container p-5 rounded-xl flex items-start gap-4">
@@ -258,7 +266,9 @@ export default function Blogs() {
                       <img
                         alt="A modern garment crafted from traditional Ugandan bark cloth"
                         className="absolute inset-0 w-full h-full object-cover"
-                        src="https://res.cloudinary.com/yqsld0pd/image/upload/v1793292045/Olubugo__Uganda_s_Prestigious_Barkcloth.svg"
+                        decoding="async"
+                        loading="lazy"
+                        src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1793292045/Olubugo__Uganda_s_Prestigious_Barkcloth.svg")}
                       />
                     </div>
                   </div>

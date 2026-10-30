@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { cldCard, cldHero } from "../cloudinary";
 
 const HERO_HOLD_MS = 5500;
 
@@ -83,9 +84,11 @@ export default function Parks() {
             <img
               alt=""
               className={`hero-bg-image${index === heroIndex ? " is-active" : ""}`}
+              decoding="async"
+              fetchPriority={index === 0 ? "high" : "low"}
               key={park.src}
               loading={index === 0 ? "eager" : "lazy"}
-              src={park.src}
+              src={cldHero(park.src)}
             />
           ))}
           <div className="absolute inset-0 z-[2] bg-gradient-to-b from-charcoal/65 via-charcoal/20 to-charcoal/80" />
@@ -128,7 +131,7 @@ export default function Parks() {
               key={park.name}
             >
               <div className="aspect-[4/3] overflow-hidden bg-charcoal">
-                <img alt={park.name} className="w-full h-full object-cover object-center" src={park.src} />
+                <img alt={park.name} className="w-full h-full object-cover object-center" decoding="async" loading="lazy" src={cldCard(park.src)} />
               </div>
               <div className="p-4 flex flex-col flex-1">
                 <p className="text-[13px] text-primary font-label-md">{park.region}</p>

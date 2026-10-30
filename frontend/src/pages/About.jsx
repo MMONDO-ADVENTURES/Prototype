@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { cldCard, cldHero } from "../cloudinary";
 
 const PARTNERS = ["Serena Hotels", "Mweya Safari Lodge", "Protea Hotel"];
 
@@ -57,7 +58,9 @@ export default function About() {
           <img
             alt=""
             className="absolute inset-0 w-full h-full object-cover object-[center_42%]"
-            src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391528/pexels-mike-van-schoonderwalt-1884800-5504224.svg"
+            decoding="async"
+            fetchPriority="high"
+            src={cldHero("https://res.cloudinary.com/yqsld0pd/image/upload/v1791391528/pexels-mike-van-schoonderwalt-1884800-5504224.svg")}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/35 to-charcoal/80" />
           <div className="absolute inset-0 z-10 flex flex-col justify-end">
@@ -84,7 +87,9 @@ export default function About() {
                 <img
                   alt="A Mmondo guide in the field"
                   className="w-full h-full object-cover"
-                  src="https://res.cloudinary.com/yqsld0pd/image/upload/v1793292049/Safari_en_Tanzania_la_aventura_de_tu_vida.svg"
+                  decoding="async"
+                  loading="lazy"
+                  src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1793292049/Safari_en_Tanzania_la_aventura_de_tu_vida.svg")}
                 />
               </div>
               <div className="absolute -bottom-8 -right-4 xl:-right-8 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-md max-w-[280px] hidden md:block">
@@ -189,7 +194,9 @@ export default function About() {
                   <img
                     alt="Mr. Kyamuwendo Oscar"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391513/oscar.svg"
+                    decoding="async"
+                    loading="lazy"
+                    src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1791391513/oscar.svg")}
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Kyamuwendo Oscar</h4>
@@ -203,7 +210,9 @@ export default function About() {
                   <img
                     alt="Mr. Lubega Rhyan"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391517/rhyan.svg"
+                    decoding="async"
+                    loading="lazy"
+                    src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1791391517/rhyan.svg")}
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Lubega Rhyan</h4>
@@ -217,7 +226,9 @@ export default function About() {
                   <img
                     alt="Mr. Mutale George"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391512/george.svg"
+                    decoding="async"
+                    loading="lazy"
+                    src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1791391512/george.svg")}
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Mutale George</h4>
@@ -231,7 +242,9 @@ export default function About() {
                   <img
                     alt="Mr. Onyango Boaz"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://res.cloudinary.com/yqsld0pd/image/upload/v1791391510/boaz.svg"
+                    decoding="async"
+                    loading="lazy"
+                    src={cldCard("https://res.cloudinary.com/yqsld0pd/image/upload/v1791391510/boaz.svg")}
                   />
                 </div>
                 <h4 className="font-headline-sm text-headline-sm text-charcoal">Mr. Onyango Boaz</h4>

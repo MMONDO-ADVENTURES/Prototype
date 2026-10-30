@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { cldAvatar, cldThumb } from "../cloudinary";
 import { Icon } from "../utils";
 
 function uniquePhotos(urls, limit = 3) {
@@ -51,7 +52,7 @@ function PhotoStrip({ gallery, toursHref }) {
   return (
     <div className="mt-auto pt-3 grid grid-cols-3 gap-1.5">
       {gallery.map((src) => {
-        const image = <img alt="" className="w-full h-full object-cover" src={src} />;
+        const image = <img alt="" className="w-full h-full object-cover" decoding="async" loading="lazy" src={cldThumb(src)} />;
         const className = "aspect-square rounded-[14px] overflow-hidden bg-surface-container-high";
         return toursHref ? (
           <Link className={className} key={src} to={toursHref}>
@@ -94,7 +95,7 @@ export default function OperatorCard({ landscape = false, operator, photos = [],
       alt=""
       className={`${landscape ? "w-28 h-28" : "w-24 h-24"} rounded-full object-cover shrink-0`}
       onError={() => setAvatarFailed(true)}
-      src={picture}
+      src={cldAvatar(picture)}
     />
   ) : (
     <div className={`${landscape ? "w-28 h-28" : "w-24 h-24"} rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0`}>

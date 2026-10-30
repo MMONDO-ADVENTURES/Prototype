@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { useLocale } from "../LocaleContext";
+import { cldCard } from "../cloudinary";
 import { Icon, priceUnitSuffix, tourHighlights } from "../utils";
 
 export default function TourCard({ tour, large = false }) {
@@ -49,7 +50,7 @@ export default function TourCard({ tour, large = false }) {
         <Link className="block" tabIndex={-1} to={href}>
           <div className={`relative ${large ? "h-[196px]" : "h-[176px]"} w-full overflow-hidden rounded-[18px] bg-surface-container-high`}>
             {image ? (
-              <img alt={tour.title} className="w-full h-full object-cover" src={image} />
+              <img alt={tour.title} className="w-full h-full object-cover" decoding="async" loading="lazy" src={cldCard(image)} />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-slate-gray">
                 <Icon name="image" className="text-4xl" />
