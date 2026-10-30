@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -70,6 +70,22 @@ async def health():
     return {"status": "ok", "service": "mmondo-api"}
 
 
+SITE_ORIGIN = "https://www.mmondoadventures.com"
+
+PUBLIC_SITEMAP = (
+    ("/", "weekly", "1.0"),
+    ("/tours", "daily", "0.9"),
+    ("/parks", "weekly", "0.8"),
+    ("/operators", "weekly", "0.8"),
+    ("/about", "monthly", "0.7"),
+    ("/contact", "monthly", "0.7"),
+    ("/blogs", "weekly", "0.7"),
+    ("/careers", "monthly", "0.5"),
+    ("/operator", "monthly", "0.5"),
+    ("/newsletter", "monthly", "0.4"),
+)
+
+
 @app.api_route("/", methods=["GET", "HEAD"])
 async def root_index():
     index = FRONTEND_DIST / "index.html"
@@ -84,7 +100,34 @@ async def root_index():
     )
 
 
-@app.get("/{full_path:path}")
+@app.api_route("/sitemap.xml", methods=["GET", "HEAD"])
+async def sitemap():
+    rows = []
+    for path, changefreq, priority in PUBLIC_SITEMAP:
+        loc = SITE_ORIGIN if path == "/" else f"{SITE_ORIGIN}{path}"
+        rows.append(
+            "  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            f"    <changefreq>{changefreq}</changefreq>\n"
+            f"    <priority>{priority}</priority>\n"
+            "  </url>"
+        )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(rows)
+        + "\n</urlset>\n"
+    )
+    return Response(content=xml, media_type="application/xml")
+
+
+@app.api_route("/robots.txt", methods=["GET", "HEAD"])
+async def robots():
+    body = f"User-agent: *\nAllow: /\n\nSitemap: {SITE_ORIGIN}/sitemap.xml\n"
+    return Response(content=body, media_type="text/plain")
+
+
+@app.api_route("/{full_path:path}", methods=["GET", "HEAD"])
 async def spa_fallback(full_path: str):
     reserved = ("api/", "static/", "docs", "redoc", "openapi.json", "auth/")
     if full_path.startswith(reserved) or full_path in {"docs", "redoc", "openapi.json"}:
